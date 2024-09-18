@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+</style>
+</head>
+
+<body>
+
+  {{#if admin}}
+  {{>admin-header}}
+  {{else}}
+  {{>user-header}}
+  {{/if}}
+
+  {{!-- {{#unless hideHeader}}
+    {{#if admin}}
+      {{>admin-header}}
+    {{else}}
+      {{>user-header}}
+    {{/if}}
+  {{/unless}} --}}
+
+  {{{body}}}
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/javascripts/script.js"></script>
+</body>
+
+</html>
