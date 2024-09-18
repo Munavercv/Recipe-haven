@@ -16,19 +16,19 @@
 
 <body>
 
-  {{#if admin}}
+  {{!-- {{#if admin}}
   {{>admin-header}}
   {{else}}
   {{>user-header}}
-  {{/if}}
+  {{/if}} --}}
 
-  {{!-- {{#unless hideHeader}}
+  {{#unless hideHeader}}
     {{#if admin}}
       {{>admin-header}}
     {{else}}
       {{>user-header}}
     {{/if}}
-  {{/unless}} --}}
+  {{/unless}}
 
   {{{body}}}
 
