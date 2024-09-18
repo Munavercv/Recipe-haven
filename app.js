@@ -35,12 +35,12 @@ app.use(fileUpload())
 
 // app.use(session({secret:'Key', cookie:{maxAge:600000}}))
 app.use(session({
-  secret: 'Key', // Replace with your own secret
-  resave: false,             // Don't save session if unmodified
-  saveUninitialized: false,  // Don't create session until something is stored
+  secret: 'Key',
+  resave: false,
+  saveUninitialized: false,
   cookie: {
-      maxAge: 1000 * 60 * 30, // Session timeout in milliseconds (e.g., 30 minutes)
-      secure: false           // Set to true if using HTTPS
+      maxAge: 1000 * 60 * 30,
+      secure: false          
   }
 }));
 

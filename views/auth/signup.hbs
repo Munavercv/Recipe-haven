@@ -2,31 +2,32 @@
     <div class="w-100">
         <div class="signup-container">
             <h2 class="text-center mb-4">Sign-Up</h2>
-            <form>
+            <form id="signupForm">
+                <p id="error-message" style="color: red;"></p>
 
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" name="name" placeholder="name">
+                    <input type="text" class="form-control rounded-3" id="floatingInput" name="name" placeholder="name" required>
                     <label for="floatingInput">Name</label>
                 </div>
 
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control rounded-3" id="floatingInput" name="email"
-                        placeholder="email">
+                        placeholder="email" required>
                     <label for="floatingInput">Email</label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control rounded-3" id="floatingInput" name="mobile"
-                        placeholder="mobile">
+                        placeholder="mobile" required>
                     <label for="floatingInput">Mobile</label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="password" class="form-control rounded-3" id="floatingInput" name="password"
-                        placeholder="Password">
+                        placeholder="Password" required>
                     <label for="floatingInput">Password</label>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="password" class="form-control rounded-3" id="floatingInput" name="confirm-password"
-                        placeholder="confirm password">
+                    <input type="password" class="form-control rounded-3" id="floatingInput" name="confirmPassword"
+                        placeholder="confirm password" required>
                     <label for="floatingInput">Confirm Password</label>
                 </div>
 
@@ -46,3 +47,60 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent page reload
+
+  const form = event.target;
+  const formData = new FormData(form);
+
+  fetch('/signup', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    const errorMessage = document.getElementById('error-message');
+
+    if (data.error) {
+      // Show error message if there is one
+      errorMessage.textContent = data.error;
+    } else if (data.success) {
+      // Redirect to OTP verification page if signup is successful
+      window.location.href = '/verify-otp';
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
+
+/*    document.getElementById('signupForm').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent page reload
+
+  const form = event.target;
+  const formData = new FormData(form);
+
+  fetch('/signup', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    const errorMessage = document.getElementById('error-message');
+
+    if (data.error) {
+      // Show error message if there is one
+      errorMessage.textContent = data.error;
+    } else if (data.success) {
+      // Redirect to OTP verification page if signup is successful
+      window.location.href = '/verify-otp';
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});*/
+</script>
