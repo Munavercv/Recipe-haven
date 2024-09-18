@@ -8,7 +8,11 @@ router.get('/login', function(req, res) {
 
 // GET signup page (only for users)
 router.get('/signup', function(req, res) {
-  res.render('auth/signup', { title: 'Sign Up', hideHeader: true, });
+  res.render('auth/signup', { title: 'Sign Up', hideHeader: true });
 });
+
+router.get('/verify-otp', (req, res)=>{
+  res.render('auth/otp-verification', {title:'Verify OTP', hideHeader: true})
+})
 
 module.exports = router;
