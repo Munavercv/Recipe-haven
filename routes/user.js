@@ -13,7 +13,7 @@ let verifyLogin = (req, res, next) => {
 }
 
 /* GET home page. */
-router.get('/user-home', verifyLogin, function (req, res, next) {
+router.get('/',verifyLogin, function (req, res, next) {
   res.render('user/user-home', { title: 'Recipe haven', })
 });
 

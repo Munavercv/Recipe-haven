@@ -40,9 +40,9 @@ module.exports = {
                             if (user.role === 'admin') {
                                 resolve({ status: true, userRole: 'admin', redirectUrl: '/admin/admin-home', user });
                               } else if (user.role === 'user') {
-                                resolve({ status: true, userRole: 'user', redirectUrl: '/user/user-home', user });
+                                resolve({ status: true, userRole: 'user', redirectUrl: '/', user });
                               } else {
-                                resolve({ status: false, message: 'Invalid user role' });
+                                resolve({ status: false, message: 'Permission denied' });
                             }
 
                         })

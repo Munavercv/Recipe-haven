@@ -66,4 +66,9 @@ router.get('/verify-otp', (req, res) => {
   res.render('auth/otp-verification', { title: 'Verify OTP', hideHeader: true });
 })
 
+router.get('/logout', (req, res) => {
+  req.session.destroy() //destroy session if logout clicked
+  res.redirect('/login')
+})
+
 module.exports = router;
