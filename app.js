@@ -54,7 +54,7 @@ db.connect((err) => {
   }
 });
 
-app.use('/', userRouter);
+app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/', authRouter);
 

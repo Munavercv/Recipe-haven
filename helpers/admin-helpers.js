@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const { response, resource } = require('../app');
 const ObjectId = require('mongoose').Types.ObjectId;
 
-// module.exports = {
-//     doSignup: (userData) => {
-   
-// }
+module.exports = {
+    
+}
