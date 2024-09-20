@@ -16,4 +16,8 @@ router.get('/', verifyLogin, function (req, res, next) {
   res.render('user/user-home', { title: 'Recipe haven', })
 });
 
+router.get('/404-error', (req, res) => {
+  res.render('user/404-page', { title: 'Login', hideHeader: true, })
+})
+
 module.exports = router;
