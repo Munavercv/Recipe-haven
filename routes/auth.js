@@ -59,6 +59,7 @@ router.post('/signup', async (req, res) => {
     console.error('Error:', error);
     res.json({ error: 'Signup failed' });
   }
+  
 });
 
 

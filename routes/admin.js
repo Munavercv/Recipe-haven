@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
-// const productHelpers = require('../helpers/product-helpers')
-// const adminHelpers = require('../helpers/admin-helpers')
 const { response } = require('../app');
 
-let verifyLogin = (req, res, next) => {
+const verifyLogin = (req, res, next) => {
     if (req.session.loggedIn) {
         next()
     } else {
-        res.redirect('/login')
+        res.redirect('/login');
     }
 }
 
