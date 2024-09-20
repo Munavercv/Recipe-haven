@@ -12,6 +12,9 @@ var userRouter = require('./routes/user')
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
 
+const dotenv=require('dotenv')
+require('dotenv').config()
+
 var app = express();
 
 // view engine setup
@@ -34,9 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
 
 app.use(session({
-  secret: 'Key',
+  // secret: 'Key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
       maxAge: 1000 * 60 * 30,
       secure: false          

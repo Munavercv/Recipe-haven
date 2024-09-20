@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const { response } = require('../app');
 
 const verifyLogin = (req, res, next) => {
     if (req.session.loggedIn) {

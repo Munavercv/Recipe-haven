@@ -1,106 +1,176 @@
 <section class="d-flex justify-content-center align-items-center signup-sec">
-    <div class="w-100">
-        <div class="signup-container">
-            <h2 class="text-center mb-4">Sign-Up</h2>
-            <form id="signupForm">
-                <p id="error-message" style="color: red;"></p>
+  <div class="w-100">
+    <div class="signup-container">
+      <h2 class="text-center mb-4">Sign-Up</h2>
+      <form id="signupForm">
+        <p id="error-message" class="error mb-2 p-0" style="color: red;"></p>
 
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" name="name" placeholder="name" required>
-                    <label for="floatingInput">Name</label>
-                </div>
-
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" name="email"
-                        placeholder="email" required>
-                    <label for="floatingInput">Email</label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" name="mobile"
-                        placeholder="mobile" required>
-                    <label for="floatingInput">Mobile</label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="password" class="form-control rounded-3" id="floatingInput" name="password"
-                        placeholder="Password" required>
-                    <label for="floatingInput">Password</label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="password" class="form-control rounded-3" id="floatingInput" name="confirmPassword"
-                        placeholder="confirm password" required>
-                    <label for="floatingInput">Confirm Password</label>
-                </div>
-
-                <button type="submit" class="form-btn w-100 py-2">Send OTP</button>
-                {{!-- <div class="text-center"><span class="m-0 py-2">or</span></div> --}}
-
-                <div class="or-line">
-                    <span>or</span>
-                </div>
-
-                <button type="" class="form-btn w-100 py-2"><i class="fa-brands fa-google"></i> &nbsp; Signin with
-                    Google</button>
-                <div class="mt-2 text-center">
-                    <a href="/login">Already have an account ? Log in</a>
-                </div>
-            </form>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput" name="name" placeholder="name" required>
+          <label for="floatingInput">Name</label>
         </div>
+
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput1" name="email" placeholder="email" required>
+          <label for="floatingInput1">Email</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput2" name="mobile" placeholder="mobile">
+          <label for="floatingInput2">Mobile</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="password" class="form-control rounded-3" id="floatingInput3" name="password"
+            placeholder="Password" required>
+          <label for="floatingInput3">Password</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="password" class="form-control rounded-3" id="floatingInput4" name="confirmPassword"
+            placeholder="confirm password" requireda>
+          <label for="floatingInput4">Confirm Password</label>
+        </div>
+
+        <button type="submit" class="form-btn w-100 py-2">Send OTP</button>
+        {{!-- <div class="text-center"><span class="m-0 py-2">or</span></div> --}}
+
+        <div class="or-line">
+          <span>or</span>
+        </div>
+
+        <button type="button" onclick="window.location.href='/google-auth'" class="form-btn w-100 py-2"><i class="fa-brands fa-google"></i> Signin with
+          Google</button>
+
+
+        {{!-- <a href="/google-auth" class=""><button class="form-btn w-100 py-2"><i class="fa-brands fa-google"></i> &nbsp;
+            Continue with
+            Google</button></a> --}}
+      </form>
+      <div class="mt-2 text-center">
+        <p>Already have an account ? <a class="normal-link" style="color: rgb(1, 59, 197);" href="/login">Log in</a></p>
+      </div>
     </div>
+  </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+
+{{!-- <script>
+  $(document).ready(function() {
+    // Custom validation methods
+    $.validator.addMethod("alphabetsonly", function(value, element) {
+      return this.optional(element) || /^[A-Za-z\s]+$/.test(value);
+    }, "Please enter only alphabets.");
+
+    $.validator.addMethod("phoneFormat", function(value, element) {
+      // Check if the phone number starts with a + followed by numbers
+      return this.optional(element) || /^\+\d[\d\s]*$/.test(value);
+    }, "Please enter a valid phone number with a country code starting with +.");
+
+    // Initialize validation
+    $("#signupForm").validate({
+      rules: {
+        name: {
+          required: true,
+          alphabetsonly: true,
+          minlength: 2,
+          maxlength: 50
+        },
+        email: {
+          required: true,
+          email: true
+        },
+        mobile: {
+          required: true,
+          phoneFormat: true,
+          minlength: 4
+        },
+        password: {
+          required: true,
+          minlength: 6 // You can set your desired minimum length
+        },
+        confirmPassword: {
+          required: true,
+          equalTo: "[name='password']" // Check if it matches the password
+        }
+      },
+      messages: {
+        name: {
+          required: "Please enter your name",
+        },
+        email: {
+          required: "Please enter your email"
+        },
+        mobile: {
+          required: "Please enter your mobile number"
+        },
+        password: {
+          required: "Please enter your password",
+          minlength: "Your password must be at least 6 characters long"
+        },
+        confirmPassword: {
+          required: "Please confirm your password",
+          equalTo: "Passwords do not match"
+        }
+      },
+      submitHandler: function(form) {
+        // If the form is valid, prevent default submission
+        event.preventDefault(); 
+
+        // Submit the form using AJAX
+        const formData = $(form).serialize();
+
+        fetch('/signup', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          const errorMessage = document.getElementById('error-message');
+
+          if (data.error) {
+            // Show error message if there is one
+            errorMessage.textContent = data.error;
+          } else if (data.success) {
+            // Redirect to OTP verification page if signup is successful
+            window.location.href = '/verify-otp';
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    });
+  });
+</script> --}}
 
 
 <script>
-    document.getElementById('signupForm').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent page reload
+  document.getElementById('signupForm').addEventListener('submit', (event) => {
+  const submit_form= 
+    event.preventDefault(); // Prevent page reload
 
-  const form = event.target;
-  const formData = new FormData(form);
+    const form = event.target;
+    const formData = new FormData(form);
 
-  fetch('/signup', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    const errorMessage = document.getElementById('error-message');
+    fetch('/signup', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        const errorMessage = document.getElementById('error-message');
 
-    if (data.error) {
-      // Show error message if there is one
-      errorMessage.textContent = data.error;
-    } else if (data.success) {
-      // Redirect to OTP verification page if signup is successful
-      window.location.href = '/verify-otp';
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
+        if (data.error) {
+          // Show error message if there is one
+          errorMessage.textContent = data.error;
+        } else if (data.success) {
+          // Redirect to OTP verification page if signup is successful
+          window.location.href = '/verify-otp';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   });
-});
-
-/*    document.getElementById('signupForm').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent page reload
-
-  const form = event.target;
-  const formData = new FormData(form);
-
-  fetch('/signup', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    const errorMessage = document.getElementById('error-message');
-
-    if (data.error) {
-      // Show error message if there is one
-      errorMessage.textContent = data.error;
-    } else if (data.success) {
-      // Redirect to OTP verification page if signup is successful
-      window.location.href = '/verify-otp';
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-});*/
 </script>

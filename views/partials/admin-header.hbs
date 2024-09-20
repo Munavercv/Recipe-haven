@@ -22,11 +22,21 @@
                         <a class="nav-link" href="">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">User Recipes <span class="notification-icon"><i
-                                    class="fa-solid fa-hourglass-half"></i></span></a>
+                        <a class="nav-link" href="">User Recipes <span class="notification-icon"><i class="fa-regular fa-bell"></i>
                     </li>
 
                     <div class="dropdown ms-5 my-auto">
+                        <button class="dropdown-toggle header-btn" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu my-2 custom-dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+
+
+                    {{!-- <div class="dropdown ms-5 my-auto">
                         <button class="dropdown-toggle header-btn" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
@@ -34,7 +44,7 @@
                         <ul class="dropdown-menu my-2 custom-dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                     {{!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,7 +64,8 @@
                     </li> --}}
                 </ul>
                 <form class="d-flex me-5" role="search">
-                    <input class="form-control rounded-5 searchbox" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control rounded-5 searchbox" type="search" placeholder="Search"
+                        aria-label="Search">
                     <button class=" rounded-5 header-btn" type="submit">Search</button>
                 </form>
             </div>

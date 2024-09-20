@@ -16,7 +16,21 @@ module.exports = {
             }
         })
     },
-    
+    doGoogleSignup: (userData) => {
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
+            // console.log('userData')
+            resolve()
+            // try {
+            //     const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
+            //     resolve(data.insertedId); // Resolving the inserted user's ID
+            // } catch (error) {
+            //     console.error('Error during Google signup:', error); // Log the error
+            //     reject(error); // Rejecting the promise in case of failure
+            // }
+        })
+    },
+
     doLogin: (email, password) => {
         return new Promise(async (resolve, reject) => {
             // console.log(email)
@@ -30,6 +44,10 @@ module.exports = {
                         return resolve({ status: false, message: 'Invalid username or password' })
                     }
 
+                    if (user.password === '') {
+                        return resolve({status:false, message:'Please log in using Google.'});
+                    }
+
                     bcrypt.compare(password, user.password)
                         .then(isPasswordValid => {
                             if (!isPasswordValid) {
@@ -39,9 +57,9 @@ module.exports = {
                             // Step 4: Check user role
                             if (user.role === 'admin') {
                                 resolve({ status: true, userRole: 'admin', redirectUrl: '/admin/admin-home', user });
-                              } else if (user.role === 'user') {
+                            } else if (user.role === 'user') {
                                 resolve({ status: true, userRole: 'user', redirectUrl: '/', user });
-                              } else {
+                            } else {
                                 resolve({ status: false, message: 'Permission denied' });
                             }
 
@@ -50,6 +68,18 @@ module.exports = {
                 })
                 .catch(err => reject(err)); // Error in finding user by email
         })
-    }
+    },
+    
+    findUserByEmail: (email) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: email });
+                resolve(user); // Returns the user if found, otherwise null
+            } catch (error) {
+                console.error('Error finding user by email:', error);
+                throw error; // Rethrow the error to handle it outside
+            }
+        })
+}
 
 }

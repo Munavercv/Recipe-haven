@@ -3,7 +3,18 @@
 }
 
 html, body {
-  overflow-x: hidden; /* Hide any horizontal overflow */
+  overflow-x: hidden;
+}
+
+.normal-link{
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.normal-link:hover{
+  text-decoration: underline;
 }
 
 .rh-logo {
@@ -81,6 +92,10 @@ header .rh-logo {
   font-size: 30px;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 /* header */
 
 
@@ -143,19 +158,8 @@ input.form-control:focus {
   /* Optional shadow */
 }
 
-.signup-container a {
-  color: var(--primary-dark);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.signup-container a:hover {
-  text-decoration: underline;
-}
-
 .notification-icon {
-  padding: 6px 10px;
+  padding: 4px 7px;
   border-radius: 6px;
   background: #D9D9D9;
   color: black;
@@ -166,7 +170,7 @@ input.form-control:focus {
   background-color: var(--primary-dark);
   color: #F5F5F5;
   border: none;
-  padding: 2px 20px;
+  padding: 2px 14px;
   font-size: 16px;
   font-weight: 400;
   border-radius: 25px;
@@ -188,6 +192,7 @@ header .dropdown ul {
   width: 17.5rem !important;
   height: 2rem;
 }
+
 
 /* Sign in page */
 
