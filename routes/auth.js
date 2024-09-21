@@ -72,7 +72,7 @@ router.get('/verify-otp', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.session.destroy() //destroy session if logout clicked
-  res.redirect('/login')
+  res.redirect('/')
 })
 
 router.get('/google-auth', passport.authenticate('google', {
