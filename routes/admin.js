@@ -10,7 +10,7 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET users listing. */
-router.get('/admin-home', verifyLogin, function (req, res, next) {
+router.get('/admin-home', function (req, res, next) {
     res.render('admin/admin-home', { title: 'admin panel', admin: true })
 });
 
