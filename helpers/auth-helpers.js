@@ -3,6 +3,8 @@ const collection = require('../config/collections')
 const bcrypt = require('bcrypt');
 const { response, resource } = require('../app');
 const ObjectId = require('mongoose').Types.ObjectId;
+const crypto = require('crypto');
+const nodemailer = require('nodemailer')
 
 module.exports = {
     doSignup: (userData) => {
@@ -16,6 +18,7 @@ module.exports = {
             }
         })
     },
+
     doGoogleSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
             const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
@@ -31,6 +34,96 @@ module.exports = {
         })
     },
 
+    // sendOtp: (email) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         const otp = crypto.randomInt(100000, 999999);
+    //         const expirationTime = Date.now() + 60 * 1000; // 1 minute expiration
+    //         // const otpEntry = new otp({
+    //         //     email,
+    //         //     otp,
+    //         //     expirationTime
+    //         //   });
+    //         await db.get().collection(collection.OTP_COLLECTION).insertOne({ email: email, otp: otp, expirationTime: expirationTime })
+
+    //         const mailOptions = {
+    //             from: process.env.EMAIL_USER,
+    //             to: email,
+    //             subject: 'Your OTP Code',
+    //             html: `Your OTP code to verify Rcipe haven account is <b>${otp}<b>. It expires in 1 minute.`
+    //           };
+
+    //           const transporter = nodemailer.createTransport({
+    //             host: process.env.EMAIL_HOST,
+    //             port: process.env.EMAIL_PORT,
+    //             auth: {
+    //               user: process.env.EMAIL_USER,
+    //               pass: process.env.EMAIL_PASS,
+    //             }
+    //           });
+
+    //           transporter.sendMail(mailOptions, (error, info) => {
+    //             if (error) {
+    //               console.log(error);
+    //               return res.send('Error sending OTP');
+    //             } else {
+    //               console.log('Email sent: ' + info.response);
+    //             //   res.redirect(`/verify-otp?email=${email}`);
+    //             }
+    //           });
+    //           resolve(email)
+    //     })
+    // },
+
+    sendOtp: async (email) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const otp = crypto.randomInt(100000, 999999);
+                const expirationTime = Date.now() + 60 * 2000; // 2 minutes expiration
+                
+                // Store the OTP in the database
+                await db.get().collection(collection.OTP_COLLECTION).insertOne({ 
+                    email: email, 
+                    otp: otp, 
+                    expirationTime: expirationTime 
+                });
+    
+                // Set up the email options
+                const mailOptions = {
+                    from: `"Recipe Haven" <${process.env.EMAIL_USER}>`,
+                    to: email,
+                    subject: 'Your OTP Code',
+                    html: `Your OTP code to verify your Recipe Haven account is <br> <h1>${otp}</h1><br>It expires in 2 minute.`
+                };
+    
+                // Create the transporter for sending the email
+                const transporter = nodemailer.createTransport({
+                    host: process.env.EMAIL_HOST,
+                    port: process.env.EMAIL_PORT,
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS,
+                    }
+                });
+    
+                // Send the email
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log(error);
+                        return reject('Error sending OTP'); // Reject the promise
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        return resolve(); // Resolve with the email
+                    }
+                });
+    
+            } catch (error) {
+                console.error('Error in sendOtp:', error);
+                reject('Failed to send OTP'); // Reject the promise in case of errors
+            }
+        });
+    },
+    
+
     doLogin: (email, password) => {
         return new Promise(async (resolve, reject) => {
             // console.log(email)
@@ -45,7 +138,7 @@ module.exports = {
                     }
 
                     if (user.password === '') {
-                        return resolve({status:false, message:'Please log in using Google.'});
+                        return resolve({ status: false, message: 'Please log in using Google.' });
                     }
 
                     bcrypt.compare(password, user.password)
@@ -69,7 +162,7 @@ module.exports = {
                 .catch(err => reject(err)); // Error in finding user by email
         })
     },
-    
+
     findUserByEmail: (email) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -80,6 +173,6 @@ module.exports = {
                 throw error; // Rethrow the error to handle it outside
             }
         })
-}
+    }
 
 }

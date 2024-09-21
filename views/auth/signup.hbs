@@ -162,12 +162,11 @@
         const errorMessage = document.getElementById('error-message');
 
         if (data.error) {
-          // Show error message if there is one
           errorMessage.textContent = data.error;
         } else if (data.success) {
-          // Redirect to OTP verification page if signup is successful
-          window.location.href = '/verify-otp';
+          window.location.href = `/verify-otp?email=${encodeURIComponent(data.email)}`;
         }
+          //console.log(data.email)
       })
       .catch(error => {
         console.error('Error:', error);

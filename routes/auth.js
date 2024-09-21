@@ -38,6 +38,33 @@ router.get('/signup', function (req, res) {
   res.render('auth/signup', { title: 'Sign Up', hideHeader: true });
 });
 
+// router.post('/signup', async (req, res) => {
+//   req.body.role = "user";
+//   req.body.isVerified = false;
+
+//   const { email, password, confirmPassword } = req.body;
+
+//   if (password !== confirmPassword) {
+//     return res.json({ error: 'Passwords do not match' });
+//   }
+
+//   try {
+//     const existingUser = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: email });
+
+//     if (existingUser) {
+//       return res.json({ error: 'Email already exists' });
+//     }
+
+//     delete req.body.confirmPassword;
+//     await authHelpers.doSignup(req.body);
+//     res.json({ success: true });
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.json({ error: 'Signup failed' });
+//   }
+
+// });
+
 router.post('/signup', async (req, res) => {
   req.body.role = "user";
   req.body.isVerified = false;
@@ -57,7 +84,10 @@ router.post('/signup', async (req, res) => {
 
     delete req.body.confirmPassword;
     await authHelpers.doSignup(req.body);
-    res.json({ success: true });
+    console.log('success signin')
+    res.json({ success: true, email : req.body.email });
+    await authHelpers.sendOtp(req.body.email);
+
   } catch (error) {
     console.error('Error:', error);
     res.json({ error: 'Signup failed' });
@@ -67,7 +97,8 @@ router.post('/signup', async (req, res) => {
 
 
 router.get('/verify-otp', (req, res) => {
-  res.render('auth/otp-verification', { title: 'Verify OTP', hideHeader: true });
+  const email = req.query.email;
+  res.render('auth/otp-verification', { title: 'Verify OTP', hideHeader: true, email });
 })
 
 router.get('/logout', (req, res) => {

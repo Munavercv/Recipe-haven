@@ -7,11 +7,9 @@ const exphbs =require('express-handlebars')
 const fileUpload = require('express-fileupload')
 const db = require('./config/connection')
 const session = require('express-session')
-
 var userRouter = require('./routes/user')
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
-
 const dotenv=require('dotenv')
 require('dotenv').config()
 
