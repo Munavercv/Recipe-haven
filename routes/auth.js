@@ -95,9 +95,10 @@ router.post('/signup', async (req, res) => {
 
 });
 
-
+// OTP
 router.get('/verify-otp', (req, res) => {
   const email = req.query.email;
+  req.session.email = email;
   res.render('auth/otp-verification', { title: 'Verify OTP', hideHeader: true, email });
 })
 
@@ -115,12 +116,22 @@ router.post('/verify-otp', async (req, res) => {
       if (response.status) {
         res.redirect('/login')
       } else {
-        console.log(email)
         res.render('auth/otp-verification', { title: 'Verify Otp', hideHeader: true, error: response.message, email });
       }
     })
-
 })
+
+router.get('/resend-otp', async (req, res) => {
+  const email = req.session.email;  // Retrieve email from session
+  if (email) {
+    await db.get().collection(collection.OTP_COLLECTION).deleteMany({ email: email });
+    await authHelpers.sendOtp(email);  // Resend OTP
+    res.redirect('/verify-otp?email=' + encodeURIComponent(email));
+  } else {
+    res.status(400).send('Email not found in session');
+  }
+});
+// OTP
 
 
 router.get('/google-auth', passport.authenticate('google', {

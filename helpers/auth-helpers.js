@@ -79,7 +79,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const otp = crypto.randomInt(100000, 999999);
-                const expirationTime = Date.now() + 60 * 500; // 2 minutes expiration
+                const expirationTime = Date.now() + 60 * 2000; // 2 minutes expiration
 
                 // Store the OTP in the database
                 await db.get().collection(collection.OTP_COLLECTION).insertOne({
@@ -131,6 +131,7 @@ module.exports = {
                 return resolve({ status: false, message: 'OTP expired, please request a new one' })
             }
             await db.get().collection(collection.USERS_COLLECTION).updateOne({ email: otpRecord.email }, { $set: { isVerified: true } })
+            await db.get().collection(collection.OTP_COLLECTION).deleteMany({ email: otpRecord.email });
             resolve({status:true})
         })
     },
