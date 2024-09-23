@@ -96,6 +96,52 @@ header .rh-logo {
   display: none !important;
 }
 
+/* Dropdown Menu Styling */
+.custom-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px 0;
+  margin-top: 10px;
+  list-style: none;
+  left: 80%;
+  transform: translateX(-50%);
+}
+
+/* Show dropdown on button click */
+.custom-dropdown.open .custom-dropdown-menu {
+  display: block;
+}
+
+/* Dropdown Item Styling */
+.custom-dropdown-item {
+  padding: 2px 10px; /* Padding for each item */
+  color: #333; /* Text color */
+  text-decoration: none; /* Remove underlines */
+  font-size: 0.8; /* Text size */
+  display: block; /* Block display for full-width */
+}
+
+/* Hover effects */
+.custom-dropdown-item:hover {
+  background-color: #f1f1f1; /* Light gray background on hover */
+}
+
+/* Mobile responsive styling */
+@media (max-width: 768px) {
+  .custom-dropdown-toggle {
+      width: 100%;
+  }
+
+  .custom-dropdown-menu {
+      min-width: 100%;
+  }
+}
+
 /* header */
 
 

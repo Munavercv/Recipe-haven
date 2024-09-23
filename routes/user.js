@@ -12,8 +12,9 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET home page. */
-router.get('/', verifyLogin, function (req, res, next) {
-  res.render('user/user-home', { title: 'Recipe haven', })
+router.get('/', function (req, res, next) {
+  const user = req.session.user
+  res.render('user/user-home', { title: 'Recipe haven', user })
 });
 
 router.get('/404-error', (req, res) => {
