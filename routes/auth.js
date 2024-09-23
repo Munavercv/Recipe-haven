@@ -38,42 +38,13 @@ router.get('/signup', function (req, res) {
   res.render('auth/signup', { title: 'Sign Up', hideHeader: true });
 });
 
-// router.post('/signup', async (req, res) => {
-//   req.body.role = "user";
-//   req.body.isVerified = false;
-
-//   const { email, password, confirmPassword } = req.body;
-
-//   if (password !== confirmPassword) {
-//     return res.json({ error: 'Passwords do not match' });
-//   }
-
-//   try {
-//     const existingUser = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: email });
-
-//     if (existingUser) {
-//       return res.json({ error: 'Email already exists' });
-//     }
-
-//     delete req.body.confirmPassword;
-//     await authHelpers.doSignup(req.body);
-//     res.json({ success: true });
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.json({ error: 'Signup failed' });
-//   }
-
-// });
-
 router.post('/signup', async (req, res) => {
+  console.log('Validation success'); // Log on success
+  
   req.body.role = "user";
   req.body.isVerified = false;
 
   const { email, password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) {
-    return res.json({ error: 'Passwords do not match' });
-  }
 
   try {
     const existingUser = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: email });
