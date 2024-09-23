@@ -3,12 +3,10 @@
         <div class="signup-container">
             <h2 class="text-center mb-2">Verify OTP</h2>
             <form id="verifyOtpForm">
-                {{!-- {{#if error}}
-                <p id="error-message" style="color: red;">{{error}}</p>
-                {{/if}} --}}
-                <div id="errorMessage" style="color: red; display: none;"></div>
 
                 <p class="text-center">OTP is sent to your email.</p>
+                <div id="errorMessage" style="color: red; display: none;"></div>
+
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP">
                     <label for="floatingInput">Enter OTP</label>
@@ -20,7 +18,8 @@
                 <button type="submit" class="form-btn w-100 py-2">Sign up</button>
                 {{!-- <div class="text-center"><span class="m-0 py-2">or</span></div> --}}
                 <div class="mt-2 text-center">
-                    <a class="normal-link" href="/resend-otp">Resend otp </a>in 01:59
+                   {{!-- <p> OTP will expire after 2 minutes </p> --}}
+                    <a id="resendOtpLink" class="normal-link" href="/resend-otp">Resend OTP</a>
                 </div>
             </form>
         </div>
@@ -30,6 +29,30 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+const link = document.getElementById('resendOtpLink');
+
+// Disable the link and change its appearance
+function disableLink() {
+  link.classList.add('disabled-link');
+  link.style.pointerEvents = 'none'; // Prevent clicking
+  link.style.color = 'gray'; // Optional: Change color to indicate it's disabled
+  link.textContent = 'Resend OTP after 2 minutes';
+
+  // Re-enable the link after 2 minutes (120,000 milliseconds)
+  setTimeout(() => {
+    link.classList.remove('disabled-link');
+    link.style.pointerEvents = 'auto'; // Enable clicking
+    link.style.color = ''; // Reset color
+    link.textContent = 'Resend OTP'; // Reset text
+  }, 120000); // 2 minutes
+}
+
+// Call the function to disable the link initially
+disableLink();
+
+
+
+
   $('#verifyOtpForm').submit(function(e) {
     e.preventDefault();
 
