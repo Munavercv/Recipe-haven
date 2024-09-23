@@ -108,15 +108,18 @@ router.post('/verify-otp', async (req, res) => {
   // console.log(otp)
   const otpRecord = await db.get().collection(collection.OTP_COLLECTION).findOne({ email: email, otp: numOtp });
   if (!otpRecord) {
-    return res.send('invalid OTP');
+    // return res.send('invalid OTP');
+    return res.json({ success: false, message: 'Invalid OTP' });
   }
   // return res.send(otpRecord);
   await authHelpers.verifyOTP(otpRecord)
     .then(response => {
       if (response.status) {
-        res.redirect('/login')
+        // res.redirect('/login')
+        return res.json({ success: true, message: 'Verification successful' });
       } else {
-        res.render('auth/otp-verification', { title: 'Verify Otp', hideHeader: true, error: response.message, email });
+        // res.render('auth/otp-verification', { title: 'Verify Otp', hideHeader: true, error: response.message, email });
+        return res.json({ success: false, message: response.message });
       }
     })
 })

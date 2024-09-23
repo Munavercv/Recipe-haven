@@ -2,17 +2,19 @@
     <div class="w-100">
         <div class="signup-container">
             <h2 class="text-center mb-2">Verify OTP</h2>
-            <form action="/verify-otp" method="post">
-                {{#if error}}
+            <form id="verifyOtpForm">
+                {{!-- {{#if error}}
                 <p id="error-message" style="color: red;">{{error}}</p>
-                {{/if}}
+                {{/if}} --}}
+                <div id="errorMessage" style="color: red; display: none;"></div>
+
                 <p class="text-center">OTP is sent to your email.</p>
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" name="otp" placeholder="OTP">
+                    <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP">
                     <label for="floatingInput">Enter OTP</label>
                 </div>
 
-                <input type="email" name="email" value="{{email}}" hidden>
+                <input type="email" id="emailInput" name="email" value="{{email}}" hidden>
 
 
                 <button type="submit" class="form-btn w-100 py-2">Sign up</button>
@@ -24,3 +26,31 @@
         </div>
     </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $('#verifyOtpForm').submit(function(e) {
+    e.preventDefault();
+
+    const otp = $('#otpInput').val();
+    const email = $('#emailInput').val();
+
+    $.ajax({
+      url: '/verify-otp',
+      method: 'POST',
+      data: { otp, email },
+      success: function(response) {
+        if (response.success) {
+          window.location.href = '/login'; // Redirect on success
+        } else {
+          // Display error message
+          $('#errorMessage').text(response.message).show();
+        }
+      },
+      error: function() {
+        $('#errorMessage').text('An unexpected error occurred. Please try again.').show();
+      }
+    });
+  });
+</script>
