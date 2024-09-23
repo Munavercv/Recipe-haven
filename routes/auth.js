@@ -85,7 +85,7 @@ router.post('/signup', async (req, res) => {
     delete req.body.confirmPassword;
     await authHelpers.doSignup(req.body);
     console.log('success signin')
-    res.json({ success: true, email : req.body.email });
+    res.json({ success: true, email: req.body.email });
     await authHelpers.sendOtp(req.body.email);
 
   } catch (error) {
@@ -101,10 +101,27 @@ router.get('/verify-otp', (req, res) => {
   res.render('auth/otp-verification', { title: 'Verify OTP', hideHeader: true, email });
 })
 
-router.get('/logout', (req, res) => {
-  req.session.destroy() //destroy session if logout clicked
-  res.redirect('/')
+router.post('/verify-otp', async (req, res) => {
+  const { otp, email } = req.body;
+  const numOtp = parseInt(otp)
+  // console.log(otp)
+  const otpRecord = await db.get().collection(collection.OTP_COLLECTION).findOne({ email: email, otp: numOtp });
+  if (!otpRecord) {
+    return res.send('invalid OTP');
+  }
+  // return res.send(otpRecord);
+  await authHelpers.verifyOTP(otpRecord)
+    .then(response => {
+      if (response.status) {
+        res.redirect('/login')
+      } else {
+        console.log(email)
+        res.render('auth/otp-verification', { title: 'Verify Otp', hideHeader: true, error: response.message, email });
+      }
+    })
+
 })
+
 
 router.get('/google-auth', passport.authenticate('google', {
   scope:
@@ -156,6 +173,11 @@ router.get('/success', (req, res) => {
 
 router.get('/failure', (req, res) => {
   res.send("Error");
+})
+
+router.get('/logout', (req, res) => {
+  req.session.destroy() //destroy session if logout clicked
+  res.redirect('/')
 })
 
 module.exports = router;
