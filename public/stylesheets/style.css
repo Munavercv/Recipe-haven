@@ -1,19 +1,24 @@
 :root {
   --primary-dark: #333333;
+  --section-bg-grey: #F7F7F7;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
-.normal-link{
+
+/* ============ COMMON STYLING ========== */
+
+.normal-link {
   color: var(--primary-dark);
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
 }
 
-.normal-link:hover{
+.normal-link:hover {
   text-decoration: underline;
 }
 
@@ -24,7 +29,7 @@ html, body {
   letter-spacing: -1px;
 }
 
-.primary-btn{
+.primary-btn {
   background-color: var(--primary-dark);
   color: #F5F5F5;
   border: none;
@@ -35,7 +40,7 @@ html, body {
   transition: ease-in-out 100ms;
 }
 
-.primary-btn-outline{
+.primary-btn-outline {
   color: var(--primary-dark);
   background-color: #ffffff;
   border: 1px solid var(--primary-dark);
@@ -45,7 +50,8 @@ html, body {
   border-radius: 10px;
   transition: ease-in-out 100ms;
 }
-.primary-btn-outline:hover{
+
+.primary-btn-outline:hover {
   background-color: #f5f5f5;
 }
 
@@ -74,6 +80,47 @@ button:hover {
   background-color: #000;
 }
 
+.section-title{
+  font-size: 36px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* recipe card styling */
+.recipe-img {
+  width: 280px;
+  height: 210px;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+
+.recipe-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.75s ease-out;
+}
+
+.recipe-img img:hover{
+  scale: 1.05;
+}
+
+.recipe-card a{
+  text-decoration: none;
+  color: #000;
+}
+
+.recipe-card p{
+  color: #000;
+  font-size: 17px;
+}
+/* recipe card styling */
+
+/* ============ COMMON STYLING ========== */
+
 body {
   margin: 0;
   padding: 0;
@@ -96,49 +143,45 @@ header .rh-logo {
   display: none !important;
 }
 
-/* Dropdown Menu Styling */
 .custom-dropdown-menu {
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 100px;
+  min-width: 80px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border-radius: 5px;
-  padding: 10px 0;
+  border-radius: 10px;
+  padding: 5px 0;
   margin-top: 10px;
   list-style: none;
   left: 80%;
   transform: translateX(-50%);
 }
 
-/* Show dropdown on button click */
 .custom-dropdown.open .custom-dropdown-menu {
   display: block;
 }
 
-/* Dropdown Item Styling */
 .custom-dropdown-item {
-  padding: 2px 10px; /* Padding for each item */
-  color: #333; /* Text color */
-  text-decoration: none; /* Remove underlines */
-  font-size: 0.8; /* Text size */
-  display: block; /* Block display for full-width */
+  padding: 2px 10px;
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 400;
+  display: block;
 }
 
-/* Hover effects */
 .custom-dropdown-item:hover {
-  background-color: #f1f1f1; /* Light gray background on hover */
+  background-color: #f1f1f1;
 }
 
-/* Mobile responsive styling */
 @media (max-width: 768px) {
   .custom-dropdown-toggle {
-      width: 100%;
+    width: 100%;
   }
 
   .custom-dropdown-menu {
-      min-width: 100%;
+    min-width: 100%;
   }
 }
 
@@ -177,12 +220,9 @@ header .rh-logo {
   font-size: 18px;
   font-weight: 400;
   background: white;
-  /* Match the background to the container */
   position: relative;
   z-index: 1;
-  /* Ensure text is above the lines */
   padding: 0 7px;
-  /* Space around the text */
 }
 
 .signup-sec {
@@ -194,14 +234,10 @@ input.form-control {
   border: 1px solid var(--primary-dark);
 }
 
-/* Optional: Change input box color on focus */
 input.form-control:focus {
   background-color: white;
-  /* Change color on focus */
   border-color: var(--primary-dark);
-  /* Change border color on focus */
   box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
-  /* Optional shadow */
 }
 
 .notification-icon {
@@ -248,7 +284,7 @@ header .dropdown ul {
   height: 90vh;
 }
 
-.landing-left h1{
+.landing-left h1 {
   font-weight: 500;
   font-size: 48px;
 }
@@ -262,9 +298,87 @@ header .dropdown ul {
 .landing-right {
   margin: 0;
   padding: 0;
-  background-image: url('https://img.freepik.com/free-photo/closeup-man-preparing-breakfast-his-girlfriend-n-kitchen_637285-12567.jpg?t=st=1726745771~exp=1726749371~hmac=b201ea883819f166770a8056706e63b0eb34af15899312d880b54c76c559d135&w=1060');
+  background-image: url('/images/banner1.jpg');
+  background-position: 0 -15rem;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
 }
+
 /* home landing section */
+
+
+/* cuisine section */
+.cuisine-sec {
+  background-color: var(--section-bg-grey);
+  width: 100%;
+  height: 348px;
+  padding-top: 1px;
+}
+
+.cuisine-selector {
+  margin-top: 5rem;
+}
+
+.cuisine-selector a {
+  text-decoration: none;
+  color: #000;
+}
+
+.cuisine-img-1,
+.cuisine-img-2,
+.cuisine-img-3,
+.cuisine-img-4,
+.cuisine-img-5,
+.cuisine-img-6 {
+  width: 182px;
+  height: 133px;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  cursor: pointer;
+  overflow: hidden;
+
+  filter: grayscale(0);
+  transition: scale 0.75s ease-out;
+
+}
+
+.cuisine-img-1:hover,
+.cuisine-img-2:hover,
+.cuisine-img-3:hover,
+.cuisine-img-4:hover,
+.cuisine-img-5:hover,
+.cuisine-img-6:hover{
+  scale: 1.05;
+}
+
+
+
+.cuisine-img-1 {
+  background-image: url('/images/dosa.jpg');
+}
+
+.cuisine-img-2 {
+  background-image: url('/images/pizza.jpeg');
+}
+
+.cuisine-img-3 {
+  background-image: url('/images/thai.jpeg');
+}
+
+.cuisine-img-4 {
+  background-image: url('/images/spaghetti.jpg');
+}
+
+.cuisine-img-5 {
+  background-image: url('/images/chinese.webp');
+}
+
+.cuisine-img-6 {
+  background-image: url('/images/cuisine-6.jpg');
+}
+
+/* cuisine section */

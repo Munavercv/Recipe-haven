@@ -1,22 +1,151 @@
 <section>
-    <div class="container mt-5">
-        <div class="row">
-
-            <h1>this is user home</h1>
-
-            {{!-- {{#each products}}
-            <div class="col-md-3 my-3 p-3">
-                <div class="card">
-                    <img src="/product-images/{{this._id}}.jpg" class="card-img-top" alt="iphone 15">
-                    <div class="card-body  d-flex flex-column">
-                        <h5 class="card-title">{{this.name}}</h5>
-                        <p class="card-text">{{this.description}}</p>
-                        <p class="card-text fw-bold">&#8377;{{this.price}}</p>
-                        <button onclick="addToCart('{{this._id}}')" class="btn btn-primary mt-auto">Add to cart</button>
-                    </div>
+    <div class="container-fluid m-0 p-0">
+        <div class="row landing-left-sec">
+            <div class="col-md-6">
+                <div class="landing-left">
+                    <h1 class="">Discover Global Flavors,<br>One Recipe at a Time</h1>
+                    <p>Embark on a culinary adventure and explore recipes that bring the world to your kitchen. Taste,
+                        create, and share unforgettable flavors from every corner of the globe.</p>
+                    <button class="primary-btn">Submit Recipe</button>
+                    <button class="ms-2 primary-btn-outline">See all Recipes</button>
                 </div>
             </div>
-            {{/each}} --}}
+            <div class="col-md-6">
+                <div class="landing-right"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="cuisine-sec">
+    <div class="container-fluid">
+        <div class="row cuisine-selector">
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-1"></div>
+                    <p class="mt-2">Indian</p>
+                </a>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-2"></div>
+                    <p class="mt-2">American</p>
+                </a>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-3"></div>
+                    <p class="mt-2">Thai</p>
+                </a>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-4"></div>
+                    <p class="mt-2">Italian</p>
+                </a>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-5"></div>
+                    <p class="mt-2">Chinese</p>
+                </a>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <a href="">
+                    <div class="cuisine-img-6"></div>
+                    <p class="mt-2">View all</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<section class="latest-recipes-sec">
+    <div class="container py-5">
+        <div class="row">
+            <h2 class="section-title text-center">Latest Recipes</h2>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/7243416/pexels-photo-7243416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="">
+                    </div>
+                    <p class="mt-2">Sushi</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/674578/pexels-photo-674578.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Tacos</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/842519/pexels-photo-842519.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Pizza</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/2827263/pexels-photo-2827263.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Pad Thai</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/3892469/pexels-photo-3892469.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Croissant</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/4439740/pexels-photo-4439740.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Biryani</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://images.pexels.com/photos/12419160/pexels-photo-12419160.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                    </div>
+                    <p class="mt-2">Paella</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 mt-4 text-center recipe-card">
+                <a href="">
+                    <div class="recipe-img">
+                        <img src="https://media.istockphoto.com/id/1215358582/photo/turkish-dessert-baklava.jpg?b=1&s=612x612&w=0&k=20&c=zgDZiRXBHS7g0-r1zOZ-FHT9Dn4EYGTSFzQfa0EWZuw=" alt="">
+                    </div>
+                    <p class="mt-2">Baklava</p>
+                </a>
+            </div>
 
         </div>
     </div>
