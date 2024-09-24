@@ -1,4 +1,4 @@
-// dropdown
+// ================================================= dropdown
 document.querySelector('.dropdown-toggle-btn').addEventListener('click', function () {
     const dropdown = this.parentElement;
     dropdown.classList.toggle('open');
@@ -13,3 +13,20 @@ window.addEventListener('click', function (e) {
         }
     });
 });
+// ================================================= dropdown
+
+
+
+// ============================================ fixed nav
+window.onscroll = function() { addFixedNav() };
+
+function addFixedNav() {
+    const nav = document.getElementById("fixedNav");
+    
+    if (window.scrollY > 20) {
+        nav.classList.add("fixed-top", "nav-fixed");
+    } else {
+        nav.classList.remove("fixed-top", "nav-fixed");
+    }
+}
+// ============================================ fixed nav

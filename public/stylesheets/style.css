@@ -382,3 +382,41 @@ header .dropdown ul {
 }
 
 /* cuisine section */
+
+
+/* submit home banner */
+.submit-recipe-sec{
+  background-color: var(--section-bg-grey);
+}
+
+.submit-recipe-sec .row{
+  display: flex;
+}
+
+.submit-recipe-img{
+  width: 454px;
+  height: 486px;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.submit-recipe-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* submit home banner */
+
+/* footer */
+.footer .credit a{
+  text-decoration: none;
+  color: var(--primary-dark);
+  font-weight: 400;
+}
+.footer .credit a:hover{
+  text-decoration: underline;
+}
