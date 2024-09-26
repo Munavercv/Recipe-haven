@@ -21,4 +21,8 @@ router.get('/404-error', (req, res) => {
   res.render('user/404-page', { title: 'Login', hideHeader: true, })
 })
 
+router.get('/submit-recipe', (req, res) => {
+  res.render('user/submit-recipe')
+})
+
 module.exports = router;

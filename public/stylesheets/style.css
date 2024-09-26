@@ -240,6 +240,34 @@ input.form-control:focus {
   box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
 }
 
+textarea.form-control {
+  background-color: #F5F5F5;
+  border: 1px solid var(--primary-dark);
+}
+
+textarea.form-control:focus {
+  background-color: white;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
+}
+
+select.form-control {
+  background-color: #F5F5F5;
+  border: 1px solid var(--primary-dark);
+}
+
+select.form-control:focus {
+  background-color: white;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
+}
+
+select.form-control option{
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
+}
+
 .notification-icon {
   padding: 4px 7px;
   border-radius: 6px;
@@ -385,11 +413,11 @@ header .dropdown ul {
 
 
 /* submit home banner */
-.submit-recipe-sec{
+.submit-recipe-banner{
   background-color: var(--section-bg-grey);
 }
 
-.submit-recipe-sec .row{
+.submit-recipe-banner .row{
   display: flex;
 }
 
@@ -420,3 +448,49 @@ header .dropdown ul {
 .footer .credit a:hover{
   text-decoration: underline;
 }
+
+
+
+/* submit recipe form */
+
+.submit-recipe-sec {
+}
+
+.submit-recipe-container {
+  max-width: 807px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.submit-recipe-container h2 {
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.or-line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.or-line::before,
+.or-line::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--primary-dark);
+  margin: 0 7px;
+  /* Space between the line and "or" */
+}
+
+.submit-recipe-container span {
+  font-size: 18px;
+  font-weight: 400;
+  background: white;
+  position: relative;
+  z-index: 1;
+  padding: 0 7px;
+}
+
+
+/* submit recipe form */

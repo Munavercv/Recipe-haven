@@ -23,7 +23,7 @@ window.onscroll = function() { addFixedNav() };
 function addFixedNav() {
     const nav = document.getElementById("fixedNav");
     
-    if (window.scrollY > 20) {
+    if (window.scrollY > 40) {
         nav.classList.add("fixed-top", "nav-fixed");
     } else {
         nav.classList.remove("fixed-top", "nav-fixed");
