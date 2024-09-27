@@ -55,8 +55,17 @@ router.get('/recipe-submit-success', (req, res) => {
   res.render('user/recipe-submit-success', { user });
 })
 
-router.get('/view-your-recipes', (req, res) => {
+router.get('/view-your-recipes', verifyLogin, async (req, res) => {
   const user = req.session.user
-  res.render('user/user-view-user-recipes', { user })
+  const recipes = await recipeHelpers.getRecipesByUser(user)
+
+  // Filter based on status
+  const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
+  const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
+  const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
+
+  // res.send(publishedRecipes)
+
+  res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes })
 })
 module.exports = router;

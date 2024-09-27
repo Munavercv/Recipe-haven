@@ -86,6 +86,12 @@ button:hover {
   color: #000;
 }
 
+.section-subtitle{
+  font-size: 30px;
+  font-weight: 500;
+  color: #000;
+}
+
 /* recipe card styling */
 .recipe-img {
   width: 280px;
@@ -498,3 +504,19 @@ header .dropdown ul {
   font-size: 7rem;
 }
 /* submit success */
+
+
+/* user-view-your-recipes-sec */
+.recipe-publised{
+  background-color: #EDF7F0;
+  width: 100%;
+}
+.recipe-pending{
+  background-color: #fff;
+  width: 100%;
+}
+.recipe-rejected{
+  background-color: #FCE8E8;
+  width: 100%;
+}
+/* user-view-your-recipes-sec */

@@ -24,12 +24,12 @@ module.exports = {
             const cooking_instructions = recipe.cooking_instructions
             const ingredients = recipe.ingredients
             const cuisine = await db.get().collection(collection.CUISINE_COLLECTION).findOne({ _id: new ObjectId(recipe.cuisine) }, { projection: { description: 0 } })
-            let isPublished = false
+            let status;
 
             if (user.role == 'admin')
-                isPublished = true
+                status = 'published'
             else
-                isPublished = false
+                status = 'pending'
             
             // console.log(user._id)
             const userId = new ObjectId(user._id);
@@ -40,7 +40,7 @@ module.exports = {
                 cooking_instructions: cooking_instructions,
                 ingredients: ingredients,
                 cuisine: cuisine,
-                isPublished: isPublished,
+                status: status,
                 userId: userId,
                 dateCreated: date
             }).then((data) => {
@@ -48,6 +48,15 @@ module.exports = {
                 callback(data.insertedId)
             })
 
+        })
+    },
+
+    getRecipesByUser:(userData)=>{
+        return new Promise (async (resolve,reject)=>{
+            // console.log(userData._id)
+            const userRecipes = await db.get().collection(collection.RECIPES_COLLECTION).find({userId:new ObjectId(userData._id)}).toArray()
+            // console.log(userRecipes)
+            resolve(userRecipes)
         })
     }
 
