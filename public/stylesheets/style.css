@@ -453,9 +453,6 @@ header .dropdown ul {
 
 /* submit recipe form */
 
-.submit-recipe-sec {
-}
-
 .submit-recipe-container {
   max-width: 807px;
   margin: auto;
@@ -494,3 +491,10 @@ header .dropdown ul {
 
 
 /* submit recipe form */
+
+
+/* submit success */
+.submit-success i{
+  font-size: 7rem;
+}
+/* submit success */

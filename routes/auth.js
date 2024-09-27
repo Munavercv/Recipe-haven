@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
     .then(response => {
       if (response.status) {
         req.session.loggedIn = true
-        req.session.user = response.user.name
+        req.session.user = response.user
         // console.log(req.session.user);
         res.redirect(response.redirectUrl)
       } else {
@@ -161,7 +161,7 @@ router.get('/failure', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  req.session.destroy() //destroy session if logout clicked
+  req.session.destroy()
   res.redirect('/')
 })
 
