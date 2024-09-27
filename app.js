@@ -45,6 +45,14 @@ app.use(session({
   }
 }));
 
+exphbs.create({
+  helpers: {
+    eq: function (a, b) {
+      return a === b;
+    }
+  }
+});
+
 // Call the connect function to initiate a MongoDB connection
 db.connect((err) => {
   if (err) {

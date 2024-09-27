@@ -30,7 +30,7 @@ module.exports = {
                 status = 'published'
             else
                 status = 'pending'
-            
+
             // console.log(user._id)
             const userId = new ObjectId(user._id);
             const date = new Date()
@@ -51,12 +51,49 @@ module.exports = {
         })
     },
 
-    getRecipesByUser:(userData)=>{
-        return new Promise (async (resolve,reject)=>{
+    getRecipesByUser: (userData) => {
+        return new Promise(async (resolve, reject) => {
             // console.log(userData._id)
-            const userRecipes = await db.get().collection(collection.RECIPES_COLLECTION).find({userId:new ObjectId(userData._id)}).toArray()
+            const userRecipes = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userData._id) }).toArray()
             // console.log(userRecipes)
             resolve(userRecipes)
+        })
+    },
+
+    getRecipe: (recipeId) => {
+        return new Promise(async (resolve, reject) => {
+            const recipe = await db.get().collection(collection.RECIPES_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: new ObjectId(recipeId)
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "userDetails"
+                    }
+                },
+                {
+                    $unwind: "$userDetails"
+                },
+                {
+                    $project: {
+                        name: 1,
+                        cooking_instructions: 1,
+                        ingredients: 1,
+                        cuisine: 1,
+                        status: 1,
+                        userId:1,
+                        "userDetails.name": 1,
+                        "userDetails.email": 1,
+                    }
+                }
+            ]).toArray()
+            // console.log(recipe)
+            resolve(recipe)
         })
     }
 

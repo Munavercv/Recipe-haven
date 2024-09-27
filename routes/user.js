@@ -68,4 +68,26 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
 
   res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes })
 })
+
+router.get('/view-recipe/:id', async (req, res) => {
+  const user = req.session.user
+  const recipes = await recipeHelpers.getRecipe(req.params.id)
+  const recipe = recipes[0];
+
+  let recipeOwner = false
+
+  if(user && user._id == recipe.userId){
+    recipeOwner = true
+  }
+
+  console.log(recipe)
+  res.render('user/view-recipe', { user, recipe, recipeOwner })
+})
+
+
+router.get('/logout', (req, res) => {
+  req.session.destroy()
+  res.redirect(req.headers.referer || '/');
+})
+
 module.exports = router;

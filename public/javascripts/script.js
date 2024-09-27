@@ -18,15 +18,15 @@ window.addEventListener('click', function (e) {
 
 
 // ============================================ fixed nav
-window.onscroll = function() { addFixedNav() };
+// window.onscroll = function() { addFixedNav() };
 
-function addFixedNav() {
-    const nav = document.getElementById("fixedNav");
+// function addFixedNav() {
+//     const nav = document.getElementById("fixedNav");
     
-    if (window.scrollY > 40) {
-        nav.classList.add("fixed-top", "nav-fixed");
-    } else {
-        nav.classList.remove("fixed-top", "nav-fixed");
-    }
-}
+//     if (window.scrollY > 40) {
+//         nav.classList.add("fixed-top", "nav-fixed");
+//     } else {
+//         nav.classList.remove("fixed-top", "nav-fixed");
+//     }
+// }
 // ============================================ fixed nav

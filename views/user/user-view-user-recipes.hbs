@@ -10,7 +10,7 @@
 
                 {{#each publishedRecipes}}
                 <div class="col-md-3 mt-4 text-center recipe-card">
-                    <a href="">
+                    <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
                         </div>
@@ -35,7 +35,7 @@
 
                 {{#each pendingRecipes}}
                 <div class="col-md-3 mt-4 text-center recipe-card">
-                    <a href="">
+                    <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
                         </div>
@@ -59,7 +59,7 @@
 
                 {{#each rejectedRecipes}}
                 <div class="col-md-3 mt-4 text-center recipe-card">
-                    <a href="">
+                    <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
                         </div>
