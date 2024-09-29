@@ -1,0 +1,82 @@
+<section class="user-recipes-sec">
+    <h2 class="section-title text-center mt-4">User Recipes</h2>
+
+    {{#if pendingRecipes}}
+    <div class="recipe-pending my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <h3 class="section-subtitle ms-md-5">Pending</h3>
+                </div>
+
+                {{#each pendingRecipes}}
+                <div class="col-md-3 mt-4 text-center recipe-card">
+                    <a href="/admin/view-recipe/{{this._id}}">
+                        <div class="recipe-img">
+                            <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                        </div>
+                        <p class="mt-2">{{this.name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if rejectedRecipes}}
+    <div class="recipe-rejected my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <h3 class="section-subtitle ms-md-5">Rejected</h3>
+                </div>
+
+                {{#each rejectedRecipes}}
+                <div class="col-md-3 mt-4 text-center recipe-card">
+                    <a href="/admin/view-recipe/{{this._id}}">
+                        <div class="recipe-img">
+                            <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                        </div>
+                        <p class="mt-2">{{this.name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+
+    </div>
+    {{/if}}
+
+
+    {{#if recentlyPublishedRecipes}}
+    <div class="recipe-publised my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <h3 class="section-subtitle ms-md-5">Recently Published</h3>
+                </div>
+
+                {{#each recentlyPublishedRecipes}}
+                <div class="col-md-3 mt-4 text-center recipe-card">
+                    <a href="/admin/view-recipe/{{this._id}}">
+                        <div class="recipe-img">
+                            <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                        </div>
+                        <p class="mt-2">{{this.name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+
+                <div class="mb-3">
+                    <a href="" class="normal-link float-end">View all <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</section>

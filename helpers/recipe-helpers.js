@@ -95,6 +95,6 @@ module.exports = {
             // console.log(recipe)
             resolve(recipe)
         })
-    }
+    },
 
 }

@@ -40,7 +40,7 @@ router.get('/signup', function (req, res) {
 
 router.post('/signup', async (req, res) => {
   console.log('Validation success'); // Log on success
-  
+
   req.body.role = "user";
   req.body.isVerified = false;
 
@@ -161,8 +161,13 @@ router.get('/failure', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  const role = req.session.user.role
   req.session.destroy()
-  res.redirect('/')
+  if (role == 'admin')
+    res.redirect('/login')
+  else {
+    res.redirect('/')
+  }
 })
 
 module.exports = router;

@@ -66,7 +66,7 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
 
   // res.send(publishedRecipes)
 
-  res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes })
+  res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes, recipes })
 })
 
 router.get('/view-recipe/:id', async (req, res) => {
@@ -82,12 +82,6 @@ router.get('/view-recipe/:id', async (req, res) => {
 
   console.log(recipe)
   res.render('user/view-recipe', { user, recipe, recipeOwner })
-})
-
-
-router.get('/logout', (req, res) => {
-  req.session.destroy()
-  res.redirect(req.headers.referer || '/');
 })
 
 module.exports = router;
