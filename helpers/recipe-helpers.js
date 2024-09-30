@@ -17,6 +17,33 @@ module.exports = {
         })
     },
 
+    getCuisine: (cuisineId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const cuisine = await db.get().collection(collection.CUISINE_COLLECTION).findOne({ _id: new ObjectId(cuisineId) })
+                resolve(cuisine);
+            } catch (error) {
+                console.error('Error fetching cuisines:', error);
+                reject(error);
+            }
+        })
+    },
+
+    updateCuisine: async (cuisineId, cuisineData) => {
+        await db.get().collection(collection.CUISINE_COLLECTION).updateOne({ _id: new ObjectId(cuisineId) },
+            {
+                $set: {
+                    name:cuisineData.name,
+                    description:cuisineData.description
+                }
+            }
+        )
+    },
+
+    deleteCuisine:async (cuisineId)=>{
+        await db.get().collection(collection.CUISINE_COLLECTION).deleteOne({_id:new ObjectId(cuisineId)})
+    },
+
     saveRecipe: (recipe, user, callback) => {
         return new Promise(async (resolve, reject) => {
             // console.log(recipe.cuisine)
@@ -101,8 +128,8 @@ module.exports = {
         return recipes
     },
 
-    getRecipeCount:async(userId)=>{
-        const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({userId:new ObjectId(userId)}).count()
+    getRecipeCount: async (userId) => {
+        const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).count()
         return recipesCount
     }
 

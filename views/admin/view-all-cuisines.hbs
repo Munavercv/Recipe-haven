@@ -1,0 +1,46 @@
+<section>
+    <div class="container">
+        <button class="back-button ps-5 mt-4" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
+
+        <h2 class="section-title text-center mt-4 mb-5">Cuisines</h2>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <form class="d-flex me-5 text-start" role="search">
+                <input class="form-control rounded-5 searchbox" type="search" placeholder="Search by email"
+                    aria-label="Search">
+                <button class="ms-1 rounded-5 header-btn" type="submit">Search</button>
+            </form>
+            <div>
+                <a href="/admin/add-cuisine">
+                    <button class="primary-btn">Add &nbsp;<i class="fa-solid fa-plus"></i></button>
+                </a>
+            </div>
+        </div>
+
+
+        <table class="cuisine-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th width="65%">Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each cuisines}}
+                <tr>
+                    <td class="text-center">{{this.name}}</td>
+                    <td>{{this.description}}</td>
+                    <td class="text-end">
+                        <a href="/admin/edit-cuisine/{{this._id}}" class="me-3"><button
+                                class="btn btn-primary rounded-3"><i class="fa-solid fa-pen"></i></button></a>
+                        <a href="/admin/delete-cuisine/{{this._id}}"
+                            onclick="return confirm('Are you sure you want to permenantly delete this Cuisine?')"><button
+                                class="btn btn-danger rounded-3"><i class="fa-solid fa-trash"></i></button></a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

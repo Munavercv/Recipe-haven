@@ -70,4 +70,11 @@ module.exports = {
         })
     },
 
+    addCuisine: async (cuisine) => {
+        db.get().collection(collection.CUISINE_COLLECTION).insertOne({
+            name:cuisine.name,
+            description:cuisine.description
+        })
+    }
+
 }

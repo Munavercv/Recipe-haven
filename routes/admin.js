@@ -19,6 +19,9 @@ router.get('/admin-home', verifyLogin, function (req, res, next) {
     res.render('admin/admin-home', { user, title: 'admin panel', admin: true })
 });
 
+router.get('/dashboard', (req, res) => {
+    res.render('admin/dashboard', { admin: true })
+})
 
 router.get('/user-recipes', verifyLogin, async (req, res) => {
     const user = req.session.user
@@ -122,9 +125,42 @@ router.post('/edit-profile/:id', async (req, res) => {
         await userHelpers.editUser(req.params.id, req.body)
         res.redirect('/admin/view-users')
     }
-    catch{
+    catch {
         res.status(500).send('Error editing user');
     }
+})
+
+router.get('/view-all-cuisines', async (req, res) => {
+    const cuisines = await recipeHelpers.getCuisines()
+    res.render('admin/view-all-cuisines', { admin: true, cuisines })
+})
+
+router.get('/add-cuisine', (req, res) => {
+    res.render('admin/add-cuisine', { admin: true })
+})
+
+router.post('/add-cuisine', async (req, res) => {
+    await adminHelpers.addCuisine(req.body)
+    res.redirect('/admin/add-cuisine-success')
+})
+
+router.get('/add-cuisine-success', (req, res) => {
+    res.render('admin/cuisine-submit-success', { admin: true })
+})
+
+router.get('/edit-cuisine/:id', async (req, res)=>{
+    const cuisine = await recipeHelpers.getCuisine(req.params.id)
+    res.render('admin/edit-cuisine', { admin: true, cuisine })
+})
+
+router.post('/edit-cuisine/:id', async (req, res)=>{
+    await recipeHelpers.updateCuisine(req.params.id, req.body)
+    res.redirect('/admin/view-all-cuisines')
+})
+
+router.get('/delete-cuisine/:id', async (req, res)=>{
+    await recipeHelpers.deleteCuisine(req.params.id)
+    res.redirect('/admin/view-all-cuisines')
 })
 
 module.exports = router;
