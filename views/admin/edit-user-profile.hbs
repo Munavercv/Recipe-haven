@@ -1,0 +1,33 @@
+<section class="submit-recipe-sec">
+    <div class="w-100">
+        <div class="submit-recipe-container container">
+
+            <h2 class="text-center section-title mb-2 ">Edit profile</h2>
+
+            <form action="/admin/edit-profile/{{userData._id}}" method="post">
+                <div class="mb-2">
+                    <label for="name" class=" fw-medium">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" aria-describedby=""
+                        value="{{userData.name}}" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="email" class="fw-medium">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" aria-describedby=""
+                        value="{{userData.email}}" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mobile" class=" fw-medium">Mobile</label>
+                    <input type="text" name="mobile" class="form-control" id="mobile" aria-describedby=""
+                        value="{{userData.mobile}}" required>
+                </div>
+
+
+                <button type="submit" class="primary-btn mt-3">Submit</button>
+                <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
+            </form>
+
+        </div>
+    </div>
+</section>

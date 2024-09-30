@@ -96,5 +96,15 @@ module.exports = {
         })
     },
 
+    getRecipesByUserId: async (userId) => {
+        const recipes = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).toArray()
+        return recipes
+    },
+
+    getRecipeCount:async(userId)=>{
+        const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({userId:new ObjectId(userId)}).count()
+        return recipesCount
+    }
+
 
 }

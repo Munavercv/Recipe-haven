@@ -70,10 +70,17 @@ app.use('/', authRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-  res.redirect('/404-error')
+// app.use(function (req, res, next) {
+//   next(createError(404));
+//   // res.redirect('/404-error')
+//   res.render('/404-page', { hideHeader: true, })
+// });
+
+app.use(function (req, res) {
+  res.status(404);
+  res.render('404-page', { hideHeader: true });
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {

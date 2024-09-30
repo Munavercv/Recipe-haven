@@ -27,10 +27,10 @@
                     <td>{{this.email}}</td>
                     <td>{{this.mobile}}</td>
                     <td class="text-end">
-                        <a href=""><button class="primary-btn-outline me-3">View profile</button></a>
-                        <a href="" class="me-3"><button class="btn btn-primary rounded-3"><i
+                        <a href="/admin/view-user-profile/{{this._id}}"><button class="primary-btn-outline me-3">View profile</button></a>
+                        <a href="/admin/edit-profile/{{this._id}}" class="me-3"><button class="btn btn-primary rounded-3"><i
                                     class="fa-solid fa-pen"></i></button></a>
-                        <a href=""><button class="btn btn-danger rounded-3"><i
+                        <a href="/admin/delete-user/{{this._id}}" onclick="return confirm('Are you sure you want to permenantly delete this User?')"><button class="btn btn-danger rounded-3"><i
                                     class="fa-solid fa-trash"></i></button></a>
                     </td>
                 </tr>

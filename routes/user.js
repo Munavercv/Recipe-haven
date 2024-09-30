@@ -18,9 +18,9 @@ router.get('/', function (req, res, next) {
   res.render('user/user-home', { title: 'Recipe haven', user })
 });
 
-router.get('/404-error', (req, res) => {
-  res.render('user/404-page', { title: 'Login', hideHeader: true, })
-})
+// router.get('/404-error', (req, res) => {
+//   res.render('user/404-page', { hideHeader: true, })
+// })
 
 router.get('/submit-recipe', verifyLogin, async (req, res) => {
   try {

@@ -1,10 +1,51 @@
 const db = require('../config/connection')
-const collection = require('../config/collections')
+const collections = require('../config/collections')
 const bcrypt = require('bcrypt');
 const { response, resource } = require('../app');
 const ObjectId = require('mongoose').Types.ObjectId;
 
-// module.exports = {
-//     doSignup: (userData) => {
-   
-// }
+module.exports = {
+
+    getUsers: async () => {
+        const users = await db.get().collection(collections.USERS_COLLECTION).find({ role: 'user' },
+            {
+                projection: {
+                    password: 0,
+                    role: 0,
+                    isVerified: 0,
+                }
+            }
+        ).toArray()
+        return users;
+    },
+
+    getUserData: async (userId) => {
+        const userData = await db.get().collection(collections.USERS_COLLECTION).findOne({ _id: new ObjectId(userId) },
+            {
+                projection: {
+                    password: 0,
+                    role: 0,
+                    isVerified: 0,
+                }
+            }
+        )
+        return userData;
+    },
+
+    deleteUser: async (userId) => {
+        await db.get().collection(collections.USERS_COLLECTION).deleteOne({ _id: new ObjectId(userId) })
+    },
+
+    editUser: async (userId, data) => {
+        await db.get().collection(collections.USERS_COLLECTION).updateOne({ _id: new ObjectId(userId) },
+            {
+                $set: {
+                    name: data.name,
+                    email: data.email,
+                    mobile: data.mobile
+                }
+            }
+        )
+    }
+
+}

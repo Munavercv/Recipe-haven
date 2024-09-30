@@ -623,7 +623,7 @@ footer .credit a:hover {
 
 .users-table th,
 td {
-  padding: 15px;
+  padding: 12px;
   text-align: left;
   border-bottom: 1px solid #454545;
 }
@@ -642,3 +642,11 @@ td {
 }
 
 /* admin view users */
+
+
+/* admin user profile */
+.user-profile-sec .fa-user{
+  color: #989898;
+  font-size: 5rem;
+}
+/* admin user profile */
