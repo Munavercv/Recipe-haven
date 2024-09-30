@@ -1,6 +1,8 @@
 <section class="submit-recipe-sec">
     <div class="w-100">
+        <button class="back-button ps-5 mt-4" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
         <div class="submit-recipe-container container">
+
             <h2 class="text-center section-title mb-2 ">Edit recipe</h2>
 
             <form action="/admin/edit-recipe/{{recipe._id}}" method="post" enctype="multipart/form-data">
@@ -58,6 +60,7 @@
                 </div>
 
                 <button type="submit" class="primary-btn mt-3">Submit</button>
+                <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
             </form>
 
         </div>

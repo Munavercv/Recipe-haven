@@ -18,7 +18,7 @@ module.exports = {
             {
                 $set: {
                     status: 'published',
-                    datePublished : datePublished
+                    datePublished: datePublished
                 }
             })
     },
@@ -35,7 +35,7 @@ module.exports = {
                 }
             }
         );
-        
+
     },
 
     rejectRecipe: async (recipeId) => {
@@ -68,6 +68,19 @@ module.exports = {
                     resolve()
                 })
         })
+    },
+
+    getUsers: async () => {
+        const users = await db.get().collection(collection.USERS_COLLECTION).find({ role: 'user' },
+            {
+                projection: {
+                    password: 0,
+                    role: 0,
+                    isVerified: 0,
+                }
+            }
+        ).toArray()
+        return users;
     }
 
 

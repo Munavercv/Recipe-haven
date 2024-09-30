@@ -1,0 +1,41 @@
+<section class="view-users-sec">
+    <div class="container">
+        <button class="back-button ps-5 mt-4" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
+
+        <h2 class="section-title text-center mt-4 mb-5">Users</h2>
+
+        <div>
+            <form class="d-flex me-5" role="search">
+                    <input class="form-control rounded-5 searchbox" type="search" placeholder="Search by email" aria-label="Search">
+                    <button class="ms-1 rounded-5 header-btn" type="submit">Search</button>
+                </form>
+        </div>
+
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.mobile}}</td>
+                    <td class="text-end">
+                        <a href=""><button class="primary-btn-outline me-3">View profile</button></a>
+                        <a href="" class="me-3"><button class="btn btn-primary rounded-3"><i
+                                    class="fa-solid fa-pen"></i></button></a>
+                        <a href=""><button class="btn btn-danger rounded-3"><i
+                                    class="fa-solid fa-trash"></i></button></a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

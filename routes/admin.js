@@ -72,7 +72,7 @@ router.get('/edit-recipe/:id', async (req, res) => {
     res.render('admin/edit-recipe', { recipe, admin: true, cuisines })
 })
 
-router.post('/edit-recipe/:id',async (req, res) => {
+router.post('/edit-recipe/:id', async (req, res) => {
     const id = req.params.id
     // req.body.userRole = req.session.user.role
     // console.log(req.body.userRole)
@@ -82,6 +82,12 @@ router.post('/edit-recipe/:id',async (req, res) => {
         image.mv('./public/recipe_images/' + id + '.jpg')
     }
     res.redirect('/admin/view-recipe/' + id);
+})
+
+router.get('/view-users', async (req, res) => {
+    const users = await adminHelpers.getUsers()
+    console.log(users)
+    res.render('admin/view-users', { admin: true, users })
 })
 
 module.exports = router;

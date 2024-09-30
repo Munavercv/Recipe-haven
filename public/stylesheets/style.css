@@ -80,13 +80,24 @@ button:hover {
   background-color: #000;
 }
 
-.section-title{
+.back-button {
+  border: none;
+  background: none;
+  transition: color ease-in-out 100ms;
+}
+
+.back-button:hover {
+  background: none;
+  color: #5a5a5a;
+}
+
+.section-title {
   font-size: 36px;
   font-weight: 500;
   color: #000;
 }
 
-.section-subtitle{
+.section-subtitle {
   font-size: 25px;
   font-weight: 500;
   color: #000;
@@ -110,19 +121,20 @@ button:hover {
   transition: scale 0.75s ease-out;
 }
 
-.recipe-img img:hover{
+.recipe-img img:hover {
   scale: 1.05;
 }
 
-.recipe-card a{
+.recipe-card a {
   text-decoration: none;
   color: #000;
 }
 
-.recipe-card p{
+.recipe-card p {
   color: #000;
   font-size: 17px;
 }
+
 /* recipe card styling */
 
 /* ============ COMMON STYLING ========== */
@@ -268,7 +280,7 @@ select.form-control:focus {
   box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
 }
 
-select.form-control option{
+select.form-control option {
   padding: 10px;
   background-color: #fff;
   color: #333;
@@ -385,7 +397,7 @@ header .dropdown ul {
 .cuisine-img-3:hover,
 .cuisine-img-4:hover,
 .cuisine-img-5:hover,
-.cuisine-img-6:hover{
+.cuisine-img-6:hover {
   scale: 1.05;
 }
 
@@ -419,15 +431,15 @@ header .dropdown ul {
 
 
 /* submit home banner */
-.submit-recipe-banner{
+.submit-recipe-banner {
   background-color: var(--section-bg-grey);
 }
 
-.submit-recipe-banner .row{
+.submit-recipe-banner .row {
   display: flex;
 }
 
-.submit-recipe-img{
+.submit-recipe-img {
   width: 454px;
   height: 486px;
   border-radius: 25px;
@@ -438,11 +450,12 @@ header .dropdown ul {
   background-repeat: no-repeat;
 }
 
-.submit-recipe-img img{
+.submit-recipe-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 /* submit home banner */
 
 /* footer */
@@ -452,12 +465,13 @@ header .dropdown ul {
   width: 100%;
 } */
 
-footer .credit a{
+footer .credit a {
   text-decoration: none;
   color: var(--primary-dark);
   font-weight: 400;
 }
-footer .credit a:hover{
+
+footer .credit a:hover {
   text-decoration: underline;
 }
 
@@ -506,34 +520,38 @@ footer .credit a:hover{
 
 
 /* submit success */
-.submit-success i{
+.submit-success i {
   font-size: 7rem;
 }
+
 /* submit success */
 
 
 /* user-view-your-recipes-sec */
-.recipe-publised{
+.recipe-publised {
   background-color: #EDF7F0;
   width: 100%;
 }
-.recipe-pending{
+
+.recipe-pending {
   background-color: #fff;
   width: 100%;
 }
-.recipe-rejected{
+
+.recipe-rejected {
   background-color: #FCE8E8;
   width: 100%;
 }
 
-.user-view-your-recipes-sec .fa-xmark{
+.user-view-your-recipes-sec .fa-xmark {
   font-size: 7rem;
 }
+
 /* user-view-your-recipes-sec */
 
 
 /* recipe page */
-.recipe-page .dish-img{
+.recipe-page .dish-img {
   max-width: 454px;
   height: auto;
   border-radius: 25px;
@@ -544,36 +562,36 @@ footer .credit a:hover{
   background-repeat: no-repeat;
 }
 
-.recipe-page .dish-img img{
+.recipe-page .dish-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.recipe-page .user a{
+.recipe-page .user a {
   text-decoration: none;
   color: #000;
   font-size: 14px;
 }
 
-.recipe-page .user a i{
+.recipe-page .user a i {
   color: #7d7d7d;
 }
 
-.recipe-page .cuisine a{
+.recipe-page .cuisine a {
   text-decoration: none;
   color: #7d7d7d;
   font-size: 14px;
 }
 
-.recipe-page .ingredients li{
+.recipe-page .ingredients li {
   margin-bottom: 8px;
 }
 
 /* recipe page */
 
 /* edit recipe */
-.edit-recipe-imgView{
+.edit-recipe-imgView {
   max-width: 25rem;
   max-height: auto;
   border-radius: 25px;
@@ -584,9 +602,43 @@ footer .credit a:hover{
   background-repeat: no-repeat;
 }
 
-.edit-recipe-imgView img{
+.edit-recipe-imgView img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 /* edit recipe */
+
+
+/* admin view users */
+.users-table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.users-table th,
+td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #454545;
+}
+
+.users-table th {
+  background-color: #373737;
+  color: white;
+}
+
+.users-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* admin view users */

@@ -1,5 +1,6 @@
 <section class="recipe-page">
     <div class="container py-4">
+        <button class="back-button ps-5" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
         <h2 class="text-center section-title mb-5">{{recipe.name}}</h2>
 
         <div class="row">
@@ -42,16 +43,26 @@
 
                 {{!-- show button based on status --}}
                 {{#if (eq recipe.status 'pending')}}
-                <a href="/admin/publish-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to publish this recipe?')"><button class="primary-btn">Publish</button></a>
-                <a href="/admin/reject-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to reject this recipe?')"><button class="primary-btn">Reject</button></a>
+                <a href="/admin/publish-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to publish this recipe?')"><button
+                        class="primary-btn">Publish</button></a>
+                <a href="/admin/reject-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to reject this recipe?')"><button
+                        class="primary-btn">Reject</button></a>
                 {{else if (eq recipe.status 'rejected')}}
-                <a href="/admin/publish-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to publish this recipe?')"><button class="primary-btn">Publish</button></a>
+                <a href="/admin/publish-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to publish this recipe?')"><button
+                        class="primary-btn">Publish</button></a>
                 {{else if (eq recipe.status 'published')}}
-                <a href="/admin/unpublish-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to unpublish this recipe?')"><button class="primary-btn">Unpublish</button></a>
+                <a href="/admin/unpublish-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to unpublish this recipe?')"><button
+                        class="primary-btn">Unpublish</button></a>
                 {{/if}}
                 {{!-- show button based on status --}}
 
-                <a href="/admin/delete-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to delete this recipe?')"><button class="primary-btn">Delete</button></a>
+                <a href="/admin/delete-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to delete this recipe?')"><button
+                        class="primary-btn">Delete</button></a>
             </div>
 
         </div>

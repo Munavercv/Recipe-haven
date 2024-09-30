@@ -30,3 +30,11 @@ window.addEventListener('click', function (e) {
 //     }
 // }
 // ============================================ fixed nav
+
+
+
+// ============================================ page back
+function goBack() {
+    window.history.back();
+}
+// ============================================ page back
