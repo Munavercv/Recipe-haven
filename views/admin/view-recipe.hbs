@@ -38,7 +38,7 @@
             </div>
 
             <div class="text-center">
-                <a href=""><button class="primary-btn">Edit</button></a>
+                <a href="/admin/edit-recipe/{{recipe._id}}"><button class="primary-btn">Edit</button></a>
 
                 {{!-- show button based on status --}}
                 {{#if (eq recipe.status 'pending')}}

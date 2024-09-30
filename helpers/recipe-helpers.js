@@ -86,15 +86,15 @@ module.exports = {
                         ingredients: 1,
                         cuisine: 1,
                         status: 1,
-                        userId:1,
+                        userId: 1,
                         "userDetails.name": 1,
                         "userDetails.email": 1,
                     }
                 }
             ]).toArray()
-            // console.log(recipe)
             resolve(recipe)
         })
     },
+
 
 }

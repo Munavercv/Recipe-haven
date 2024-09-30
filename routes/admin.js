@@ -38,7 +38,6 @@ router.get('/view-recipe/:id', async (req, res) => {
     const recipes = await recipeHelpers.getRecipe(req.params.id)
     const recipe = recipes[0];
 
-    console.log(recipe)
     res.render('admin/view-recipe', { user, recipe, admin: true, title: recipe.name })
 })
 
@@ -64,6 +63,25 @@ router.get('/delete-recipe/:id', async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.deleteRecipe(recipeId)
     res.redirect('/admin/user-recipes')
+})
+
+router.get('/edit-recipe/:id', async (req, res) => {
+    const recipes = await recipeHelpers.getRecipe(req.params.id)
+    const recipe = recipes[0];
+    const cuisines = await recipeHelpers.getCuisines();
+    res.render('admin/edit-recipe', { recipe, admin: true, cuisines })
+})
+
+router.post('/edit-recipe/:id',async (req, res) => {
+    const id = req.params.id
+    // req.body.userRole = req.session.user.role
+    // console.log(req.body.userRole)
+    await adminHelpers.updateRecipe(id, req.body)
+    if (req.files && req.files.image) {
+        let image = req.files.image
+        image.mv('./public/recipe_images/' + id + '.jpg')
+    }
+    res.redirect('/admin/view-recipe/' + id);
 })
 
 module.exports = router;

@@ -13,21 +13,29 @@ module.exports = {
     },
 
     publishRecipe: async (recipeId) => {
-        const result = await db.get().collection(collection.RECIPES_COLLECTION).updateOne({ _id: new ObjectId(recipeId) },
+        const datePublished = new Date()
+        await db.get().collection(collection.RECIPES_COLLECTION).updateOne({ _id: new ObjectId(recipeId) },
             {
                 $set: {
-                    status: 'published'
+                    status: 'published',
+                    datePublished : datePublished
                 }
             })
     },
 
     unpublishRecipe: async (recipeId) => {
-        const result = await db.get().collection(collection.RECIPES_COLLECTION).updateOne({ _id: new ObjectId(recipeId) },
+        await db.get().collection(collection.RECIPES_COLLECTION).updateOne(
+            { _id: new ObjectId(recipeId) },
             {
                 $set: {
                     status: 'pending'
+                },
+                $unset: {
+                    datePublished: ""
                 }
-            })
+            }
+        );
+        
     },
 
     rejectRecipe: async (recipeId) => {
@@ -43,5 +51,24 @@ module.exports = {
         await db.get().collection(collection.RECIPES_COLLECTION).deleteOne({ _id: new ObjectId(recipeId) });
         console.log('recipe delete')
     },
+
+    updateRecipe: (recipeId, recipe) => {
+        return new Promise(async (resolve, reject) => {
+
+            const cuisine = await db.get().collection(collection.CUISINE_COLLECTION).findOne({ _id: new ObjectId(recipe.cuisine) }, { projection: { description: 0 } })
+            db.get().collection(collection.RECIPES_COLLECTION)
+                .updateOne({ _id: new ObjectId(recipeId) }, {
+                    $set: {
+                        name: recipe.name,
+                        cooking_instructions: recipe.cooking_instructions,
+                        ingredients: recipe.ingredients,
+                        cuisine: cuisine,
+                    }
+                }).then((response) => {
+                    resolve()
+                })
+        })
+    }
+
 
 }
