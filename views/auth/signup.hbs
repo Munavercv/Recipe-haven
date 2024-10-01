@@ -9,9 +9,6 @@
       <h2 class="text-center mb-4">Sign-Up</h2>
       <form id="signupForm" action="/signup" method="post">
 
-        <div class="error-div">
-          <p class="error" for="name" style="display: none;" id="signupError"></p>
-        </div>
 
         <div>
           <div class="error-div">
@@ -42,7 +39,7 @@
           <input type="password" class="form-control rounded-3" name="password" id="password" placeholder="Password">
         </div>
 
-        <div>
+        <div class="mb-3">
           <div class="error-div">
             <label class="error" for="confirmPassword" style="display: none;"></label>
           </div>
@@ -50,7 +47,8 @@
             placeholder="Corfirm Password">
         </div>
 
-        <button type="submit" class="form-btn w-100 py-2 mt-3">Send OTP</button>
+        <p class="error p-0 m-0" for="name" style="display: none;font-size: 16px;" id="signupError"></p>
+        <button type="submit" class="form-btn w-100 py-2">Send OTP</button>
 
         <div class="or-line">
           <span>or</span>

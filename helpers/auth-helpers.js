@@ -80,6 +80,7 @@ module.exports = {
             try {
                 const otp = crypto.randomInt(100000, 999999);
                 const expirationTime = Date.now() + 60 * 2000;
+                // const expirationTime = Date.now() + 30 * 60 * 1000;// 30m for test
 
                 // Store the OTP in the database
                 await db.get().collection(collection.OTP_COLLECTION).insertOne({

@@ -4,7 +4,7 @@
             <h2 class="text-center mb-2">Verify OTP</h2>
             <form id="verifyOtpForm">
 
-                <p class="text-center">OTP is sent to your email.</p>
+                <p class="text-center">OTP is sent to <span class="fw-medium">{{email}}</span>.</p>
                 <div id="errorMessage" style="color: red; display: none;"></div>
 
                 <div class="form-floating mb-2">
@@ -16,9 +16,7 @@
 
 
                 <button type="submit" class="form-btn w-100 py-2">Sign up</button>
-                {{!-- <div class="text-center"><span class="m-0 py-2">or</span></div> --}}
                 <div class="mt-2 text-center">
-                   {{!-- <p> OTP will expire after 2 minutes </p> --}}
                     <a id="resendOtpLink" class="normal-link" href="/resend-otp">Resend OTP</a>
                 </div>
             </form>
@@ -30,50 +28,59 @@
 
 <script>
 const link = document.getElementById('resendOtpLink');
+const countdownDuration = 120; // Countdown duration in seconds (2 minutes)
 
-// Disable the link and change its appearance
-function disableLink() {
-  link.classList.add('disabled-link');
-  link.style.pointerEvents = 'none'; // Prevent clicking
-  link.style.color = 'gray'; // Optional: Change color to indicate it's disabled
-  link.textContent = 'Resend OTP after 2 minutes';
-
-  // Re-enable the link after 2 minutes (120,000 milliseconds)
-  setTimeout(() => {
-    link.classList.remove('disabled-link');
-    link.style.pointerEvents = 'auto'; // Enable clicking
-    link.style.color = ''; // Reset color
-    link.textContent = 'Resend OTP'; // Reset text
-  }, 120000); // 2 minutes
+// Function to format time as MM:SS
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-// Call the function to disable the link initially
-disableLink();
+// Disable the link and start countdown
+function disableLinkWithCountdown() {
+  link.classList.add('disabled-link');
+  link.style.pointerEvents = 'none';
+  link.style.color = 'gray';
 
+  let remainingTime = countdownDuration;
+  const countdownInterval = setInterval(() => {
+    remainingTime--;
+    link.textContent = `Resend OTP after ${formatTime(remainingTime)}`;
 
+    if (remainingTime <= 0) {
+      clearInterval(countdownInterval);
+      link.classList.remove('disabled-link');
+      link.style.pointerEvents = 'auto';
+      link.style.color = '';
+      link.textContent = 'Resend OTP';
+    }
+  }, 1000); // Update every second
+}
 
+disableLinkWithCountdown();
 
-  $('#verifyOtpForm').submit(function(e) {
-    e.preventDefault();
+// Handle OTP verification form submission
+$('#verifyOtpForm').submit(function(e) {
+  e.preventDefault();
 
-    const otp = $('#otpInput').val();
-    const email = $('#emailInput').val();
+  const otp = $('#otpInput').val();
+  const email = $('#emailInput').val();
 
-    $.ajax({
-      url: '/verify-otp',
-      method: 'POST',
-      data: { otp, email },
-      success: function(response) {
-        if (response.success) {
-          window.location.href = '/login'; // Redirect on success
-        } else {
-          // Display error message
-          $('#errorMessage').text(response.message).show();
-        }
-      },
-      error: function() {
-        $('#errorMessage').text('An unexpected error occurred. Please try again.').show();
+  $.ajax({
+    url: '/verify-otp',
+    method: 'POST',
+    data: { otp, email },
+    success: function(response) {
+      if (response.success) {
+        window.location.href = '/login';
+      } else {
+        $('#errorMessage').text(response.message).show();
       }
-    });
+    },
+    error: function() {
+      $('#errorMessage').text('An unexpected error occurred. Please try again.').show();
+    }
   });
+});
 </script>
