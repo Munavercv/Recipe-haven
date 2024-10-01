@@ -79,7 +79,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const otp = crypto.randomInt(100000, 999999);
-                const expirationTime = Date.now() + 60 * 2000; // 2 minutes expiration
+                const expirationTime = Date.now() + 60 * 2000;
 
                 // Store the OTP in the database
                 await db.get().collection(collection.OTP_COLLECTION).insertOne({

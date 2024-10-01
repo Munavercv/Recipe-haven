@@ -1,0 +1,189 @@
+<section class="d-flex justify-content-center align-items-center signup-sec">
+  <div class="w-100">
+    <div class="signup-container">
+      <h2 class="text-center mb-4">Sign-Up</h2>
+      <form id="signupForm">
+        
+
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput" name="name" placeholder="name">
+          <label for="floatingInput">Name</label>
+          <div id="validationServerUsernameFeedback" class="invalid-feedback">
+        Please choose a username.
+      </div>
+        </div>
+
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput1" name="email" placeholder="email">
+          <label for="floatingInput1">Email</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="floatingInput2" name="mobile" placeholder="mobile">
+          <label for="floatingInput2">Mobile</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="password" class="form-control rounded-3" id="floatingInput3" name="password"
+            placeholder="Password">
+          <label for="floatingInput3">Password</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="password" class="form-control rounded-3" id="floatingInput4" name="confirmPassword"
+            placeholder="confirm password">
+          <label for="floatingInput4">Confirm Password</label>
+        </div>
+        <div class="error-div">
+        <p id="error-message" class="error mb-2 p-0" style="color: red;"></p>
+        </div>
+
+        <button type="submit" class="form-btn w-100 py-2">Send OTP</button>
+        {{!-- <div class="text-center"><span class="m-0 py-2">or</span></div> --}}
+
+        <div class="or-line">
+          <span>or</span>
+        </div>
+
+        <button type="button" onclick="window.location.href='/google-auth'" class="form-btn w-100 py-2"><i
+            class="fa-brands fa-google"></i> Signin with
+          Google</button>
+
+
+        {{!-- <a href="/google-auth" class=""><button class="form-btn w-100 py-2"><i class="fa-brands fa-google"></i>
+            &nbsp;
+            Continue with
+            Google</button></a> --}}
+      </form>
+      <div class="mt-2 text-center">
+        <p>Already have an account ? <a class="normal-link" style="color: rgb(1, 59, 197);" href="/login">Log in</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+
+<script>
+  $(document).ready(function () {
+  // Hide the error message initially
+  $('#error-message').hide();
+
+  // Flag to prevent multiple submissions
+  let isSubmitting = false;
+
+  // Initialize the form validation
+  $('#signupForm').validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: 3
+      },
+      email: {
+        required: true,
+        email: true
+      },
+      mobile: {
+        required: true,
+        digits: true,
+        minlength: 10,
+        maxlength: 10
+      },
+      password: {
+        required: true,
+        minlength: 6
+      },
+      confirmPassword: {
+        required: true,
+        equalTo: "#floatingInput3"
+      }
+    },
+    messages: {
+      name: {
+        required: "Please fill all field",
+        minlength: "Your name must be at least 3 characters long"
+      },
+      email: {
+        required: "Please fill all field",
+        email: "Please enter a valid email address"
+      },
+      mobile: {
+        required: "Please fill all field",
+        digits: "Please enter a valid 10-digit mobile number",
+        minlength: "Mobile number should be 10 digits",
+        maxlength: "Mobile number should be 10 digits"
+      },
+      password: {
+        required: "Please fill all field",
+        minlength: "Password must be at least 6 characters long"
+      },
+      confirmPassword: {
+        required: "Please fill all field",
+        equalTo: "Password does not match"
+      }
+    },
+    errorPlacement: function (error, element) {
+      // Only show the error message on form submission, not during typing
+    },
+    highlight: function (element) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element) {
+      $(element).removeClass('is-invalid');
+    },
+    focusInvalid: function () {
+      if (this.errorList.length) {
+        $(this.errorList[0].element).focus();
+      }
+    },
+    submitHandler: function (form) {
+      if (isSubmitting) {
+        return;
+      }
+
+      // Disable the submit button to prevent multiple clicks
+      isSubmitting = true;
+      $('button[type="submit"]').prop('disabled', true);
+
+      // Clear any existing error message
+      $('#error-message').text('').hide();
+
+      // Collect form data
+      const formData = new FormData(form);
+
+      // Simulate async request for OTP
+      fetch('/signup', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            // Show server-side error
+            $('#error-message').text(data.error).show();
+            $('button[type="submit"]').prop('disabled', false); // Enable the button again
+            isSubmitting = false;
+          } else if (data.success) {
+            // Redirect to the OTP verification page
+            window.location.href = `/verify-otp?email=${encodeURIComponent(data.email)}`;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          $('#error-message').text('An unexpected error occurred. Please try again.').show();
+          $('button[type="submit"]').prop('disabled', false); // Enable the button again
+          isSubmitting = false;
+        });
+    }
+  });
+
+  // Clear the error message only when the field with the error is modified
+  $('#signupForm input').on('input', function () {
+    // Hide the error message specific to that field if it starts getting corrected
+    if ($(this).hasClass('is-invalid')) {
+      $('#error-message').hide();
+      $(this).removeClass('is-invalid');
+    }
+  });
+});
+
+</script>
