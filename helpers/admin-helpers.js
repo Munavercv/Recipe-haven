@@ -47,11 +47,6 @@ module.exports = {
             })
     },
 
-    deleteRecipe: async (recipeId) => {
-        await db.get().collection(collection.RECIPES_COLLECTION).deleteOne({ _id: new ObjectId(recipeId) });
-        console.log('recipe delete')
-    },
-
     updateRecipe: (recipeId, recipe) => {
         return new Promise(async (resolve, reject) => {
 

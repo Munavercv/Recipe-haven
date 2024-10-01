@@ -65,7 +65,7 @@ router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
 
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
-    await adminHelpers.deleteRecipe(recipeId)
+    await recipeHelpers.deleteRecipe(recipeId)
     res.redirect('/admin/user-recipes')
 })
 

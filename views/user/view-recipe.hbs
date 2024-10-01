@@ -1,24 +1,23 @@
 <section class="recipe-page">
-    <div class="container py-4">
+    <div class="container-fluid py-4">
         <h2 class="text-center section-title mb-5">{{recipe.name}}</h2>
 
         <div class="row">
 
-            <div class="col-md-5">
+            <div class="col-md-5 mb-3">
                 <div class="dish-img">
-                    <img src="/recipe_images/{{recipe._id}}.jpg" alt="{{recipe.name}}">
+                    <img src="/recipe_images/{{recipe._id}}.jpg" class="img-fluid" alt="{{recipe.name}}">
                 </div>
             </div>
 
             <div class="col-md-7">
-
                 <div class="user">
                     <a href=""><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
                 </div>
-
                 <div class="cuisine mt-3">
                     <a href=""><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
                 </div>
+
 
                 <div class="ingredients mt-3">
                     <h3 class="section-subtitle">Ingredients</h3>
@@ -40,7 +39,7 @@
             {{#if recipeOwner}}
             <div class="text-center">
                 <a href="/edit-recipe/{{recipe._id}}"><button class="primary-btn">Edit</button></a>
-                <a href=""><button class="primary-btn">Delete</button></a>
+                <a href="/delete-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to delete This recipe?')"><button class="primary-btn">Delete</button></a>
             </div>
             {{/if}}
 

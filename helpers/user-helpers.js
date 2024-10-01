@@ -48,9 +48,9 @@ module.exports = {
         )
     },
 
-    updateRecipe:(recipeId, recipe) => {
+    updateRecipe: (recipeId, recipe) => {
         return new Promise(async (resolve, reject) => {
-
+            const date = new Date
             const cuisine = await db.get().collection(collections.CUISINE_COLLECTION).findOne({ _id: new ObjectId(recipe.cuisine) }, { projection: { description: 0 } })
             db.get().collection(collections.RECIPES_COLLECTION)
                 .updateOne({ _id: new ObjectId(recipeId) }, {
@@ -59,7 +59,8 @@ module.exports = {
                         cooking_instructions: recipe.cooking_instructions,
                         ingredients: recipe.ingredients,
                         cuisine: cuisine,
-                        status:'pending'
+                        status: 'pending',
+                        dateCreated: date
                     }
                 }).then((response) => {
                     resolve()

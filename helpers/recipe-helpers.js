@@ -131,7 +131,11 @@ module.exports = {
     getRecipeCount: async (userId) => {
         const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).count()
         return recipesCount
-    }
+    },
+
+    deleteRecipe: async (recipeId) => {
+        await db.get().collection(collection.RECIPES_COLLECTION).deleteOne({ _id: new ObjectId(recipeId) });
+    },
 
 
 }

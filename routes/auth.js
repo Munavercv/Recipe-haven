@@ -29,7 +29,6 @@ router.post('/login', async (req, res) => {
       }
     })
     .catch(error => {
-      console.error('Login error:', error);
       res.render('login', { error: 'Something went wrong, please try again' });
     });
 })

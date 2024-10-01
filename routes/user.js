@@ -103,6 +103,11 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
   res.redirect('/view-recipe/' + id);
 })
 
+router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
+  const recipeId = req.params.id;
+  await recipeHelpers.deleteRecipe(recipeId)
+  res.redirect('/view-your-recipes')
+})
 
 router.get('/view-profile/:id', verifyLogin, async (req, res) => {
   const user = req.session.user

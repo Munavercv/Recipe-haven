@@ -74,10 +74,11 @@
     </div>
     {{/if}}
 
-    {{#unless recipes}}
     <div class="px-4 py-5 my-5 text-center">
+    {{#unless recipes}}
         <i class="fa-solid fa-xmark mb-4"></i>
         <h1 class="display-5 fw-bold">You have no Recipes</h1>
+    {{/unless}}
         <div class="col-lg-6 mx-auto">
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                 <a href="/submit-recipe"><button type="button" class="primary-btn">Submit a Recipe</button></a>
@@ -85,7 +86,6 @@
             </div>
         </div>
     </div>
-    {{/unless}}
 
 </section>
 
