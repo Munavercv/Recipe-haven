@@ -46,6 +46,25 @@ module.exports = {
                 }
             }
         )
-    }
+    },
+
+    updateRecipe:(recipeId, recipe) => {
+        return new Promise(async (resolve, reject) => {
+
+            const cuisine = await db.get().collection(collections.CUISINE_COLLECTION).findOne({ _id: new ObjectId(recipe.cuisine) }, { projection: { description: 0 } })
+            db.get().collection(collections.RECIPES_COLLECTION)
+                .updateOne({ _id: new ObjectId(recipeId) }, {
+                    $set: {
+                        name: recipe.name,
+                        cooking_instructions: recipe.cooking_instructions,
+                        ingredients: recipe.ingredients,
+                        cuisine: cuisine,
+                        status:'pending'
+                    }
+                }).then((response) => {
+                    resolve()
+                })
+        })
+    },
 
 }

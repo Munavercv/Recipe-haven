@@ -496,21 +496,6 @@ footer .credit a:hover {
   font-size: 30px;
 }
 
-.or-line {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.or-line::before,
-.or-line::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid var(--primary-dark);
-  margin: 0 7px;
-  /* Space between the line and "or" */
-}
-
 .submit-recipe-container span {
   font-size: 18px;
   font-weight: 400;
@@ -520,6 +505,17 @@ footer .credit a:hover {
   padding: 0 7px;
 }
 
+
+.submit-recipe-sec input.form-control {
+  background-color: #F5F5F5;
+  border: 1px solid var(--primary-dark);
+}
+
+.submit-recipe-sec input.form-control:focus {
+  background-color: white;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
+}
 
 /* submit recipe form */
 
@@ -650,10 +646,11 @@ td {
 
 
 /* admin user profile */
-.user-profile-sec .fa-user{
+.user-profile-sec .fa-user {
   color: #989898;
   font-size: 5rem;
 }
+
 /* admin user profile */
 
 .cuisine-table {
@@ -693,6 +690,7 @@ td {
   padding: 30px;
   border-radius: 10px;
 }
+
 /* ======== */
 
 
@@ -713,14 +711,14 @@ td {
   height: 100vh;
 }
 
-input.form-control {
+.signup-sec input.form-control {
   background-color: #F5F5F5;
   border: 1px solid var(--primary-dark);
   font-size: 1rem;
   padding: 0.9rem;
 }
 
-input.form-control:focus {
+.signup-sec input.form-control:focus {
   background-color: white;
   border-color: var(--primary-dark);
   box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
@@ -736,4 +734,20 @@ input.form-control:focus {
 .error-div {
   height: 21px;
 }
+
+.or-line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.or-line::before,
+.or-line::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--primary-dark);
+  margin: 0 7px;
+  /* Space between the line and "or" */
+}
+
 /* signup form */

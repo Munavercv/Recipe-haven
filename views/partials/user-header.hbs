@@ -31,7 +31,7 @@
                         <ul class="custom-dropdown-menu" aria-labelledby="dropdownMenuButton2">
                             {{#if user}}
                             <li><a class="custom-dropdown-item" href="/logout">Logout</a></li>
-                            <li><a class="custom-dropdown-item" href="">Profile</a></li>
+                            <li><a class="custom-dropdown-item" href="/view-profile/{{user._id}}">Profile</a></li>
                             {{else}}
                             <li><a class="custom-dropdown-item" href="/login">Login</a></li>
                             {{/if}}

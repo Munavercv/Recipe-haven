@@ -76,12 +76,61 @@ router.get('/view-recipe/:id', async (req, res) => {
 
   let recipeOwner = false
 
-  if(user && user._id == recipe.userId){
+  if (user && user._id == recipe.userId) {
     recipeOwner = true
   }
 
-  console.log(recipe)
   res.render('user/view-recipe', { user, recipe, recipeOwner })
+})
+
+router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const recipes = await recipeHelpers.getRecipe(req.params.id)
+  const recipe = recipes[0];
+  const cuisines = await recipeHelpers.getCuisines();
+  res.render('user/edit-recipe', { recipe, user, cuisines })
+})
+
+router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
+  const id = req.params.id
+  // req.body.userRole = req.session.user.role
+  // console.log(req.body.userRole)
+  await userHelpers.updateRecipe(id, req.body)
+  if (req.files && req.files.image) {
+      let image = req.files.image
+      image.mv('./public/recipe_images/' + id + '.jpg')
+  }
+  res.redirect('/view-recipe/' + id);
+})
+
+
+router.get('/view-profile/:id', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const userData = await userHelpers.getUserData(req.params.id)
+  const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
+  // console.log(recipesCount)
+  res.render('user/view-profile', { userData, recipesCount, user })
+})
+
+router.get('/delete-account/:id', verifyLogin, async (req, res) => {
+  await userHelpers.deleteUser(req.params.id)
+  res.redirect('/signup')
+})
+
+router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const userData = await userHelpers.getUserData(req.params.id)
+  res.render('user/edit-profile', { user, userData })
+})
+
+router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
+  try {
+    await userHelpers.editUser(req.params.id, req.body)
+    res.redirect('/view-profile/' + req.params.id)
+  }
+  catch {
+    res.status(500).send('Error editing user');
+  }
 })
 
 module.exports = router;

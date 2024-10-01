@@ -1,0 +1,107 @@
+<section class="submit-recipe-sec">
+    <div class="w-100">
+        <button class="back-button ps-5 mt-4" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
+        <div class="submit-recipe-container container">
+
+            <h2 class="text-center section-title mb-2 ">Edit recipe</h2>
+
+            <form action="/edit-recipe/{{recipe._id}}" method="post" enctype="multipart/form-data">
+                <div class="mb-2">
+                    <label for="recipe_name" class=" fw-medium">Recipe name</label>
+                    <input type="text" name="name" class="form-control" id="recipe_name" aria-describedby=""
+                        value="{{recipe.name}}" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="cooking_instructions" class=" fw-medium">Cooking instructions</label>
+                    <textarea style="height: 20rem" name="cooking_instructions" class="form-control"
+                        id="cooking_instructions" aria-describedby="" placeholder="Enter cooking instructions"
+                        required>{{recipe.cooking_instructions}}</textarea>
+                </div>
+
+                <label for="ingredients" class=" fw-medium">Ingredients</label>
+                <div id="ingredientFields" class="mb-2">
+                    <div id="" class="form-text">(Eg: 2 Onion)</div>
+                    {{#each recipe.ingredients}}
+                    <div class="mb-2 input-group">
+                        <input type="text" id="ingredients" class="form-control" name="ingredients"
+                            placeholder="Ingredient" value="{{this}}" required>
+                        <button class="primary-btn-outline" type="button" onclick="removeField(this)"><i
+                                class="fa-solid fa-minus"></i></button>
+                    </div>
+                    {{/each}}
+
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="primary-btn-outline mb-1" id="addButton"><i
+                            class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <div class="mb-5">
+                    <label for="cuisine" class="fw-medium">Cuisine</label>
+                    <select class="form-select form-control" name="cuisine" id="cuisine"
+                        aria-label="Default select example" required>
+                        <option value="">Select a cuisine</option>
+                        {{#each cuisines}}
+                        <option value="{{this._id}}" {{#if (eq this.name ../recipe.cuisine.name)}}selected{{/if}}>
+                            {{this.name}}</option>
+                        {{/each}}
+                    </select>
+
+                </div>
+
+                <div class="mb-2">
+                    <div class="mb-2 edit-recipe-imgView">
+                        <img src="/recipe_images/{{recipe._id}}.jpg" class="img-fluid" alt="{{recipe.name}}"
+                            id="imgView">
+                    </div>
+                    <label for="image" class="fw-medium">Edit Image</label>
+                    <input class="form-control" type="file" name="image" id="image" onchange="viewImage(event)">
+                </div>
+
+                <button type="submit" class="primary-btn mt-3">Submit</button>
+                <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+    /* ingredient add */
+    let ingredientCount = 2;
+    document.addEventListener("DOMContentLoaded", function () {
+        const addButton = document.getElementById("addButton");
+        const ingredientFields = document.getElementById("ingredientFields");
+
+        addButton.addEventListener("click", function () {
+            ingredientCount++
+            // Create a new input field with a delete button
+            const newField = document.createElement("div");
+            newField.classList.add("input-group", "mb-2");
+            newField.innerHTML = `
+          <input type="text" class="form-control" name="ingredients" placeholder="Ingredient" required>
+          <button class="primary-btn-outline" type="button" onclick="removeField(this)"><i class="fa-solid fa-minus"></i></button>
+        `;
+
+            // Append the new input field to the form
+            ingredientFields.appendChild(newField);
+        });
+    });
+
+    // Function to remove an ingredient field
+    function removeField(button) {
+        ingredientCount--
+        const field = button.parentElement;
+        field.remove();
+    }
+    /* ingredient add */
+
+
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+
+</script>
