@@ -33,15 +33,15 @@ module.exports = {
         await db.get().collection(collection.CUISINE_COLLECTION).updateOne({ _id: new ObjectId(cuisineId) },
             {
                 $set: {
-                    name:cuisineData.name,
-                    description:cuisineData.description
+                    name: cuisineData.name,
+                    description: cuisineData.description
                 }
             }
         )
     },
 
-    deleteCuisine:async (cuisineId)=>{
-        await db.get().collection(collection.CUISINE_COLLECTION).deleteOne({_id:new ObjectId(cuisineId)})
+    deleteCuisine: async (cuisineId) => {
+        await db.get().collection(collection.CUISINE_COLLECTION).deleteOne({ _id: new ObjectId(cuisineId) })
     },
 
     saveRecipe: (recipe, user, callback) => {
@@ -136,6 +136,33 @@ module.exports = {
     deleteRecipe: async (recipeId) => {
         await db.get().collection(collection.RECIPES_COLLECTION).deleteOne({ _id: new ObjectId(recipeId) });
     },
+
+    getLatestRecipes: async (limit) => {
+        // const recipes = await db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'published' }, { $sort: { datePublished } })
+        const recipes = await db.get()
+            .collection(collection.RECIPES_COLLECTION)
+            .aggregate([
+                { $match: { status: 'published' } },
+                { $sort: { datePublished: 1 } },
+                {
+                    $limit: limit
+                },
+                {
+                    $project: {
+                        cooking_instructions: 0,
+                        ingredients: 0,
+                        cuisine: 0,
+                        userId: 0,
+                        dateCreated: 0,
+                        status: 0,
+                        datePublished: 0
+                    }
+                }
+            ])
+            .toArray();
+        return recipes
+        // console.log(recipes)
+    }
 
 
 }
