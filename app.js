@@ -12,7 +12,7 @@ var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
 const dotenv=require('dotenv')
 require('dotenv').config()
-const helpers = require('handlebars-helpers')();
+// const helpers = require('handlebars-helpers')();
 
 var app = express();
 
@@ -20,7 +20,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.engine('hbs', exphbs.engine({ extname: 'hbs',helpers: helpers, defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
+app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
+// app.engine('hbs', exphbs.engine({ extname: 'hbs',helpers: helpers, defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
 
 // bootstrap
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
@@ -46,13 +47,13 @@ app.use(session({
   }
 }));
 
-exphbs.create({
-  helpers: {
-    eq: function (a, b) {
-      return a === b;
-    }
-  }
-});
+// exphbs.create({
+//   helpers: {
+//     eq: function (a, b) {
+//       return a === b;
+//     }
+//   }
+// });
 
 // Call the connect function to initiate a MongoDB connection
 db.connect((err) => {
