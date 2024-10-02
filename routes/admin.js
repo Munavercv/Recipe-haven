@@ -42,6 +42,10 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipe(req.params.id)
     const recipe = recipes[0];
 
+    recipe.isPending = recipe.status === 'pending';
+    recipe.isRejected = recipe.status === 'rejected';
+    recipe.isPublished = recipe.status === 'published';
+
     res.render('admin/view-recipe', { user, recipe, admin: true, title: recipe.name })
 })
 
@@ -73,6 +77,11 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipe(req.params.id)
     const recipe = recipes[0];
     const cuisines = await recipeHelpers.getCuisines();
+
+    cuisines.forEach(cuisine => {
+        cuisine.isSelected = cuisine.name === recipe.cuisine.name;
+      });
+      
     res.render('admin/edit-recipe', { recipe, admin: true, cuisines })
 })
 

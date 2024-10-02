@@ -42,22 +42,27 @@
                 <a href="/admin/edit-recipe/{{recipe._id}}"><button class="primary-btn">Edit</button></a>
 
                 {{!-- show button based on status --}}
-                {{#if (eq recipe.status 'pending')}}
+                {{#if recipe.isPending}}
                 <a href="/admin/publish-recipe/{{recipe._id}}"
-                    onclick="return confirm('Are you sure you want to publish this recipe?')"><button
-                        class="primary-btn">Publish</button></a>
+                    onclick="return confirm('Are you sure you want to publish this recipe?')">
+                    <button class="primary-btn">Publish</button>
+                </a>
                 <a href="/admin/reject-recipe/{{recipe._id}}"
-                    onclick="return confirm('Are you sure you want to reject this recipe?')"><button
-                        class="primary-btn">Reject</button></a>
-                {{else if (eq recipe.status 'rejected')}}
+                    onclick="return confirm('Are you sure you want to reject this recipe?')">
+                    <button class="primary-btn">Reject</button>
+                </a>
+                {{else if recipe.isRejected}}
                 <a href="/admin/publish-recipe/{{recipe._id}}"
-                    onclick="return confirm('Are you sure you want to publish this recipe?')"><button
-                        class="primary-btn">Publish</button></a>
-                {{else if (eq recipe.status 'published')}}
+                    onclick="return confirm('Are you sure you want to publish this recipe?')">
+                    <button class="primary-btn">Publish</button>
+                </a>
+                {{else if recipe.isPublished}}
                 <a href="/admin/unpublish-recipe/{{recipe._id}}"
-                    onclick="return confirm('Are you sure you want to unpublish this recipe?')"><button
-                        class="primary-btn">Unpublish</button></a>
+                    onclick="return confirm('Are you sure you want to unpublish this recipe?')">
+                    <button class="primary-btn">Unpublish</button>
+                </a>
                 {{/if}}
+
                 {{!-- show button based on status --}}
 
                 <a href="/admin/delete-recipe/{{recipe._id}}"

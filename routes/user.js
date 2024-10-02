@@ -88,6 +88,11 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
   const recipes = await recipeHelpers.getRecipe(req.params.id)
   const recipe = recipes[0];
   const cuisines = await recipeHelpers.getCuisines();
+
+  cuisines.forEach(cuisine => {
+    cuisine.isSelected = cuisine.name === recipe.cuisine.name;
+  });
+
   res.render('user/edit-recipe', { recipe, user, cuisines })
 })
 
@@ -97,8 +102,8 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
   // console.log(req.body.userRole)
   await userHelpers.updateRecipe(id, req.body)
   if (req.files && req.files.image) {
-      let image = req.files.image
-      image.mv('./public/recipe_images/' + id + '.jpg')
+    let image = req.files.image
+    image.mv('./public/recipe_images/' + id + '.jpg')
   }
   res.redirect('/view-recipe/' + id);
 })

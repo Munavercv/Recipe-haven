@@ -44,8 +44,9 @@
                         aria-label="Default select example" required>
                         <option value="">Select a cuisine</option>
                         {{#each cuisines}}
-                        <option value="{{this._id}}" {{#if (eq this.name ../recipe.cuisine.name)}}selected{{/if}}>
-                            {{this.name}}</option>
+                        <option value="{{this._id}}" {{#if this.isSelected}}selected{{/if}}>
+                            {{this.name}}
+                        </option>
                         {{/each}}
                     </select>
 
