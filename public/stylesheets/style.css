@@ -59,7 +59,6 @@ body {
   background-color: var(--primary-dark);
   color: #F5F5F5;
   border: none;
-  /* padding: 8px; */
   font-size: 1.2rem;
   font-weight: 400;
   border-radius: 10px;
@@ -97,9 +96,9 @@ button:hover {
   color: #000;
 }
 
-@media (max-width: 576px){
-  .section-title{
-      font-size: 27px;
+@media (max-width: 576px) {
+  .section-title {
+    font-size: 27px;
   }
 }
 
@@ -154,7 +153,20 @@ button:hover {
 
 /* recipe card styling */
 
+.section-description {
+  font-size: 1.2rem;
+}
+
+@media (max-width:576px) {
+  .section-description {
+    font-size: 1rem;
+  }
+}
+
 /* ============ COMMON STYLING ========== */
+
+
+
 
 body {
   margin: 0;
@@ -224,90 +236,7 @@ header .rh-logo {
 /* header */
 
 
-/* Sign in page */
-/* .signup-container {
-  max-width: 380px;
-  margin: auto;
-  padding: 30px;
-  border-radius: 10px;
-}
-
-.signup-container h2 {
-  font-weight: 500;
-  font-size: 30px;
-}
-
-.or-line {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.or-line::before,
-.or-line::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid var(--primary-dark);
-  margin: 0 7px;
-}
-
-.signup-container span {
-  font-size: 18px;
-  font-weight: 400;
-  background: white;
-  position: relative;
-  z-index: 1;
-  padding: 0 7px;
-}
-
-.signup-sec {
-  height: 100vh;
-}
-
-input.form-control {
-  background-color: #F5F5F5;
-  border: 1px solid var(--primary-dark);
-}
-
-input.form-control:focus {
-  background-color: white;
-  border-color: var(--primary-dark);
-  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
-}
-
-textarea.form-control {
-  background-color: #F5F5F5;
-  border: 1px solid var(--primary-dark);
-}
-
-textarea.form-control:focus {
-  background-color: white;
-  border-color: var(--primary-dark);
-  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
-}
-
-select.form-control {
-  background-color: #F5F5F5;
-  border: 1px solid var(--primary-dark);
-}
-
-select.form-control:focus {
-  background-color: white;
-  border-color: var(--primary-dark);
-  box-shadow: 0 0 5px rgba(68, 68, 68, 0.5);
-}
-
-select.form-control option {
-  padding: 10px;
-  background-color: #fff;
-  color: #333;
-}
-
-.invalid-feedback{
-  height: 21px;
-} */
-
-/* signup */
+/* signin page ==================================== */
 
 .notification-icon {
   padding: 4px 7px;
@@ -345,7 +274,7 @@ header .dropdown ul {
 }
 
 
-/* Sign in page */
+/* Sign in page ==================================*/
 
 
 /* home landing section */
@@ -357,7 +286,7 @@ header .dropdown ul {
 }
 
 .landing-left {
-  margin: 0 2rem; /* Reduce margins for better small-screen compatibility */
+  margin: 0 2rem;
   font-family: "Rubik", sans-serif;
 }
 
@@ -377,38 +306,39 @@ header .dropdown ul {
 
 .landing-right img {
   width: 100%;
-  max-width: 500px; /* Adjust based on preference */
+  max-width: 500px;
   height: 100%;
   object-fit: cover;
   position: absolute;
-  right: 0; /* Sticks the image to the most right */
+  right: 0;
 }
 
 @media (max-width: 992px) {
-    .landing-right img {
+  .landing-right img {
     max-width: 100%;
   }
-  .landing-right{
+
+  .landing-right {
     height: 50vh;
   }
+
   .landing-left {
     text-align: center;
     padding: 5rem;
   }
 }
 
-/* Responsive adjustments for landing section */
 @media (max-width: 768px) {
 
   .landing-left h1 {
-    font-size: 36px; /* Adjust font size on small screens */
+    font-size: 36px;
   }
 
   .landing-left {
     text-align: center;
     padding: 3rem 0rem;
   }
-  
+
 }
 
 /* Cuisine Section */
@@ -418,7 +348,7 @@ header .dropdown ul {
 }
 
 .cuisine-selector {
-  margin-top: 2rem; /* Adjust top margin */
+  margin-top: 2rem;
 }
 
 .cuisine-selector a {
@@ -427,8 +357,8 @@ header .dropdown ul {
 }
 
 .cuisine-img {
-  width: 182px; /* Fixed width */
-  height: 133px; /* Fixed height */
+  width: 182px;
+  height: 133px;
   border-radius: 25px;
   overflow: hidden;
   margin: 0 auto;
@@ -436,9 +366,9 @@ header .dropdown ul {
 }
 
 .cuisine-img img {
-  width: 100%;  /* Image takes the full width of the parent */
-  height: 100%; /* Image takes the full height of the parent */
-  object-fit: cover; /* Ensures the image covers the div without distortion */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: scale 0.75s ease-out;
 }
 
@@ -446,13 +376,12 @@ header .dropdown ul {
   scale: 1.05;
 }
 
-/* Adjustments for small screens */
 @media (max-width: 768px) {
   .cuisine-selector {
     margin-top: 1rem;
   }
 }
-/* cuisine section */
+
 
 
 /* submit home banner */
@@ -462,12 +391,12 @@ header .dropdown ul {
 
 .submit-recipe-banner .row {
   display: flex;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  flex-wrap: wrap;
 }
 
 .submit-recipe-img {
-  width: 100%; /* Full width for responsiveness */
-  max-width: 454px; /* Limit max width on larger screens */
+  width: 100%;
+  max-width: 454px;
   height: 486px;
   border-radius: 25px;
   overflow: hidden;
@@ -490,29 +419,35 @@ header .dropdown ul {
 
 @media (max-width: 1199px) {
   .submit-sec-text {
-      text-align: center; /* Center text for smaller screens */
-      margin-top: 20px; /* Add margin for spacing */
+    text-align: center;
+    margin-top: 20px;
   }
+
   .submit-recipe-img {
-      height: auto; /* Allow height to adjust automatically */
+    height: auto;
   }
 }
 
 @media (max-width: 768px) {
   .submit-recipe-banner .row {
-      flex-direction: column; /* Stack image and text vertically */
-      align-items: center; /* Center content */
+    flex-direction: column;
+    align-items: center;
   }
+
   .submit-recipe-img {
-      max-width: 100%; /* Full width on small screens */
-      padding: 0;
-      margin: 0;
-      height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    height: auto;
   }
-  .submit-sec-text h1, a, p {
-      text-align: center;
+
+  .submit-sec-text h1,
+  a,
+  p {
+    text-align: center;
   }
 }
+
 /* submit home banner */
 
 /* footer */
@@ -649,7 +584,6 @@ footer .credit a:hover {
   max-height: auto;
   border-radius: 25px;
   overflow: hidden;
-  /* margin: 0 auto; */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -4,6 +4,7 @@ var router = express.Router();
 const userHelpers = require('../helpers/user-helpers');
 const recipeHelpers = require('../helpers/recipe-helpers');
 const adminHelpers = require('../helpers/admin-helpers');
+const { KeyObject } = require('crypto');
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -85,6 +86,14 @@ router.get('/view-recipe/:id', async (req, res) => {
   }
 
   res.render('user/view-recipe', { user, recipe, recipeOwner })
+})
+
+router.get('/search-results', async (req, res) => {
+  const user = req.session.user
+  const keyword = req.query.keyword
+  const searchResults = await recipeHelpers.searchRecipesByName(keyword)
+  // console.log(searchResults)
+  res.render('user/view-search-results', { title: 'search results', user, searchResults, keyword })
 })
 
 router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {

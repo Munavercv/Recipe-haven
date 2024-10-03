@@ -26,9 +26,10 @@ router.get('/dashboard', (req, res) => {
 router.get('/user-recipes', verifyLogin, async (req, res) => {
     const user = req.session.user
     const recipes = await adminHelpers.getUserRecipes()
-    const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
+    const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending')
+        .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+        
     const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
-    // const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
     const recentlyPublishedRecipes = recipes
         .filter(recipe => recipe.status === 'published')
         .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
@@ -80,8 +81,8 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
 
     cuisines.forEach(cuisine => {
         cuisine.isSelected = cuisine.name === recipe.cuisine.name;
-      });
-      
+    });
+
     res.render('admin/edit-recipe', { recipe, admin: true, cuisines })
 })
 
@@ -157,17 +158,17 @@ router.get('/add-cuisine-success', (req, res) => {
     res.render('admin/cuisine-submit-success', { admin: true })
 })
 
-router.get('/edit-cuisine/:id', async (req, res)=>{
+router.get('/edit-cuisine/:id', async (req, res) => {
     const cuisine = await recipeHelpers.getCuisine(req.params.id)
     res.render('admin/edit-cuisine', { admin: true, cuisine })
 })
 
-router.post('/edit-cuisine/:id', async (req, res)=>{
+router.post('/edit-cuisine/:id', async (req, res) => {
     await recipeHelpers.updateCuisine(req.params.id, req.body)
     res.redirect('/admin/view-all-cuisines')
 })
 
-router.get('/delete-cuisine/:id', async (req, res)=>{
+router.get('/delete-cuisine/:id', async (req, res) => {
     await recipeHelpers.deleteCuisine(req.params.id)
     res.redirect('/admin/view-all-cuisines')
 })

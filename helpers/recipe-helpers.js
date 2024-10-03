@@ -204,7 +204,48 @@ module.exports = {
             ])
             .toArray();
         return recipes
+    },
+
+    searchRecipesByName: async (searchQuery) => {
+        let query;
+
+        // If the user has entered one letter, search for names starting with that letter
+        if (searchQuery.length === 1) {
+            query = {
+                status: "published",
+                name: { $regex: `^${searchQuery}`, $options: "i" }  // 'i' makes it case-insensitive
+            };
+        } else {
+            // If the user has entered more than one letter/word, search for names containing the search words
+            const words = searchQuery.split(" ");
+            const regexArray = words.map(word => ({
+                name: { $regex: word, $options: "i" }  // Case-insensitive search for each word
+            }));
+
+            query = {
+                status: "published",
+                $and: regexArray
+            };
+        }
+
+        // Fetch the recipes matching the query
+        const recipes = await db.get()
+            .collection(collection.RECIPES_COLLECTION)
+            .find(query)
+            .project({
+                cooking_instructions: 0,
+                ingredients: 0,
+                cuisine: 0,
+                userId: 0,
+                dateCreated: 0,
+                status: 0,
+                datePublished: 0
+            })
+            .toArray();
+
+        return recipes;
     }
+
 
 
 }

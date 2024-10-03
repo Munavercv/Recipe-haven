@@ -160,13 +160,8 @@ router.get('/failure', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  const role = req.session.user.role
   req.session.destroy()
-  if (role == 'admin')
-    res.redirect('/login')
-  else {
-    res.redirect('/')
-  }
+  res.redirect('/login')
 })
 
 module.exports = router;
