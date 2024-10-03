@@ -113,6 +113,17 @@ button:hover {
   cursor: pointer;
 }
 
+@media (max-width: 768px) {
+  .recipe-img {
+    max-width: 260px;
+  }
+}
+
+@media (max-width: 575px) {
+  .recipe-img {
+    max-width: 280px;
+  }
+}
 
 .recipe-img img {
   width: 100%;
@@ -331,8 +342,16 @@ header .dropdown ul {
 
 
 /* home landing section */
-.landing-left-sec {
-  height: 90vh;
+.landing-sec {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-left {
+  margin: 0 2rem; /* Reduce margins for better small-screen compatibility */
+  font-family: "Rubik", sans-serif;
 }
 
 .landing-left h1 {
@@ -340,35 +359,59 @@ header .dropdown ul {
   font-size: 48px;
 }
 
-.landing-left {
-  margin-top: 15rem;
-  margin-left: 5rem;
-  font-family: "Rubik", sans-serif;
-}
-
 .landing-right {
-  margin: 0;
-  padding: 0;
-  background-image: url('/images/banner1.jpg');
-  background-position: 0 -15rem;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
-/* home landing section */
+.landing-right img {
+  width: 100%;
+  max-width: 500px; /* Adjust based on preference */
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  right: 0; /* Sticks the image to the most right */
+}
 
+@media (max-width: 992px) {
+    .landing-right img {
+    max-width: 100%;
+  }
+  .landing-right{
+    height: 50vh;
+  }
+  .landing-left {
+    text-align: center;
+    padding: 5rem;
+  }
+}
 
-/* cuisine section */
+/* Responsive adjustments for landing section */
+@media (max-width: 768px) {
+
+  .landing-left h1 {
+    font-size: 36px; /* Adjust font size on small screens */
+  }
+
+  .landing-left {
+    text-align: center;
+    padding: 3rem 0rem;
+  }
+  
+}
+
+/* Cuisine Section */
 .cuisine-sec {
   background-color: var(--section-bg-grey);
-  width: 100%;
-  height: 348px;
-  padding-top: 1px;
+  padding: 2rem 0;
 }
 
 .cuisine-selector {
-  margin-top: 5rem;
+  margin-top: 2rem; /* Adjust top margin */
 }
 
 .cuisine-selector a {
@@ -376,62 +419,32 @@ header .dropdown ul {
   color: #000;
 }
 
-.cuisine-img-1,
-.cuisine-img-2,
-.cuisine-img-3,
-.cuisine-img-4,
-.cuisine-img-5,
-.cuisine-img-6 {
-  width: 182px;
-  height: 133px;
+.cuisine-img {
+  width: 182px; /* Fixed width */
+  height: 133px; /* Fixed height */
   border-radius: 25px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   margin: 0 auto;
   cursor: pointer;
-  overflow: hidden;
-
-  filter: grayscale(0);
-  transition: scale 0.75s ease-out;
-
 }
 
-.cuisine-img-1:hover,
-.cuisine-img-2:hover,
-.cuisine-img-3:hover,
-.cuisine-img-4:hover,
-.cuisine-img-5:hover,
-.cuisine-img-6:hover {
+.cuisine-img img {
+  width: 100%;  /* Image takes the full width of the parent */
+  height: 100%; /* Image takes the full height of the parent */
+  object-fit: cover; /* Ensures the image covers the div without distortion */
+  transition: scale 0.75s ease-out;
+}
+
+.cuisine-img img:hover {
   scale: 1.05;
 }
 
-
-
-.cuisine-img-1 {
-  background-image: url('/images/dosa.jpg');
+/* Adjustments for small screens */
+@media (max-width: 768px) {
+  .cuisine-selector {
+    margin-top: 1rem;
+  }
 }
-
-.cuisine-img-2 {
-  background-image: url('/images/pizza.jpeg');
-}
-
-.cuisine-img-3 {
-  background-image: url('/images/thai.jpeg');
-}
-
-.cuisine-img-4 {
-  background-image: url('/images/spaghetti.jpg');
-}
-
-.cuisine-img-5 {
-  background-image: url('/images/chinese.webp');
-}
-
-.cuisine-img-6 {
-  background-image: url('/images/cuisine-6.jpg');
-}
-
 /* cuisine section */
 
 
@@ -442,10 +455,12 @@ header .dropdown ul {
 
 .submit-recipe-banner .row {
   display: flex;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 }
 
 .submit-recipe-img {
-  width: 454px;
+  width: 100%; /* Full width for responsiveness */
+  max-width: 454px; /* Limit max width on larger screens */
   height: 486px;
   border-radius: 25px;
   overflow: hidden;
@@ -461,6 +476,36 @@ header .dropdown ul {
   object-fit: cover;
 }
 
+.submit-sec-text {
+  text-align: left;
+  padding: 20px;
+}
+
+@media (max-width: 1199px) {
+  .submit-sec-text {
+      text-align: center; /* Center text for smaller screens */
+      margin-top: 20px; /* Add margin for spacing */
+  }
+  .submit-recipe-img {
+      height: auto; /* Allow height to adjust automatically */
+  }
+}
+
+@media (max-width: 768px) {
+  .submit-recipe-banner .row {
+      flex-direction: column; /* Stack image and text vertically */
+      align-items: center; /* Center content */
+  }
+  .submit-recipe-img {
+      max-width: 100%; /* Full width on small screens */
+      padding: 0;
+      margin: 0;
+      height: auto; /* Maintain aspect ratio */
+  }
+  .submit-sec-text h1, a, p {
+      text-align: center;
+  }
+}
 /* submit home banner */
 
 /* footer */

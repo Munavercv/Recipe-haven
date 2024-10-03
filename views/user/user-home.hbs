@@ -1,17 +1,21 @@
 <section>
     <div class="container-fluid m-0 p-0">
-        <div class="row landing-left-sec">
-            <div class="col-md-6">
+        <div class="row landing-sec">
+            <div class="col-lg-6">
                 <div class="landing-left">
-                    <h1 class="">Discover Global Flavors,<br>One Recipe at a Time</h1>
+                    <h1>Discover Global Flavors,<br>One Recipe at a Time</h1>
                     <p>Embark on a culinary adventure and explore recipes that bring the world to your kitchen. Taste,
                         create, and share unforgettable flavors from every corner of the globe.</p>
                     <a href="/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
                     <a href=""><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="landing-right"></div>
+            <div class="col-lg-6 col-md-12">
+                <div class="landing-right">
+                    <img class=" img-fluid"
+                        src="https://images.unsplash.com/photo-1432139509613-5c4255815697?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGZvb2R8ZW58MHx8MHx8fDA%3D"
+                        alt="">
+                </div>
             </div>
         </div>
     </div>
@@ -20,50 +24,19 @@
 
 
 <section class="cuisine-sec">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row cuisine-selector">
 
-            <div class="col-md-2 text-center">
+            {{#each cuisines}}
+            <div class="col-xl-2 col-md-4 col-sm-6 text-center">
                 <a href="">
-                    <div class="cuisine-img-1"></div>
-                    <p class="mt-2">Indian</p>
+                    <div class="cuisine-img">
+                        <img class="img-fluid" src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                    </div>
+                    <p class="mt-2">{{this.name}}</p>
                 </a>
             </div>
-
-            <div class="col-md-2 text-center">
-                <a href="">
-                    <div class="cuisine-img-2"></div>
-                    <p class="mt-2">American</p>
-                </a>
-            </div>
-
-            <div class="col-md-2 text-center">
-                <a href="">
-                    <div class="cuisine-img-3"></div>
-                    <p class="mt-2">Thai</p>
-                </a>
-            </div>
-
-            <div class="col-md-2 text-center">
-                <a href="">
-                    <div class="cuisine-img-4"></div>
-                    <p class="mt-2">Italian</p>
-                </a>
-            </div>
-
-            <div class="col-md-2 text-center">
-                <a href="">
-                    <div class="cuisine-img-5"></div>
-                    <p class="mt-2">Chinese</p>
-                </a>
-            </div>
-
-            <div class="col-md-2 text-center">
-                <a href="">
-                    <div class="cuisine-img-6"></div>
-                    <p class="mt-2">View all</p>
-                </a>
-            </div>
+            {{/each}}
 
         </div>
     </div>
@@ -72,16 +45,15 @@
 
 
 <section class="latest-recipes-sec">
-    <div class="container py-5">
+    <div class="container-fluid py-5">
         <div class="row">
             <h2 class="section-title text-center">Latest Recipes</h2>
 
             {{#each latestRecipes}}
-            <div class="col-md-3 mt-4 text-center recipe-card">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mt-4 text-center recipe-card">
                 <a href="/view-recipe/{{this._id}}">
                     <div class="recipe-img">
-                        <img src="/recipe_images/{{this._id}}.jpg"
-                            alt="{{this.name}}">
+                        <img class="img-fluid" src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
                     </div>
                     <p class="mt-2">{{this.name}}</p>
                 </a>
@@ -96,15 +68,16 @@
 
 {{!-- submit your recipe section --}}
 <section class="submit-recipe-banner">
-    <div class="container py-5">
+    <div class="container-fluid py-5">
         <div class="row">
             <div class="col-md-6">
                 <div class="submit-recipe-img">
-                    <img src="https://images.unsplash.com/photo-1549590143-d5855148a9d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvb2tpbmd8ZW58MHwxfDB8fHwy"
+                    <img class="img-fluid"
+                        src="https://images.unsplash.com/photo-1549590143-d5855148a9d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvb2tpbmd8ZW58MHwxfDB8fHwy"
                         alt="">
                 </div>
             </div>
-            <div class="col-md-6 d-flex align-items-center">
+            <div class="col-md-6 d-flex align-items-center submit-sec-text">
                 <div>
                     <h1>Submit your recipe for<br> Free today</h1>
                     <p>Have a favorite dish? Share your unique <br>recipes with our community and inspire others to cook

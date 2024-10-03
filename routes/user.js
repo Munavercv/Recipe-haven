@@ -15,9 +15,10 @@ const verifyLogin = (req, res, next) => {
 /* GET home page. */
 router.get('/',async function (req, res, next) {
   const user = req.session.user
+  const cuisines = await recipeHelpers.getCuisines()
   const limit = 12
   const latestRecipes = await recipeHelpers.getLatestRecipes(limit)
-  res.render('user/user-home', { title: 'Recipe haven', user, latestRecipes })
+  res.render('user/user-home', { title: 'Recipe haven', user, latestRecipes, cuisines })
 });
 
 // router.get('/404-error', (req, res) => {
