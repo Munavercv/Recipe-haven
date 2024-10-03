@@ -161,4 +161,9 @@ router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
   }
 })
 
+router.get('/view-pricing', (req, res) => {
+  const user = req.session.user
+  res.render('user/view-pricing', { title: 'pricing', user })
+})
+
 module.exports = router;
