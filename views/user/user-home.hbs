@@ -7,7 +7,7 @@
                     <p>Embark on a culinary adventure and explore recipes that bring the world to your kitchen. Taste,
                         create, and share unforgettable flavors from every corner of the globe.</p>
                     <a href="/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
-                    <a href=""><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
+                    <a href="/view-all-recipes"><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -29,7 +29,7 @@
 
             {{#each cuisines}}
             <div class="col-xl-2 col-md-4 col-sm-6 text-center">
-                <a href="">
+                <a href="/view-recipes-by-cuisine/{{this._id}}">
                     <div class="cuisine-img">
                         <img class="img-fluid" src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
                     </div>
@@ -60,6 +60,10 @@
             </div>
             {{/each}}
 
+            <div class="text-center mt-5">
+                <a href="/view-all-recipes"><button class="primary-btn px-4"> View all &nbsp; <i class="fa-solid fa-caret-right"></i></button></a>
+            </div>
+
         </div>
     </div>
 </section>
@@ -79,7 +83,7 @@
             </div>
             <div class="col-md-6 d-flex align-items-center submit-sec-text">
                 <div>
-                    <h1>Submit your recipe for<br> Free today</h1>
+                    <h1 class="fw-bolder">Submit your recipe for<br> Free today</h1>
                     <p>Have a favorite dish? Share your unique <br>recipes with our community and inspire others to cook
                         something new!</p>
                     <a href="/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>

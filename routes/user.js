@@ -3,6 +3,7 @@ var router = express.Router();
 // const productHelpers = require('../helpers/product-helpers')
 const userHelpers = require('../helpers/user-helpers');
 const recipeHelpers = require('../helpers/recipe-helpers');
+const adminHelpers = require('../helpers/admin-helpers');
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -13,7 +14,7 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET home page. */
-router.get('/',async function (req, res, next) {
+router.get('/', async function (req, res, next) {
   const user = req.session.user
   const cuisines = await recipeHelpers.getCuisines()
   const limit = 12
@@ -128,6 +129,20 @@ router.get('/view-profile/:id', verifyLogin, async (req, res) => {
 router.get('/delete-account/:id', verifyLogin, async (req, res) => {
   await userHelpers.deleteUser(req.params.id)
   res.redirect('/signup')
+})
+
+router.get('/view-all-recipes', async (req, res) => {
+  const user = req.session.user
+  const allRecipes = await recipeHelpers.getAllRecipes()
+  res.render('user/view-all-recipes', { user, allRecipes })
+})
+
+router.get('/view-recipes-by-cuisine/:id', async (req, res) => {
+  const user = req.session.user
+  const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
+  const cuisine = await recipeHelpers.getCuisine(req.params.id)
+
+  res.render('user/view-recipes-by-cuisine', { user, recipes, cuisine })
 })
 
 router.get('/edit-profile/:id', verifyLogin, async (req, res) => {

@@ -162,6 +162,48 @@ module.exports = {
             .toArray();
         return recipes
         // console.log(recipes)
+    },
+
+    getAllRecipes: async () => {
+        const recipes = await db.get()
+            .collection(collection.RECIPES_COLLECTION)
+            .aggregate([
+                { $match: { status: 'published' } },
+                {
+                    $project: {
+                        cooking_instructions: 0,
+                        ingredients: 0,
+                        cuisine: 0,
+                        userId: 0,
+                        dateCreated: 0,
+                        status: 0,
+                        datePublished: 0
+                    }
+                }
+            ])
+            .toArray();
+        return recipes
+    },
+
+    getRecipesByCuisine: async (cuisineId) => {
+        const recipes = await db.get()
+            .collection(collection.RECIPES_COLLECTION)
+            .aggregate([
+                { $match: { "cuisine._id": new ObjectId(cuisineId) } },
+                {
+                    $project: {
+                        cooking_instructions: 0,
+                        ingredients: 0,
+                        cuisine: 0,
+                        userId: 0,
+                        dateCreated: 0,
+                        status: 0,
+                        datePublished: 0
+                    }
+                }
+            ])
+            .toArray();
+        return recipes
     }
 
 
