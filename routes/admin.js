@@ -28,7 +28,7 @@ router.get('/user-recipes', verifyLogin, async (req, res) => {
     const recipes = await adminHelpers.getUserRecipes()
     const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending')
         .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
-        
+
     const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
     const recentlyPublishedRecipes = recipes
         .filter(recipe => recipe.status === 'published')
@@ -150,8 +150,17 @@ router.get('/add-cuisine', (req, res) => {
 })
 
 router.post('/add-cuisine', async (req, res) => {
-    await adminHelpers.addCuisine(req.body)
-    res.redirect('/admin/add-cuisine-success')
+
+    adminHelpers.addCuisine(req.body, (id) => {
+        const image = req.files.image
+        image.mv('./public/images/' + id + '.jpg', (err, done) => {
+            if (!err) {
+                res.redirect('/admin/add-cuisine-success')
+            }
+        })
+    })
+
+    // res.redirect('/admin/add-cuisine-success')
 })
 
 router.get('/add-cuisine-success', (req, res) => {
@@ -164,7 +173,12 @@ router.get('/edit-cuisine/:id', async (req, res) => {
 })
 
 router.post('/edit-cuisine/:id', async (req, res) => {
-    await recipeHelpers.updateCuisine(req.params.id, req.body)
+    const id = req.params.id
+    await recipeHelpers.updateCuisine(id, req.body)
+    if (req.files && req.files.image) {
+        let image = req.files.image
+        image.mv('./public/images/' + id + '.jpg')
+    }
     res.redirect('/admin/view-all-cuisines')
 })
 

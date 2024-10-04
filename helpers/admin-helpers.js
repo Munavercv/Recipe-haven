@@ -65,11 +65,14 @@ module.exports = {
         })
     },
 
-    addCuisine: async (cuisine) => {
-        db.get().collection(collection.CUISINE_COLLECTION).insertOne({
+    addCuisine: async (cuisine, saveImage) => {
+        const result = await db.get().collection(collection.CUISINE_COLLECTION).insertOne({
             name:cuisine.name,
             description:cuisine.description
         })
+
+        const insertedId = result.insertedId
+        saveImage(insertedId)
     }
 
 }

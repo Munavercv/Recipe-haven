@@ -2,9 +2,9 @@
     <div class="w-100">
         <div class="submit-cuisine-container container">
 
-            <h2 class="text-center section-title mb-2 ">Add cuisine</h2>
+            <h2 class="text-center section-title mb-2">Add cuisine</h2>
 
-            <form action="/admin/edit-cuisine/{{cuisine._id}}" method="post">
+            <form action="/admin/edit-cuisine/{{cuisine._id}}" method="post" enctype="multipart/form-data">
                 <div class="mb-2">
                     <label for="name" class=" fw-medium">Name</label>
                     <input type="text" name="name" class="form-control" value="{{cuisine.name}}" placeholder="Enter a name" id="name" aria-describedby="" required>
@@ -13,6 +13,14 @@
                 <div class="mb-2">
                     <label for="description" class="fw-medium">Description</label>
                     <textarea class="form-control" name="description" id="description" placeholder="Enter description" rows="3" required>{{cuisine.description}}</textarea>
+                </div>
+
+                <div class="mb-2">
+                    <div class="mb-2 edit-recipe-imgView">
+                        <img src="/images/{{cuisine._id}}.jpg" class="img-fluid" alt="{{cuisine.name}}" id="imgView">
+                    </div>
+                    <label for="image" class="fw-medium">Edit Image</label>
+                    <input class="form-control" type="file" name="image" id="image" onchange="viewImage(event)">
                 </div>
 
                 <div class="mb-2 text-end">
@@ -26,3 +34,10 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

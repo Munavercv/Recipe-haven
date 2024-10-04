@@ -306,7 +306,7 @@ header .dropdown ul {
 
 .landing-right img {
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   height: 100%;
   object-fit: cover;
   position: absolute;
@@ -349,6 +349,17 @@ header .dropdown ul {
 
 .cuisine-selector {
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cuisine-selector .col-xl-2,
+.cuisine-selector .col-md-4,
+.cuisine-selector .col-sm-6 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cuisine-selector a {
