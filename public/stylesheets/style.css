@@ -764,3 +764,30 @@ td {
 }
 
 /* signup form */
+
+
+
+
+/* dashboard */
+.dashboard-card{
+  border: none !important;
+}
+
+.dashboard-card .main-icon{
+  font-size: 3rem;
+}
+
+.dashboard-card h5 span{
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.dashboard-card a{
+  text-decoration: none;
+  color: #464646;
+  transition: color 100ms ease-in;
+}
+.dashboard-card a:hover{
+  color: #000000;
+}
+/* dashboard */

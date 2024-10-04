@@ -21,8 +21,14 @@ router.get('/admin-home', verifyLogin, async function (req, res, next) {
     res.render('admin/admin-home', { title: 'admin panel', admin: true, cuisines, latestRecipes })
 });
 
-router.get('/dashboard', (req, res) => {
-    res.render('admin/dashboard', { admin: true })
+router.get('/dashboard', async (req, res) => {
+    const publishedRecipesCount = await recipeHelpers.getPublishedRecipesCount()
+    const pendingRecipesCount = await recipeHelpers.getPendingRecipesCount()
+    const totalCuisines = await recipeHelpers.getCuisineCount()
+    const usersCount = await userHelpers.getUserCount()
+    const membersCount = await userHelpers.getMembersCount()
+
+    res.render('admin/dashboard', { admin: true, publishedRecipesCount, pendingRecipesCount, totalCuisines, usersCount, membersCount })
 })
 
 router.get('/view-all-recipes', async (req, res) => {
@@ -59,7 +65,7 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     let recipeOwner = false
 
     if (user && user._id == recipe.userId) {
-      recipeOwner = true
+        recipeOwner = true
     }
 
     recipe.isPending = recipe.status === 'pending';

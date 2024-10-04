@@ -68,4 +68,14 @@ module.exports = {
         })
     },
 
+    getUserCount:async()=>{
+        const count = db.get().collection(collections.USERS_COLLECTION).find({role:'user'}).count()
+        return count
+    },
+
+    getMembersCount:async()=>{
+        const count = db.get().collection(collections.USERS_COLLECTION).find({role:'member'}).count()
+        return count
+    }
+
 }

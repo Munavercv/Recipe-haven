@@ -1,9 +1,48 @@
 <section class="admin-dashboard">
-    <h2 class="section-title text-center mt-4">Dashboard</h2>
 
-    <div class="container">
-    
-    <a href="/admin/view-all-cuisines"><button class="primary-btn mt-3">View all cuisines</button></a>
+    <div class="container-fluid px-5">
+        <h2 class="section-title text-center mt-4 mb-5">Overview</h2>
+
+        <div class="row gap-5 row-cols-lg-4 justify-content-center">
+
+
+            <div class="shadow card dashboard-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <i class="main-icon fa-solid fa-utensils mt-2 mb-3"></i>
+                    <h5 class="card-title mb-3"><span>{{publishedRecipesCount}}</span> Recipes</h5>
+                    <h6 class="card-text mb-3"><span class="fw-bolder">{{pendingRecipesCount}}</span> Pending</h6>
+                    <a href="/admin/view-all-recipes">View all <i class="fa-solid fa-caret-right"></i></a>
+                    <a class="ms-3" href="/admin/user-recipes">View pending <i class="fa-solid fa-caret-right"></i></a>
+                </div>
+            </div>
+
+            <div class="shadow card dashboard-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <i class="main-icon fa-solid fa-globe mt-2 mb-3"></i>
+                    <h5 class="card-title mb-3"><span>{{totalCuisines}}</span> Cuisines</h5>
+                    <a href="/admin/view-all-cuisines">View all <i class="fa-solid fa-caret-right"></i></a>
+                </div>
+            </div>
+
+            <div class="shadow card dashboard-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <i class="main-icon fa-solid fa-user mt-2 mb-3"></i>
+                    <h5 class="card-title mb-3"><span>{{usersCount}}</span> Users</h5>
+                    <a href="/admin/view-users">View all <i class="fa-solid fa-caret-right"></i></a>
+                </div>
+            </div>
+
+            <div class="shadow card dashboard-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <i class="main-icon fa-solid fa-user-tie mt-2 mb-3"></i>
+                    <h5 class="card-title mb-3"><span>{{membersCount}}</span> Members</h5>
+                    <a href="">View all <i class="fa-solid fa-caret-right"></i></a>
+                </div>
+            </div>
+
+
+        </div>
 
     </div>
+
 </section>

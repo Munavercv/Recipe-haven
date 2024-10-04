@@ -244,8 +244,22 @@ module.exports = {
             .toArray();
 
         return recipes;
-    }
+    },
 
+    getPublishedRecipesCount:async()=>{
+        const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'published'}).count()
+        return count
+    },
+
+    getPendingRecipesCount:async()=>{
+        const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'pending'}).count()
+        return count
+    },
+
+    getCuisineCount:async()=>{
+        const count = db.get().collection(collection.CUISINE_COLLECTION).find().count()
+        return count
+    }
 
 
 }
