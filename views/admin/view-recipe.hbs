@@ -14,11 +14,11 @@
             <div class="col-md-7">
 
                 <div class="user">
-                    <a href=""><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
+                    <a href="/admin/view-user-profile/{{recipe.userId}}"><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
                 </div>
 
                 <div class="cuisine mt-3">
-                    <a href=""><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
+                    <a href="/admin/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
                 </div>
 
                 <div class="ingredients mt-3">
@@ -57,7 +57,7 @@
                     <button class="primary-btn">Publish</button>
                 </a>
                 {{else if recipe.isPublished}}
-                <a href="/admin/unpublish-recipe/{{recipe._id}}"
+                <a style="text-decoration: none;" href="/admin/unpublish-recipe/{{recipe._id}}"
                     onclick="return confirm('Are you sure you want to unpublish this recipe?')">
                     <button class="primary-btn">Unpublish</button>
                 </a>

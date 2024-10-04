@@ -7,8 +7,8 @@
                     <p>This admin dashboard provides you with all the tools needed to effectively manage your platform.
                         From
                         user control to recipe submissions, everything you need is at your fingertips.</p>
-                    <a href="/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
-                    <a href="/view-all-recipes"><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
+                    <a href="/admin/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
+                    <a href="/admin/view-all-recipes"><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -21,3 +21,74 @@
         </div>
     </div>
 </section>
+
+
+
+<section class="cuisine-sec">
+    <div class="container-fluid">
+        <div class="row cuisine-selector">
+
+            {{#each cuisines}}
+            <div class="col-xl-2 col-md-4 col-sm-6 text-center">
+                <a href="/admin/view-recipes-by-cuisine/{{this._id}}">
+                    <div class="cuisine-img">
+                        <img class="img-fluid" src="/images/{{this._id}}.jpg" alt="{{this.name}}">
+                    </div>
+                    <p class="mt-2">{{this.name}}</p>
+                </a>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</section>
+
+
+
+<section class="latest-recipes-sec">
+    <div class="container-fluid py-5">
+        <div class="row">
+            <h2 class="section-title text-center">Latest Recipes</h2>
+
+            {{#each latestRecipes}}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mt-4 text-center recipe-card">
+                <a href="/admin/view-recipe/{{this._id}}">
+                    <div class="recipe-img">
+                        <img class="img-fluid" src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                    </div>
+                    <p class="mt-2">{{this.name}}</p>
+                </a>
+            </div>
+            {{/each}}
+
+            <div class="text-center mt-5">
+                <a href="/admin/view-all-recipes"><button class="primary-btn px-4"> View all &nbsp; <i class="fa-solid fa-caret-right"></i></button></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{{!-- submit your recipe section --}}
+<section class="submit-recipe-banner">
+    <div class="container-fluid py-5 px-0 md-px-5">
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <div class="submit-recipe-img">
+                    <img class="img-fluid"
+                        src="https://images.unsplash.com/photo-1549590143-d5855148a9d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvb2tpbmd8ZW58MHwxfDB8fHwy"
+                        alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 submit-sec-text">
+                <div>
+                    <h1 class="fw-bolder">Submit your recipe</h1>
+                    <a href="/admin/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{!-- submit your recipe section --}}

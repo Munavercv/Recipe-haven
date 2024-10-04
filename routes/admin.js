@@ -14,17 +14,30 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET users listing. */
-router.get('/admin-home', verifyLogin, function (req, res, next) {
-    const user = req.session.user
-    res.render('admin/admin-home', { user, title: 'admin panel', admin: true })
+router.get('/admin-home', verifyLogin, async function (req, res, next) {
+    const cuisines = await recipeHelpers.getCuisines()
+    const limit = 12
+    const latestRecipes = await recipeHelpers.getLatestRecipes(limit)
+    res.render('admin/admin-home', { title: 'admin panel', admin: true, cuisines, latestRecipes })
 });
 
 router.get('/dashboard', (req, res) => {
     res.render('admin/dashboard', { admin: true })
 })
 
+router.get('/view-all-recipes', async (req, res) => {
+    const allRecipes = await recipeHelpers.getAllRecipes()
+    res.render('admin/view-all-recipes', { admin: true, allRecipes })
+})
+
+router.get('/view-recipes-by-cuisine/:id', async (req, res) => {
+    const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
+    const cuisine = await recipeHelpers.getCuisine(req.params.id)
+
+    res.render('admin/view-recipes-by-cuisine', { admin: true, recipes, cuisine })
+})
+
 router.get('/user-recipes', verifyLogin, async (req, res) => {
-    const user = req.session.user
     const recipes = await adminHelpers.getUserRecipes()
     const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending')
         .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
@@ -35,7 +48,7 @@ router.get('/user-recipes', verifyLogin, async (req, res) => {
         .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
         .slice(0, 8);
 
-    res.render('admin/user-recipes', { user, title: 'User recipes', admin: true, pendingRecipes, rejectedRecipes, recentlyPublishedRecipes })
+    res.render('admin/user-recipes', { title: 'User recipes', admin: true, pendingRecipes, rejectedRecipes, recentlyPublishedRecipes })
 });
 
 router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
