@@ -56,11 +56,17 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipe(req.params.id)
     const recipe = recipes[0];
 
+    let recipeOwner = false
+
+    if (user && user._id == recipe.userId) {
+      recipeOwner = true
+    }
+
     recipe.isPending = recipe.status === 'pending';
     recipe.isRejected = recipe.status === 'rejected';
     recipe.isPublished = recipe.status === 'published';
 
-    res.render('admin/view-recipe', { user, recipe, admin: true, title: recipe.name })
+    res.render('admin/view-recipe', { user, recipe, admin: true, title: recipe.name, recipeOwner })
 })
 
 router.get('/publish-recipe/:id', verifyLogin, async (req, res) => {
@@ -72,7 +78,7 @@ router.get('/publish-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/unpublish-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.unpublishRecipe(recipeId)
-    res.redirect('/admin/user-recipes')
+    res.redirect('/admin/view-recipe/' + recipeId)
 })
 
 router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
@@ -198,6 +204,52 @@ router.post('/edit-cuisine/:id', async (req, res) => {
 router.get('/delete-cuisine/:id', async (req, res) => {
     await recipeHelpers.deleteCuisine(req.params.id)
     res.redirect('/admin/view-all-cuisines')
+})
+
+
+router.get('/submit-recipe', verifyLogin, async (req, res) => {
+    try {
+        const cuisines = await recipeHelpers.getCuisines();
+        res.render('admin/submit-recipe', { cuisines, admin: true });
+    } catch (error) {
+        console.error('Error fetching cuisines:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+router.post('/submit-recipe', verifyLogin, (req, res) => {
+    const user = req.session.user
+
+    if (req.body.cuisine == '') {
+        res.send('cuisine empty')
+    }
+
+    recipeHelpers.saveRecipe(req.body, user, (id) => {
+        const image = req.files.image
+        image.mv('./public/recipe_images/' + id + '.jpg', (err, done) => {
+            if (!err) {
+                res.redirect('/admin/recipe-submit-success')
+            }
+        })
+    })
+
+})
+
+router.get('/recipe-submit-success', (req, res) => {
+    res.render('admin/recipe-submit-success', { admin: true });
+})
+
+
+router.get('/view-your-recipes', verifyLogin, async (req, res) => {
+    const user = req.session.user
+    const recipes = await recipeHelpers.getRecipesByUser(user)
+
+    const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
+    const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
+
+    // res.send(publishedRecipes)
+
+    res.render('admin/view-your-recipes', { recipes, pendingRecipes, publishedRecipes, admin: true })
 })
 
 module.exports = router;

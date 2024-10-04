@@ -53,15 +53,15 @@
     {{/if}}
 
 
-    {{#if recentlyPublishedRecipes}}
+    {{#if publishedRecipes}}
     <div class="recipe-publised my-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <h3 class="section-subtitle ms-md-5">Recently Published</h3>
+                    <h3 class="section-subtitle ms-md-5">Published</h3>
                 </div>
 
-                {{#each recentlyPublishedRecipes}}
+                {{#each publishedRecipes}}
                 <div class="col-md-3 mt-4 text-center recipe-card">
                     <a href="/admin/view-recipe/{{this._id}}">
                         <div class="recipe-img">

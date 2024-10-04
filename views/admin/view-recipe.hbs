@@ -14,11 +14,13 @@
             <div class="col-md-7">
 
                 <div class="user">
-                    <a href="/admin/view-user-profile/{{recipe.userId}}"><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
+                    <a href="/admin/view-user-profile/{{recipe.userId}}"><i class="fa-solid fa-user"></i>
+                        {{recipe.userDetails.name}}</a>
                 </div>
 
                 <div class="cuisine mt-3">
-                    <a href="/admin/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
+                    <a href="/admin/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i>
+                        {{recipe.cuisine.name}}</a>
                 </div>
 
                 <div class="ingredients mt-3">
@@ -42,26 +44,80 @@
                 <a href="/admin/edit-recipe/{{recipe._id}}"><button class="primary-btn">Edit</button></a>
 
                 {{!-- show button based on status --}}
-                {{#if recipe.isPending}}
+                {{!-- {{#if recipe.isPending}}
                 <a href="/admin/publish-recipe/{{recipe._id}}"
                     onclick="return confirm('Are you sure you want to publish this recipe?')">
                     <button class="primary-btn">Publish</button>
                 </a>
-                <a href="/admin/reject-recipe/{{recipe._id}}"
-                    onclick="return confirm('Are you sure you want to reject this recipe?')">
-                    <button class="primary-btn">Reject</button>
-                </a>
+
                 {{else if recipe.isRejected}}
                 <a href="/admin/publish-recipe/{{recipe._id}}"
                     onclick="return confirm('Are you sure you want to publish this recipe?')">
                     <button class="primary-btn">Publish</button>
                 </a>
                 {{else if recipe.isPublished}}
+                {{#if recipeOwner}}
                 <a style="text-decoration: none;" href="/admin/unpublish-recipe/{{recipe._id}}"
                     onclick="return confirm('Are you sure you want to unpublish this recipe?')">
                     <button class="primary-btn">Unpublish</button>
                 </a>
                 {{/if}}
+                {{/if}}
+
+                {{#if recipeOwner}}
+                {{#if recipe.isPending}}
+                <a style="text-decoration: none;" href="/admin/unpublish-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to unpublish this recipe?')">
+                    <button class="primary-btn">Unpublish</button>
+                </a>
+                {{/if}}
+                {{else}}
+                <a href="/admin/reject-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to reject this recipe?')">
+                    <button class="primary-btn">Reject</button>
+                </a>
+                {{/if}} --}}
+
+
+                {{#if recipeOwner}} 
+  {{#if recipe.isPublished}}
+    <!-- Recipe owner is admin and recipe is published -->
+    <a style="text-decoration: none;" href="/admin/unpublish-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to unpublish this recipe?')">
+      <button class="primary-btn">Unpublish</button>
+    </a>
+
+  {{else if recipe.isPending}}
+    <!-- Recipe owner is admin and recipe is pending -->
+    <a style="text-decoration: none;" href="/admin/publish-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to publish this recipe?')">
+      <button class="primary-btn">Publish</button>
+    </a>
+  {{/if}}
+{{else}} 
+  <!-- Recipe owner is not admin -->
+  {{#if recipe.isPending}}
+    <a style="text-decoration: none;" href="/admin/publish-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to publish this recipe?')">
+      <button class="primary-btn">Publish</button>
+    </a>
+    <a href="/admin/reject-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to reject this recipe?')">
+      <button class="primary-btn">Reject</button>
+    </a>
+  {{else if recipe.isPublished}}
+    <a style="text-decoration: none;" href="/admin/unpublish-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to unpublish this recipe?')">
+      <button class="primary-btn">Unpublish</button>
+    </a>
+  {{else if recipe.isRejected}}
+    <a style="text-decoration: none;" href="/admin/publish-recipe/{{recipe._id}}"
+      onclick="return confirm('Are you sure you want to publish this recipe?')">
+      <button class="primary-btn">Publish</button>
+    </a>
+  {{/if}}
+{{/if}}
+
 
                 {{!-- show button based on status --}}
 

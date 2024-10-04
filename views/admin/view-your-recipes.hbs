@@ -1,0 +1,75 @@
+<section class="user-view-your-recipes-sec">
+    <h2 class="section-title text-center mt-4">Your Recipes</h2>
+    {{#if publishedRecipes}}
+    <div class="my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <h3 class="section-subtitle ms-md-5">Published</h3>
+                </div>
+
+                {{#each recipes}}
+                <div class="col-md-3 mt-4 text-center recipe-card">
+                    <a href="/admin/view-recipe/{{this._id}}">
+                        <div class="recipe-img">
+                            <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                        </div>
+                        <p class="mt-2">{{this.name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+
+
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if pendingRecipes}}
+    <div class="recipe-pending my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <h3 class="section-subtitle ms-md-5">Unpublished</h3>
+                </div>
+
+                {{#each pendingRecipes}}
+                <div class="col-md-3 mt-4 text-center recipe-card">
+                    <a href="/admin/view-recipe/{{this._id}}">
+                        <div class="recipe-img">
+                            <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
+                        </div>
+                        <p class="mt-2">{{this.name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="px-4 py-5 my-5 text-center">
+        {{#unless recipes}}
+        <i class="fa-solid fa-xmark mb-4"></i>
+        <h1 class="display-5 fw-bold">You have no Recipes</h1>
+        {{/unless}}
+        <div class="col-lg-6 mx-auto">
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="/admin/submit-recipe"><button type="button" class="primary-btn">Submit a Recipe</button></a>
+                <a href="/admin/admin-home"><button type="button" class="primary-btn-outline">Go to Home</button></a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center credit"><a href="/"><i class="fa-solid fa-copyright"></i> Recipe Haven</a></h5>
+            </div>
+        </div>
+    </div>
+</footer>
