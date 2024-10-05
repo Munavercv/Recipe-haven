@@ -1,13 +1,52 @@
 <header id="fixedNav">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand rh-logo ms-5" href="/">Recipe Haven</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <!-- Logo -->
+            <a class="navbar-brand rh-logo ms-lg-3" href="/">Recipe Haven</a>
+
+            <div class="user-dropdown">
+                <div class="dropdown my-auto custom-dropdown">
+                    <button class="header-btn dropdown-toggle-btn px-4" type="button" id="dropdownMenuButton2">
+                        {{#if user}}
+                        {{firstName}}
+                        {{else}}
+                        Account
+                        {{/if}}
+                        &nbsp;<i class="fas fa-chevron-down"></i>
+                    </button>
+                    <ul class="custom-dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        {{#if user}}
+                        <li><a class="custom-dropdown-item" href="/logout">Logout</a></li>
+                        <li><a class="custom-dropdown-item" href="/view-profile/{{user._id}}">Profile</a></li>
+                        <li><a class="custom-dropdown-item bg-dark-subtle" href="/view-pricing">Become a member</a></li>
+                        {{else}}
+                        <li><a class="custom-dropdown-item" href="/login">Login</a></li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- Toggler for mobile view -->
+            {{!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
+            </button> --}}
+
+            <label class="burger navbar-toggler border-0" for="burger" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <input type="checkbox" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+
+
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left side links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -18,35 +57,80 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/view-your-recipes">Your Recipes</a>
                     </li>
-
-                    <div class="dropdown ms-5 my-auto custom-dropdown">
-                        <button class="header-btn dropdown-toggle-btn px-4" type="button" id="dropdownMenuButton2">
-                            {{#if user}}
-                            {{user.name}}
-                            {{else}}
-                            Account
-                            {{/if}}
-                            &nbsp;<i class="fas fa-chevron-down"></i>
-                        </button>
-                        <ul class="custom-dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                            {{#if user}}
-                            <li><a class="custom-dropdown-item" href="/logout">Logout</a></li>
-                            <li><a class="custom-dropdown-item" href="/view-profile/{{user._id}}">Profile</a></li>
-                            <li><a class="custom-dropdown-item bg-dark-subtle" href="/view-pricing">Become a member</a></li>
-                            {{else}}
-                            <li><a class="custom-dropdown-item" href="/login">Login</a></li>
-                            {{/if}}
-                        </ul>
-                    </div>
-
-
                 </ul>
-                <form class="d-flex me-5" role="search" action="/search-results" method="get">
-                    <input name="keyword" class="form-control rounded-5 searchbox" type="search" placeholder="Search"
-                        aria-label="Search" required>
-                    <button class=" rounded-5 header-btn" type="submit">Search</button>
+
+                <!-- Search box for small screens -->
+                <form class="d-flex align-items-center me-md-2" role="search" action="/search-results"
+                    method="get">
+                    <input name="keyword" class="form-control rounded-5 searchbox me-2" type="search"
+                        placeholder="Search" aria-label="Search" required>
+                    <button class="rounded-5 header-btn" type="submit">Search</button>
                 </form>
+
             </div>
         </div>
     </nav>
 </header>
+
+
+<style>
+.burger {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+}
+
+.burger input {
+  display: none;
+}
+
+.burger span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: black;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.burger span:nth-of-type(1) {
+  top: 0px;
+  transform-origin: left center;
+}
+
+.burger span:nth-of-type(2) {
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+
+.burger span:nth-of-type(3) {
+  top: 100%;
+  transform-origin: left center;
+  transform: translateY(-100%);
+}
+
+.burger input:checked ~ span:nth-of-type(1) {
+  transform: rotate(45deg);
+  top: 0px;
+  left: 5px;
+}
+
+.burger input:checked ~ span:nth-of-type(2) {
+  width: 0%;
+  opacity: 0;
+}
+
+.burger input:checked ~ span:nth-of-type(3) {
+  transform: rotate(-45deg);
+   
+  left:5px;
+}
+</style>

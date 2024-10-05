@@ -16,12 +16,26 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  const user = req.session.user
-  const cuisines = await recipeHelpers.getCuisines()
-  const limit = 12
-  const latestRecipes = await recipeHelpers.getLatestRecipes(limit)
-  res.render('user/user-home', { title: 'Recipe haven', user, latestRecipes, cuisines })
+  const user = req.session.user;
+  let firstName = '';
+
+  if (user && user.name) {
+    firstName = user.name.split(' ')[0];
+  }
+
+  const cuisines = await recipeHelpers.getCuisines();
+  const limit = 12;
+  const latestRecipes = await recipeHelpers.getLatestRecipes(limit);
+  
+  res.render('user/user-home', { 
+    title: 'Recipe haven', 
+    user, 
+    latestRecipes, 
+    cuisines, 
+    firstName 
+  });
 });
+
 
 // router.get('/404-error', (req, res) => {
 //   res.render('user/404-page', { hideHeader: true, })
