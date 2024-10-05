@@ -2,14 +2,14 @@
     <h2 class="section-title text-center mt-4">Your Recipes</h2>
     {{#if publishedRecipes}}
     <div class="recipe-publised my-5">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <h3 class="section-subtitle ms-md-5">Published</h3>
+                    <h3 class="section-subtitle ms-sm-5">Published</h3>
                 </div>
 
                 {{#each publishedRecipes}}
-                <div class="col-md-3 mt-4 text-center recipe-card">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mt-4 text-center recipe-card">
                     <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
@@ -30,11 +30,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <h3 class="section-subtitle ms-md-5">Pending</h3>
+                    <h3 class="section-subtitle ms-sm-5">Pending</h3>
                 </div>
 
                 {{#each pendingRecipes}}
-                <div class="col-md-3 mt-4 text-center recipe-card">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mt-4 text-center recipe-card">
                     <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
@@ -54,11 +54,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <h3 class="section-subtitle ms-md-5">Rejected</h3>
+                    <h3 class="section-subtitle ms-sm-5">Rejected</h3>
                 </div>
 
                 {{#each rejectedRecipes}}
-                <div class="col-md-3 mt-4 text-center recipe-card">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mt-4 text-center recipe-card">
                     <a href="/view-recipe/{{this._id}}">
                         <div class="recipe-img">
                             <img src="/recipe_images/{{this._id}}.jpg" alt="{{this.name}}">
@@ -79,8 +79,8 @@
         <i class="fa-solid fa-xmark mb-4"></i>
         <h1 class="display-5 fw-bold">You have no Recipes</h1>
     {{/unless}}
-        <div class="col-lg-6 mx-auto">
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <div class="co-12 mx-auto">
+            <div class="">
                 <a href="/submit-recipe"><button type="button" class="primary-btn">Submit a Recipe</button></a>
                 <a href="/"><button type="button" class="primary-btn-outline">Go to Home</button></a>
             </div>

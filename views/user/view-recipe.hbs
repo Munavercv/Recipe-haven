@@ -2,20 +2,20 @@
     <div class="container-fluid py-4">
         <h2 class="text-center section-title mb-5">{{recipe.name}}</h2>
 
-        <div class="row">
+        <div class="row justify-center">
 
-            <div class="col-md-5 mb-3">
+            <div class="col-md-6 mb-3">
                 <div class="dish-img">
                     <img src="/recipe_images/{{recipe._id}}.jpg" class="img-fluid" alt="{{recipe.name}}">
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <div class="col-md-5 ms-0 ms-sm-5">
                 <div class="user">
                     <a href=""><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
                 </div>
                 <div class="cuisine mt-3">
-                    <a href=""><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
+                    <a href="/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
                 </div>
 
 
@@ -31,8 +31,8 @@
 
             </div>
 
-            <div class="col-md-12 p-5">
-                <h3 class="mb-4">Cooking instructions</h3>
+            <div class="cook-instructions col-md-12 py-5 px-md-5 px-2">
+                <h3 class="mb-4 section-subtitle">Cooking instructions</h3>
                 <p> {{recipe.cooking_instructions}}</p>
             </div>
 
@@ -48,7 +48,7 @@
     </div>
 </section>
 
-
+<hr>
 <footer>
     <div class="container py-5">
         <div class="row">

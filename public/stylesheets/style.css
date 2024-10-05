@@ -96,16 +96,23 @@ button:hover {
   color: #000;
 }
 
+
+.section-subtitle {
+  font-size: 25px;
+  font-weight: 400;
+  color: #000;
+}
+
 @media (max-width: 576px) {
   .section-title {
     font-size: 27px;
   }
-}
 
-.section-subtitle {
-  font-size: 25px;
-  font-weight: 500;
-  color: #000;
+  .section-subtitle {
+    font-size: 20px;
+    text-align: center;
+    margin-left: 0;
+  }
 }
 
 /* recipe card styling */
@@ -445,7 +452,7 @@ header .dropdown ul {
     text-align: center;
   }
 
-  .submit-sec-text h1{
+  .submit-sec-text h1 {
     font-size: 2rem;
   }
 }
@@ -494,6 +501,12 @@ footer .credit a:hover {
   text-decoration: underline;
 }
 
+@media (max-width:576px){
+  footer .credit a{
+    font-size: 0.9rem;
+  }
+}
+
 
 
 /* submit recipe form */
@@ -503,11 +516,6 @@ footer .credit a:hover {
   margin: auto;
   padding: 30px;
   border-radius: 10px;
-}
-
-.submit-recipe-container h2 {
-  font-weight: 500;
-  font-size: 30px;
 }
 
 .submit-recipe-container span {
@@ -565,7 +573,7 @@ footer .credit a:hover {
 /* user-view-your-recipes-sec */
 
 
-/* recipe page */
+/* ================================= recipe page */
 .recipe-page .dish-img {
   max-width: 454px;
   height: auto;
@@ -603,7 +611,24 @@ footer .credit a:hover {
   margin-bottom: 8px;
 }
 
-/* recipe page */
+/* respossive */
+@media(max-width:768px){
+  .recipe-page .cook-instructions h3{
+    text-align: center;
+  }
+}
+
+@media (max-width:576px){
+  .recipe-page .user, .recipe-page .cuisine{
+    text-align: center;
+  }
+  .recipe-page .cook-instructions p{
+    font-size: 0.9rem;
+  }
+}
+/* respossive */
+
+/* ================================= recipe page */
 
 /* edit recipe */
 .edit-recipe-imgView {
@@ -659,7 +684,7 @@ td {
 
 
 /* admin user profile */
-.user-profile-sec .fa-user {
+.user-profile-sec .fa-circle-user {
   color: #989898;
   font-size: 5rem;
 }
@@ -769,25 +794,27 @@ td {
 
 
 /* dashboard */
-.dashboard-card{
+.dashboard-card {
   border: none !important;
 }
 
-.dashboard-card .main-icon{
+.dashboard-card .main-icon {
   font-size: 3rem;
 }
 
-.dashboard-card h5 span{
+.dashboard-card h5 span {
   font-size: 2rem;
   font-weight: 900;
 }
 
-.dashboard-card a{
+.dashboard-card a {
   text-decoration: none;
   color: #464646;
   transition: color 100ms ease-in;
 }
-.dashboard-card a:hover{
+
+.dashboard-card a:hover {
   color: #000000;
 }
+
 /* dashboard */
