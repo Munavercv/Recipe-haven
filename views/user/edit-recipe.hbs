@@ -5,7 +5,7 @@
 
             <h2 class="text-center section-title mb-2 ">Edit recipe</h2>
 
-            <form action="/edit-recipe/{{recipe._id}}" method="post" enctype="multipart/form-data">
+            <form action="/edit-recipe/{{recipe._id}}" method="post" enctype="multipart/form-data" id="myForm">
                 <div class="mb-2">
                     <label for="recipe_name" class=" fw-medium">Recipe name</label>
                     <input type="text" name="name" class="form-control" id="recipe_name" aria-describedby=""
@@ -104,5 +104,17 @@
     function viewImage(event) {
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
     }
+
+
+    const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
 
 </script>

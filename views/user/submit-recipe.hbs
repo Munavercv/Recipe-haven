@@ -3,7 +3,7 @@
         <div class="submit-recipe-container container">
             <h2 class="text-center section-title mb-2 ">Submit a recipe</h2>
 
-            <form action="/submit-recipe" method="post" enctype="multipart/form-data">
+            <form action="/submit-recipe" method="post" enctype="multipart/form-data" id="myForm">
                 <div class="mb-2">
                     <label for="recipe_name" class=" fw-medium">Recipe name</label>
                     <input type="text" name="name" class="form-control" id="recipe_name" aria-describedby="" required>
@@ -12,8 +12,8 @@
                 <div class="mb-2">
                     <label for="cooking_instructions" class=" fw-medium">Cooking instructions</label>
                     <textarea style="height: 10rem" name="cooking_instructions" class="form-control"
-                        id="cooking_instructions" aria-describedby=""
-                        placeholder="Enter cooking instructions" required></textarea>
+                        id="cooking_instructions" aria-describedby="" placeholder="Enter cooking instructions"
+                        required></textarea>
                 </div>
 
                 <label for="ingredients" class=" fw-medium">Ingredients</label>
@@ -21,7 +21,7 @@
                     <div id="" class="form-text">(Eg: 2 Onion)</div>
                     <div class="mb-2 input-group">
                         <input type="text" id="ingredients" class="form-control" name="ingredients"
-                            placeholder="Ingredient 1"  required>
+                            placeholder="Ingredient 1" required>
                         <button class="primary-btn-outline" type="button" onclick="removeField(this)"><i
                                 class="fa-solid fa-minus"></i></button>
                     </div>
@@ -92,5 +92,15 @@
     /* ingredient add */
 
 
+    const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
 
 </script>

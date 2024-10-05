@@ -3,7 +3,7 @@
         <div class="submit-recipe-container container">
             <h2 class="text-center section-title mb-2 ">Submit a recipe</h2>
 
-            <form action="/admin/submit-recipe" method="post" enctype="multipart/form-data">
+            <form action="/admin/submit-recipe" method="post" enctype="multipart/form-data" id="myForm">
                 <div class="mb-2">
                     <label for="recipe_name" class=" fw-medium">Recipe name</label>
                     <input type="text" name="name" class="form-control" id="recipe_name" aria-describedby="" required>
@@ -91,6 +91,17 @@
     }
     /* ingredient add */
 
+
+const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
 
 
 </script>

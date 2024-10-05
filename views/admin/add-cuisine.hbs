@@ -1,33 +1,50 @@
 <section class="submit-cuisine-sec"></section>
-    <div class="w-100">
-        <div class="submit-cuisine-container container">
+<div class="w-100">
+    <div class="submit-cuisine-container container">
 
-            <h2 class="text-center section-title mb-2 ">Add cuisine</h2>
+        <h2 class="text-center section-title mb-2 ">Add cuisine</h2>
 
-            <form action="/admin/add-cuisine" method="post" enctype="multipart/form-data">
-                <div class="mb-2">
-                    <label for="name" class=" fw-medium">Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter a name" id="name" aria-describedby="" required>
-                </div>
+        <form action="/admin/add-cuisine" method="post" enctype="multipart/form-data" id="myForm">
+            <div class="mb-2">
+                <label for="name" class=" fw-medium">Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Enter a name" id="name"
+                    aria-describedby="" required>
+            </div>
 
-                <div class="mb-2">
-                    <label for="description" class="fw-medium">Description</label>
-                    <textarea class="form-control" name="description" id="description" placeholder="Enter description" rows="3" required></textarea>
-                </div>
+            <div class="mb-2">
+                <label for="description" class="fw-medium">Description</label>
+                <textarea class="form-control" name="description" id="description" placeholder="Enter description"
+                    rows="3" required></textarea>
+            </div>
 
-                <div class="mb-2">
-                    <label for="image" class="fw-medium">Add Image</label>
-                    <input class="form-control" type="file" name="image" id="image" required>
-                </div>
+            <div class="mb-2">
+                <label for="image" class="fw-medium">Add Image</label>
+                <input class="form-control" type="file" name="image" id="image" required>
+            </div>
 
-                <div class="mb-2 text-end">
-                    <button type="submit" class="primary-btn mt-3">Add</button>
-                    <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
-                </div>
+            <div class="mb-2 text-end">
+                <button type="submit" class="primary-btn mt-3">Add</button>
+                <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
+            </div>
 
 
-            </form>
+        </form>
 
-        </div>
     </div>
+</div>
 </section>
+
+
+
+<script>
+    const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
+</script>

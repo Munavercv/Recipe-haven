@@ -176,7 +176,7 @@ router.get('/add-cuisine', (req, res) => {
 
 router.post('/add-cuisine', async (req, res) => {
 
-    adminHelpers.addCuisine(req.body, (id) => {
+    await adminHelpers.addCuisine(req.body, (id) => {
         const image = req.files.image
         image.mv('./public/images/' + id + '.jpg', (err, done) => {
             if (!err) {

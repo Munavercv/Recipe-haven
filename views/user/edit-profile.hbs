@@ -4,7 +4,7 @@
 
             <h2 class="text-center section-title mb-2 ">Edit profile</h2>
 
-            <form action="/edit-profile/{{userData._id}}" method="post">
+            <form action="/edit-profile/{{userData._id}}" method="post" id="myForm">
                 <div class="mb-2">
                     <label for="name" class=" fw-medium">Name</label>
                     <input type="text" name="name" class="form-control" id="name" aria-describedby=""
@@ -34,3 +34,17 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
+</script>
