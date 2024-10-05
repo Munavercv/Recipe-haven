@@ -3,6 +3,8 @@ var router = express.Router();
 const recipeHelpers = require('../helpers/recipe-helpers');
 const adminHelpers = require('../helpers/admin-helpers');
 const userHelpers = require('../helpers/user-helpers');
+var path = require('path');
+const fs = require('fs');
 
 
 const verifyLogin = (req, res, next) => {
@@ -96,6 +98,13 @@ router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await recipeHelpers.deleteRecipe(recipeId)
+    const imagePath = path.join(__dirname, '../public/recipe_images/', id + '.jpg');
+    fs.unlink(imagePath, (err) => {
+        if (err) {
+            console.error("Error while deleting image:", err);
+            return res.status(500).send('Failed to delete the image');
+        }
+    })
     res.redirect('/admin/user-recipes')
 })
 
@@ -118,6 +127,9 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
     await adminHelpers.updateRecipe(id, req.body)
     if (req.files && req.files.image) {
         let image = req.files.image
+        if (fs.existsSync('./public/recipe_images/' + id + '.jpg')) {
+            fs.unlinkSync('./public/recipe_images/' + id + '.jpg');
+        }
         image.mv('./public/recipe_images/' + id + '.jpg')
     }
     res.redirect('/admin/view-recipe/' + id);
@@ -202,13 +214,24 @@ router.post('/edit-cuisine/:id', async (req, res) => {
     await recipeHelpers.updateCuisine(id, req.body)
     if (req.files && req.files.image) {
         let image = req.files.image
+        if (fs.existsSync('./public/images/' + id + '.jpg')) {
+            fs.unlinkSync('./public/images/' + id + '.jpg');
+        }
         image.mv('./public/images/' + id + '.jpg')
     }
     res.redirect('/admin/view-all-cuisines')
 })
 
 router.get('/delete-cuisine/:id', async (req, res) => {
-    await recipeHelpers.deleteCuisine(req.params.id)
+    const id = req.params.id
+    await recipeHelpers.deleteCuisine(id)
+    const imagePath = path.join(__dirname, '../public/images/', id + '.jpg');
+    fs.unlink(imagePath, (err) => {
+        if (err) {
+            console.error("Error while deleting image:", err);
+            return res.status(500).send('Failed to delete the image');
+        }
+    })
     res.redirect('/admin/view-all-cuisines')
 })
 

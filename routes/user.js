@@ -26,13 +26,13 @@ router.get('/', async function (req, res, next) {
   const cuisines = await recipeHelpers.getCuisines();
   const limit = 12;
   const latestRecipes = await recipeHelpers.getLatestRecipes(limit);
-  
-  res.render('user/user-home', { 
-    title: 'Recipe haven', 
-    user, 
-    latestRecipes, 
-    cuisines, 
-    firstName 
+
+  res.render('user/user-home', {
+    title: 'Recipe haven',
+    user,
+    latestRecipes,
+    cuisines,
+    firstName
   });
 });
 
@@ -131,6 +131,9 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
   await userHelpers.updateRecipe(id, req.body)
   if (req.files && req.files.image) {
     let image = req.files.image
+    if (fs.existsSync('./public/recipe_images/' + id + '.jpg')) {
+      fs.unlinkSync('./public/recipe_images/' + id + '.jpg');
+    }
     image.mv('./public/recipe_images/' + id + '.jpg')
   }
   res.redirect('/view-recipe/' + id);
@@ -139,6 +142,13 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
   const recipeId = req.params.id;
   await recipeHelpers.deleteRecipe(recipeId)
+  const imagePath = path.join(__dirname, '../public/recipe_images/', id + '.jpg');
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+      console.error("Error while deleting image:", err);
+      return res.status(500).send('Failed to delete the image');
+    }
+  })
   res.redirect('/view-your-recipes')
 })
 

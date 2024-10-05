@@ -12,6 +12,7 @@ var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
 const dotenv=require('dotenv')
 require('dotenv').config()
+const fs = require('fs');
 // const helpers = require('handlebars-helpers')();
 
 var app = express();
