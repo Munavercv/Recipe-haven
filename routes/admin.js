@@ -23,7 +23,7 @@ router.get('/admin-home', verifyLogin, async function (req, res, next) {
     res.render('admin/admin-home', { title: 'admin panel', admin: true, cuisines, latestRecipes })
 });
 
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', verifyLogin, async (req, res) => {
     const publishedRecipesCount = await recipeHelpers.getPublishedRecipesCount()
     const pendingRecipesCount = await recipeHelpers.getPendingRecipesCount()
     const totalCuisines = await recipeHelpers.getCuisineCount()
@@ -33,12 +33,12 @@ router.get('/dashboard', async (req, res) => {
     res.render('admin/dashboard', { admin: true, publishedRecipesCount, pendingRecipesCount, totalCuisines, usersCount, membersCount })
 })
 
-router.get('/view-all-recipes', async (req, res) => {
+router.get('/view-all-recipes', verifyLogin, async (req, res) => {
     const allRecipes = await recipeHelpers.getAllRecipes()
     res.render('admin/view-all-recipes', { admin: true, allRecipes })
 })
 
-router.get('/view-recipes-by-cuisine/:id', async (req, res) => {
+router.get('/view-recipes-by-cuisine/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
     const cuisine = await recipeHelpers.getCuisine(req.params.id)
 
@@ -135,19 +135,19 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
     res.redirect('/admin/view-recipe/' + id);
 })
 
-router.get('/view-users', async (req, res) => {
+router.get('/view-users', verifyLogin, async (req, res) => {
     const users = await userHelpers.getUsers()
     res.render('admin/view-users', { admin: true, users })
 })
 
-router.get('/view-user-profile/:id', async (req, res) => {
+router.get('/view-user-profile/:id', verifyLogin, async (req, res) => {
     const userData = await userHelpers.getUserData(req.params.id)
     const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
     console.log(recipesCount)
     res.render('admin/user-profile', { admin: true, userData, recipesCount })
 })
 
-router.get('/view-recipes-by-user/:id', async (req, res) => {
+router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipesByUserId(req.params.id)
     // Filter based on status
     const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
@@ -157,17 +157,17 @@ router.get('/view-recipes-by-user/:id', async (req, res) => {
     res.render('admin/recipes-by-user', { admin: true, pendingRecipes, rejectedRecipes, publishedRecipes, recipes })
 })
 
-router.get('/delete-user/:id', async (req, res) => {
+router.get('/delete-user/:id', verifyLogin, async (req, res) => {
     await userHelpers.deleteUser(req.params.id)
     res.redirect('/admin/view-users')
 })
 
-router.get('/edit-profile/:id', async (req, res) => {
+router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
     const userData = await userHelpers.getUserData(req.params.id)
     res.render('admin/edit-user-profile', { admin: true, userData })
 })
 
-router.post('/edit-profile/:id', async (req, res) => {
+router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
     try {
         await userHelpers.editUser(req.params.id, req.body)
         res.redirect('/admin/view-users')
@@ -177,16 +177,16 @@ router.post('/edit-profile/:id', async (req, res) => {
     }
 })
 
-router.get('/view-all-cuisines', async (req, res) => {
+router.get('/view-all-cuisines', verifyLogin, async (req, res) => {
     const cuisines = await recipeHelpers.getCuisines()
     res.render('admin/view-all-cuisines', { admin: true, cuisines })
 })
 
-router.get('/add-cuisine', (req, res) => {
+router.get('/add-cuisine', verifyLogin, (req, res) => {
     res.render('admin/add-cuisine', { admin: true })
 })
 
-router.post('/add-cuisine', async (req, res) => {
+router.post('/add-cuisine', verifyLogin, async (req, res) => {
 
     await adminHelpers.addCuisine(req.body, (id) => {
         const image = req.files.image
@@ -200,16 +200,16 @@ router.post('/add-cuisine', async (req, res) => {
     // res.redirect('/admin/add-cuisine-success')
 })
 
-router.get('/add-cuisine-success', (req, res) => {
+router.get('/add-cuisine-success', verifyLogin, (req, res) => {
     res.render('admin/cuisine-submit-success', { admin: true })
 })
 
-router.get('/edit-cuisine/:id', async (req, res) => {
+router.get('/edit-cuisine/:id', verifyLogin, async (req, res) => {
     const cuisine = await recipeHelpers.getCuisine(req.params.id)
     res.render('admin/edit-cuisine', { admin: true, cuisine })
 })
 
-router.post('/edit-cuisine/:id', async (req, res) => {
+router.post('/edit-cuisine/:id', verifyLogin, async (req, res) => {
     const id = req.params.id
     await recipeHelpers.updateCuisine(id, req.body)
     if (req.files && req.files.image) {
@@ -222,7 +222,7 @@ router.post('/edit-cuisine/:id', async (req, res) => {
     res.redirect('/admin/view-all-cuisines')
 })
 
-router.get('/delete-cuisine/:id', async (req, res) => {
+router.get('/delete-cuisine/:id', verifyLogin, async (req, res) => {
     const id = req.params.id
     await recipeHelpers.deleteCuisine(id)
     const imagePath = path.join(__dirname, '../public/images/', id + '.jpg');
@@ -264,7 +264,7 @@ router.post('/submit-recipe', verifyLogin, (req, res) => {
 
 })
 
-router.get('/recipe-submit-success', (req, res) => {
+router.get('/recipe-submit-success', verifyLogin, (req, res) => {
     res.render('admin/recipe-submit-success', { admin: true });
 })
 
@@ -281,19 +281,19 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
     res.render('admin/view-your-recipes', { recipes, pendingRecipes, publishedRecipes, admin: true })
 })
 
-router.get('/search-results', async (req, res) => {
+router.get('/search-results', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword
     const searchResults = await recipeHelpers.searchRecipesByName(keyword)
     res.render('admin/view-search-results', { title: 'search results', admin: true, searchResults, keyword })
 })
 
-router.get('/search-user', async (req, res) => {
+router.get('/search-user', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword
     const users = await userHelpers.searchUser(keyword)
     res.render('admin/view-users', { title: 'View users', admin: true, users, keyword })
 })
 
-router.get('/search-cuisine', async (req, res) => {
+router.get('/search-cuisine', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword
     const cuisines = await recipeHelpers.searchCuisines(keyword)
     res.render('admin/view-all-cuisines', { title: 'cuisines', admin: true, cuisines, keyword })

@@ -651,6 +651,12 @@ footer .credit a:hover {
   font-size: 7rem;
 }
 
+@media(max-width:576px){
+  .submit-success i {
+    font-size: 5rem;
+  }
+}
+
 /* submit success */
 
 

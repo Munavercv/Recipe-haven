@@ -149,6 +149,11 @@ router.get('/auth/google/callback',
 );
 
 
+router.get('/signup-successfull', (req, res) => {
+  res.render('auth/signup-success', { title: 'Signup successfull', hideHeader: true })
+})
+
+
 router.get('/success', (req, res) => {
   if (!req.user)
     res.redirect('/failure');
