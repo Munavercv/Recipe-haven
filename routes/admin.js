@@ -281,4 +281,10 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
     res.render('admin/view-your-recipes', { recipes, pendingRecipes, publishedRecipes, admin: true })
 })
 
+router.get('/search-results', async (req, res) => {
+    const keyword = req.query.keyword
+    const searchResults = await recipeHelpers.searchRecipesByName(keyword)
+    res.render('admin/view-search-results', { title: 'search results', admin: true, searchResults, keyword })
+})
+
 module.exports = router;
