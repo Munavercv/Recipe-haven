@@ -125,7 +125,6 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            console.log(recipe)
             resolve(recipe)
         })
     },
