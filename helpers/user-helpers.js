@@ -68,14 +68,50 @@ module.exports = {
         })
     },
 
-    getUserCount:async()=>{
-        const count = db.get().collection(collections.USERS_COLLECTION).find({role:'user'}).count()
+    getUserCount: async () => {
+        const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'user' }).count()
         return count
     },
 
-    getMembersCount:async()=>{
-        const count = db.get().collection(collections.USERS_COLLECTION).find({role:'member'}).count()
+    getMembersCount: async () => {
+        const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'member' }).count()
         return count
-    }
+    },
+
+    searchUser: async (searchQuery) => {
+        let query;
+
+        // If the user has entered one letter, search for names starting with that letter
+        if (searchQuery.length === 1) {
+            query = {
+                role:'user',
+                email: { $regex: `^${searchQuery}`, $options: "i" }  // 'i' makes it case-insensitive
+            };
+        } else {
+            // If the user has entered more than one letter/word, search for names containing the search words
+            const words = searchQuery.split(" ");
+            const regexArray = words.map(word => ({
+                email: { $regex: word, $options: "i" }  // Case-insensitive search for each word
+            }));
+
+            query = {
+                role:'user',
+                $and: regexArray
+            };
+        }
+
+        const usersData = await db.get()
+            .collection(collections.USERS_COLLECTION)
+            .find(query)
+            .project({
+                password: 0,
+                role: 0,
+                isVerified: 0,
+            })
+            .toArray();
+
+        return usersData;
+    },
+
 
 }

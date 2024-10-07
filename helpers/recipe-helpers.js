@@ -16,6 +16,7 @@ module.exports = {
             }
         })
     },
+    
 
     getCuisine: (cuisineId) => {
         return new Promise(async (resolve, reject) => {
@@ -29,6 +30,7 @@ module.exports = {
         })
     },
 
+
     updateCuisine: async (cuisineId, cuisineData) => {
         await db.get().collection(collection.CUISINE_COLLECTION).updateOne({ _id: new ObjectId(cuisineId) },
             {
@@ -40,9 +42,11 @@ module.exports = {
         )
     },
 
+
     deleteCuisine: async (cuisineId) => {
         await db.get().collection(collection.CUISINE_COLLECTION).deleteOne({ _id: new ObjectId(cuisineId) })
     },
+
 
     saveRecipe: (recipe, user, callback) => {
         return new Promise(async (resolve, reject) => {
@@ -78,6 +82,7 @@ module.exports = {
         })
     },
 
+
     getRecipesByUser: (userData) => {
         return new Promise(async (resolve, reject) => {
             // console.log(userData._id)
@@ -86,6 +91,7 @@ module.exports = {
             resolve(userRecipes)
         })
     },
+
 
     getRecipe: (recipeId) => {
         return new Promise(async (resolve, reject) => {
@@ -123,19 +129,23 @@ module.exports = {
         })
     },
 
+
     getRecipesByUserId: async (userId) => {
         const recipes = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).toArray()
         return recipes
     },
+
 
     getRecipeCount: async (userId) => {
         const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).count()
         return recipesCount
     },
 
+
     deleteRecipe: async (recipeId) => {
         await db.get().collection(collection.RECIPES_COLLECTION).deleteOne({ _id: new ObjectId(recipeId) });
     },
+
 
     getLatestRecipes: async (limit) => {
         // const recipes = await db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'published' }, { $sort: { datePublished } })
@@ -164,6 +174,7 @@ module.exports = {
         // console.log(recipes)
     },
 
+
     getAllRecipes: async () => {
         const recipes = await db.get()
             .collection(collection.RECIPES_COLLECTION)
@@ -185,6 +196,7 @@ module.exports = {
         return recipes
     },
 
+
     getRecipesByCuisine: async (cuisineId) => {
         const recipes = await db.get()
             .collection(collection.RECIPES_COLLECTION)
@@ -205,6 +217,7 @@ module.exports = {
             .toArray();
         return recipes
     },
+
 
     searchRecipesByName: async (searchQuery) => {
         let query;
@@ -246,15 +259,48 @@ module.exports = {
         return recipes;
     },
 
+
+    searchCuisines: async (searchQuery) => {
+        let query;
+
+        // If the user has entered one letter, search for names starting with that letter
+        if (searchQuery.length === 1) {
+            query = {
+                name: { $regex: `^${searchQuery}`, $options: "i" }  // 'i' makes it case-insensitive
+            };
+        } else {
+            // If the user has entered more than one letter/word, search for names containing the search words
+            const words = searchQuery.split(" ");
+            const regexArray = words.map(word => ({
+                name: { $regex: word, $options: "i" }  // Case-insensitive search for each word
+            }));
+
+            query = {
+                $and: regexArray
+            };
+        }
+
+        // Fetch the recipes matching the query
+        const cuisines = await db.get()
+            .collection(collection.CUISINE_COLLECTION)
+            .find(query)
+            .toArray();
+
+        return cuisines;
+    },
+
+
     getPublishedRecipesCount:async()=>{
         const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'published'}).count()
         return count
     },
 
+
     getPendingRecipesCount:async()=>{
         const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'pending'}).count()
         return count
     },
+
 
     getCuisineCount:async()=>{
         const count = db.get().collection(collection.CUISINE_COLLECTION).find().count()

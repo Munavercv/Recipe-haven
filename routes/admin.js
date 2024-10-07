@@ -287,4 +287,16 @@ router.get('/search-results', async (req, res) => {
     res.render('admin/view-search-results', { title: 'search results', admin: true, searchResults, keyword })
 })
 
+router.get('/search-user', async (req, res) => {
+    const keyword = req.query.keyword
+    const users = await userHelpers.searchUser(keyword)
+    res.render('admin/view-users', { title: 'View users', admin: true, users, keyword })
+})
+
+router.get('/search-cuisine', async (req, res) => {
+    const keyword = req.query.keyword
+    const cuisines = await recipeHelpers.searchCuisines(keyword)
+    res.render('admin/view-all-cuisines', { title: 'cuisines', admin: true, cuisines, keyword })
+})
+
 module.exports = router;
