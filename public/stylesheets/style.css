@@ -936,6 +936,16 @@ td {
     padding: 0.5rem 0.2rem;
   }
 
+  .cuisine-table td,
+  .cuisine-table th {
+    font-size: 11px;
+    padding: 0.5rem 0.2rem;
+  }
+
+  .primary-btn{
+    padding: 0.4rem 0.49rem;
+    font-size: 10px;
+  }
   .primary-btn-outline,
   .btn {
     padding: 0.375rem 0.3rem;

@@ -16,7 +16,7 @@ module.exports = {
             }
         })
     },
-    
+
 
     getCuisine: (cuisineId) => {
         return new Promise(async (resolve, reject) => {
@@ -125,6 +125,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
+            console.log(recipe)
             resolve(recipe)
         })
     },
