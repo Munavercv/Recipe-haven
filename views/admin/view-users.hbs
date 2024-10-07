@@ -1,42 +1,63 @@
 <section class="view-users-sec">
     <div class="container">
-        <button class="back-button ps-5 mt-4" onclick="goBack()"><i class="fa-solid fa-caret-left"></i> Back</button>
+        <button class="back-button ps-5 mt-4" onclick="goBack()">
+            <i class="fa-solid fa-caret-left"></i> Back
+        </button>
 
         <h2 class="section-title text-center mt-4 mb-5">Users</h2>
 
         <div>
-            <form class="d-flex me-5" role="search" action="/admin/search-user"
-                    method="get">
-                    <input class="form-control rounded-5 searchbox" type="search" placeholder="Search by email" aria-label="Search" name="keyword">
-                    <button class="ms-1 rounded-5 header-btn" type="submit">Search</button>
-                </form>
+            <form class="d-flex me-5" role="search" action="/admin/search-user" method="get">
+                <input class="form-control rounded-5 searchbox" type="search" placeholder="Search by email" aria-label="Search" name="keyword">
+                <button class="ms-1 rounded-5 header-btn" type="submit">Search</button>
+            </form>
         </div>
 
-        <table class="users-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each users}}
-                <tr>
-                    <td>{{this.name}}</td>
-                    <td>{{this.email}}</td>
-                    <td>{{this.mobile}}</td>
-                    <td class="text-end">
-                        <a href="/admin/view-user-profile/{{this._id}}"><button class="primary-btn-outline me-3">View profile</button></a>
-                        <a href="/admin/edit-profile/{{this._id}}" class="me-3"><button class="btn btn-primary rounded-3"><i
-                                    class="fa-solid fa-pen"></i></button></a>
-                        <a href="/admin/delete-user/{{this._id}}" onclick="return confirm('Are you sure you want to permenantly delete this User?')"><button class="btn btn-danger rounded-3"><i
-                                    class="fa-solid fa-trash"></i></button></a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+        <!-- Table wrapper for responsiveness -->
+        <div class="table-responsive">
+            <table class="table table-striped users-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.mobile}}</td>
+                        <td class="text-end">
+                            <div class="d-flex flex-column flex-md-row justify-content-end">
+                                <a href="/admin/view-user-profile/{{this._id}}" class="me-0 me-md-3 mb-2 mb-md-0">
+                                    <button class="primary-btn-outline btn-sm w-100">View profile</button>
+                                </a>
+                                <a href="/admin/edit-profile/{{this._id}}" class="me-0 me-md-3 mb-2 mb-md-0">
+                                    <button class="btn btn-primary rounded-3 btn-sm w-100">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </a>
+                                <a href="/admin/delete-user/{{this._id}}" onclick="return confirm('Are you sure you want to permanently delete this User?')">
+                                    <button class="btn btn-danger rounded-3 btn-sm w-100">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
+
+
+
+<style>
+
+
+</style>

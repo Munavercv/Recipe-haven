@@ -39,12 +39,15 @@ body {
   border-radius: 10px;
   transition: ease-in-out 100ms;
   cursor: pointer;
-  position: relative; /* Important for the spinner positioning */
+  position: relative;
+  /* Important for the spinner positioning */
 }
 
 .primary-btn.button-loading {
-  color: transparent; /* Hide the text during loading */
-  pointer-events: none; /* Prevent more clicks */
+  color: transparent;
+  /* Hide the text during loading */
+  pointer-events: none;
+  /* Prevent more clicks */
 }
 
 .primary-btn.button-loading::after {
@@ -65,10 +68,11 @@ body {
 
 @keyframes button-loading-spinner {
   from {
-      transform: rotate(0turn);
+    transform: rotate(0turn);
   }
+
   to {
-      transform: rotate(1turn);
+    transform: rotate(1turn);
   }
 }
 
@@ -272,8 +276,8 @@ header .rh-logo {
   }
 }
 
-@media(max-width:576px){
-  header .rh-logo{
+@media(max-width:576px) {
+  header .rh-logo {
     font-size: 22px;
   }
 }
@@ -350,8 +354,8 @@ header .rh-logo {
   border-radius: 25px;
 }
 
-@media (max-width:576px){
-  .header-btn{
+@media (max-width:576px) {
+  .header-btn {
     font-size: 13px;
   }
 }
@@ -373,8 +377,8 @@ header .dropdown ul {
   height: 2rem;
 }
 
-@media (max-width:1200px){
-  .searchbox{
+@media (max-width:1200px) {
+  .searchbox {
     width: 14rem !important;
     height: 1.68rem;
   }
@@ -601,8 +605,8 @@ footer .credit a:hover {
   text-decoration: underline;
 }
 
-@media (max-width:576px){
-  footer .credit a{
+@media (max-width:576px) {
+  footer .credit a {
     font-size: 0.9rem;
   }
 }
@@ -712,20 +716,24 @@ footer .credit a:hover {
 }
 
 /* respossive */
-@media(max-width:768px){
-  .recipe-page .cook-instructions h3{
+@media(max-width:768px) {
+  .recipe-page .cook-instructions h3 {
     text-align: center;
   }
 }
 
-@media (max-width:576px){
-  .recipe-page .user, .recipe-page .cuisine{
+@media (max-width:576px) {
+
+  .recipe-page .user,
+  .recipe-page .cuisine {
     text-align: center;
   }
-  .recipe-page .cook-instructions p{
+
+  .recipe-page .cook-instructions p {
     font-size: 0.9rem;
   }
 }
+
 /* respossive */
 
 /* ================================= recipe page */
@@ -918,3 +926,23 @@ td {
 }
 
 /* dashboard */
+
+
+@media (max-width: 768px) {
+
+  .users-table td,
+  .users-table th {
+    font-size: 11px;
+    padding: 0.5rem 0.2rem;
+  }
+
+  .primary-btn-outline,
+  .btn {
+    padding: 0.375rem 0.3rem;
+    font-size: 10px;
+  }
+
+  .users-table td .d-flex {
+    gap: 0.08rem;
+  }
+}
