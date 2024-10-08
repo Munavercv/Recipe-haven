@@ -274,6 +274,11 @@ header .rh-logo {
   .custom-dropdown-menu {
     min-width: 100%;
   }
+
+  .custom-dropdown-item{
+    font-size: 15px;
+    line-height: 20px;
+  }
 }
 
 @media(max-width:576px) {
@@ -281,6 +286,68 @@ header .rh-logo {
     font-size: 22px;
   }
 }
+
+
+.burger {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+}
+
+.burger input {
+  display: none;
+}
+
+.burger span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: black;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.burger span:nth-of-type(1) {
+  top: 0px;
+  transform-origin: left center;
+}
+
+.burger span:nth-of-type(2) {
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+
+.burger span:nth-of-type(3) {
+  top: 100%;
+  transform-origin: left center;
+  transform: translateY(-100%);
+}
+
+.burger input:checked ~ span:nth-of-type(1) {
+  transform: rotate(45deg);
+  top: 0px;
+  left: 5px;
+}
+
+.burger input:checked ~ span:nth-of-type(2) {
+  width: 0%;
+  opacity: 0;
+}
+
+.burger input:checked ~ span:nth-of-type(3) {
+  transform: rotate(-45deg);
+   
+  left:5px;
+}
+
 
 /*
 
@@ -370,6 +437,14 @@ header .dropdown ul {
   background-color: #ffffff;
   border: none;
   box-shadow: 0 0 10px rgba(68, 68, 68, 0.2);
+}
+
+header .dropdown ul li{
+  border-top: #aaaaaa 0.5px solid;
+}
+
+header .dropdown ul li:first-child {
+  border: none !important;
 }
 
 .searchbox {
@@ -949,13 +1024,13 @@ td {
   }
 
   .primary-btn{
-    padding: 0.4rem 0.49rem;
-    font-size: 10px;
+    /* padding: 0.4rem 0.49rem; */
+    font-size: 13px;
   }
   .primary-btn-outline,
   .btn {
-    padding: 0.375rem 0.3rem;
-    font-size: 10px;
+    /* padding: 0.375rem 0.3rem; */
+    font-size: 13px;
   }
 
   .users-table td .d-flex {

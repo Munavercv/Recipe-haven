@@ -23,57 +23,10 @@ module.exports = {
     doGoogleSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
             const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
-            // console.log('userData')
             resolve()
-            // try {
-            //     const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
-            //     resolve(data.insertedId); // Resolving the inserted user's ID
-            // } catch (error) {
-            //     console.error('Error during Google signup:', error); // Log the error
-            //     reject(error); // Rejecting the promise in case of failure
-            // }
         })
     },
-
-    // sendOtp: (email) => {
-    //     return new Promise(async (resolve, reject) => {
-    //         const otp = crypto.randomInt(100000, 999999);
-    //         const expirationTime = Date.now() + 60 * 1000; // 1 minute expiration
-    //         // const otpEntry = new otp({
-    //         //     email,
-    //         //     otp,
-    //         //     expirationTime
-    //         //   });
-    //         await db.get().collection(collection.OTP_COLLECTION).insertOne({ email: email, otp: otp, expirationTime: expirationTime })
-
-    //         const mailOptions = {
-    //             from: process.env.EMAIL_USER,
-    //             to: email,
-    //             subject: 'Your OTP Code',
-    //             html: `Your OTP code to verify Rcipe haven account is <b>${otp}<b>. It expires in 1 minute.`
-    //           };
-
-    //           const transporter = nodemailer.createTransport({
-    //             host: process.env.EMAIL_HOST,
-    //             port: process.env.EMAIL_PORT,
-    //             auth: {
-    //               user: process.env.EMAIL_USER,
-    //               pass: process.env.EMAIL_PASS,
-    //             }
-    //           });
-
-    //           transporter.sendMail(mailOptions, (error, info) => {
-    //             if (error) {
-    //               console.log(error);
-    //               return res.send('Error sending OTP');
-    //             } else {
-    //               console.log('Email sent: ' + info.response);
-    //             //   res.redirect(`/verify-otp?email=${email}`);
-    //             }
-    //           });
-    //           resolve(email)
-    //     })
-    // },
+    
 
     sendOtp: async (email) => {
         return new Promise(async (resolve, reject) => {

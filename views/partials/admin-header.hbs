@@ -1,13 +1,39 @@
 <header>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand rh-logo ms-5" href="/admin/admin-home">Recipe Haven</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <a class="navbar-brand rh-logo ms-lg-3" href="/admin/admin-home">Recipe Haven</a>
+
+
+            {{!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
+            </button> --}}
+
+
+            <div class="user-dropdown">
+                <div class="dropdown my-auto custom-dropdown">
+                    <button class="header-btn dropdown-toggle-btn px-4" type="button" id="dropdownMenuButton2"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <ul class="custom-dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="custom-dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+             <label class="burger navbar-toggler border-0" for="burger" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <input type="checkbox" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/admin/admin-home">Home</a>
@@ -16,22 +42,14 @@
                         <a class="nav-link" href="/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">All Recipes</a>
+                        <a class="nav-link" href="/admin/view-all-recipes">All Recipes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/view-your-recipes">Your Recipes</a>
                     </li>
 
-                    <div class="dropdown ms-5 my-auto">
-                        <button class="dropdown-toggle header-btn" type="button" id="dropdownMenuButton2"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu my-2 custom-dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                            <li><a class="dropdown-item fs-5 p-0 fw-3" href="/logout">Logout</a></li>
-                        </ul>
-                    </div>
-                    
+
+
                 </ul>
                 <!-- Search box for small screens -->
                 <form class="d-flex align-items-center me-md-2" role="search" action="/admin/search-results"
