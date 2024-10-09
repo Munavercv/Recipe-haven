@@ -143,7 +143,6 @@ router.get('/view-users', verifyLogin, async (req, res) => {
 router.get('/view-user-profile/:id', verifyLogin, async (req, res) => {
     const userData = await userHelpers.getUserData(req.params.id)
     const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
-    console.log(recipesCount)
     res.render('admin/user-profile', { admin: true, userData, recipesCount })
 })
 

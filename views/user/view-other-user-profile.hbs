@@ -1,0 +1,15 @@
+<section class="user-profile-sec">
+    <div class="px-4 py-5 my-5 text-center">
+        <div>
+            <i class="fa-regular my-md-3 fa-circle-user"></i>
+            <h1 class="display-5 fw-bold">{{userData.name}}</h1>
+            <p class="fw-medium">{{userData.email}}</p>
+            <p class="fw-medium mb-4">{{userData.mobile}}</p>
+        </div>
+        <div>
+            <h3><i class="fa-solid fa-utensils"></i> <span class="fw-bolder">{{recipesCount}}</span> Recipes</h3>
+            <a href="/view-recipes-by-user/{{userData._id}}"><button type="button" class="primary-btn mt-2">View Recipes</button></a>
+        </div>
+    </div>
+
+</section>
