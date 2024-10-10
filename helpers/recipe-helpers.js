@@ -8,7 +8,7 @@ module.exports = {
     getCuisines: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const cuisines = await db.get().collection(collection.CUISINE_COLLECTION).find({}).toArray();
+                const cuisines = await db.get().collection(collection.CUISINE_COLLECTION).find({}).sort({name:1}).toArray();
                 resolve(cuisines);
             } catch (error) {
                 console.error('Error fetching cuisines:', error);

@@ -1,7 +1,11 @@
 <section class="user-view-your-recipes-sec">
-    <h2 class="section-title text-center mt-4">Your Recipes</h2>
+    
+    <div class="head-sec my-3">
+        <h2 class="section-title">Your Recipes</h2>
+    </div>
+
     {{#if publishedRecipes}}
-    <div class="recipe-publised my-5">
+    <div class="recipe-publised">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 mt-3">
@@ -75,10 +79,10 @@
     {{/if}}
 
     <div class="px-4 py-5 my-5 text-center">
-    {{#unless recipes}}
+        {{#unless recipes}}
         <i class="fa-solid fa-xmark mb-4"></i>
         <h1 class="display-5 fw-bold">You have no Recipes</h1>
-    {{/unless}}
+        {{/unless}}
         <div class="co-12 mx-auto">
             <div class="">
                 <a href="/submit-recipe"><button type="button" class="primary-btn">Submit a Recipe</button></a>
