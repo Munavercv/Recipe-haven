@@ -190,10 +190,37 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
     const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
     const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
 
-    // res.send(publishedRecipes)
-
     res.render('admin/view-your-recipes', { recipes, pendingRecipes, publishedRecipes, admin: true })
 })
+
+
+router.get('/publish-admin-recipe/:id', verifyLogin, async (req, res) => {
+    const recipeId = req.params.id;
+    await adminHelpers.publishRecipe(recipeId)
+    res.redirect('/admin/view-your-recipes')
+})
+
+
+router.get('/unpublish-admin-recipes/:id', verifyLogin, async(req, res) =>{
+    const recipeId = req.params.id;
+    await adminHelpers.unpublishRecipe(recipeId)
+    res.redirect('/admin/view-your-recipes/')
+})
+
+
+router.get('/delete-admin-recipe/:id', verifyLogin, async (req, res) => {
+    const recipeId = req.params.id;
+    await recipeHelpers.deleteRecipe(recipeId)
+    const imagePath = path.join(__dirname, '../public/recipe_images/', req.params.id + '.jpg');
+    fs.unlink(imagePath, (err) => {
+        if (err) {
+            console.error("Error while deleting image:", err);
+            return res.status(500).send('Failed to delete the image');
+        }
+    })
+    res.redirect('/admin/view-your-recipes')
+})
+
 
 router.get('/search-results', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword
