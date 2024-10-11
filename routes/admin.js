@@ -15,7 +15,7 @@ const verifyLogin = (req, res, next) => {
     }
 }
 
-/* GET users listing. */
+/* Home */
 router.get('/admin-home', verifyLogin, async function (req, res, next) {
     const cuisines = await recipeHelpers.getCuisines()
     const limit = 20
@@ -33,10 +33,14 @@ router.get('/dashboard', verifyLogin, async (req, res) => {
     res.render('admin/dashboard', { admin: true, publishedRecipesCount, pendingRecipesCount, totalCuisines, usersCount, membersCount })
 })
 
+
+/** Recipes */
+
 router.get('/view-all-recipes', verifyLogin, async (req, res) => {
     const allRecipes = await recipeHelpers.getAllRecipes()
     res.render('admin/view-all-recipes', { admin: true, allRecipes })
 })
+
 
 router.get('/view-recipes-by-cuisine/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
@@ -44,6 +48,7 @@ router.get('/view-recipes-by-cuisine/:id', verifyLogin, async (req, res) => {
 
     res.render('admin/view-recipes-by-cuisine', { admin: true, recipes, cuisine })
 })
+
 
 router.get('/user-recipes', verifyLogin, async (req, res) => {
     const recipes = await adminHelpers.getUserRecipes()
@@ -58,6 +63,7 @@ router.get('/user-recipes', verifyLogin, async (req, res) => {
 
     res.render('admin/user-recipes', { title: 'User recipes', admin: true, pendingRecipes, rejectedRecipes, recentlyPublishedRecipes })
 });
+
 
 router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     const user = req.session.user
@@ -77,11 +83,13 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     res.render('admin/view-recipe', { user, recipe, admin: true, title: recipe.name, recipeOwner })
 })
 
+
 router.get('/publish-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.publishRecipe(recipeId)
     res.redirect('/admin/user-recipes')
 })
+
 
 router.get('/unpublish-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
@@ -89,11 +97,13 @@ router.get('/unpublish-recipe/:id', verifyLogin, async (req, res) => {
     res.redirect('/admin/user-recipes/')
 })
 
+
 router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.rejectRecipe(recipeId)
     res.redirect('/admin/user-recipes')
 })
+
 
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
@@ -108,6 +118,7 @@ router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     res.redirect('/admin/user-recipes')
 })
 
+
 router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
     const recipes = await recipeHelpers.getRecipe(req.params.id)
     const recipe = recipes[0];
@@ -119,6 +130,7 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
 
     res.render('admin/edit-recipe', { recipe, admin: true, cuisines })
 })
+
 
 router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
     const id = req.params.id
@@ -135,105 +147,6 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
     res.redirect('/admin/view-recipe/' + id);
 })
 
-router.get('/view-users', verifyLogin, async (req, res) => {
-    const users = await userHelpers.getUsers()
-    res.render('admin/view-users', { admin: true, users })
-})
-
-router.get('/view-user-profile/:id', verifyLogin, async (req, res) => {
-    const userData = await userHelpers.getUserData(req.params.id)
-    const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
-    res.render('admin/user-profile', { admin: true, userData, recipesCount })
-})
-
-router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
-    const recipes = await recipeHelpers.getRecipesByUserId(req.params.id)
-    // Filter based on status
-    const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
-    const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
-    const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
-
-    res.render('admin/recipes-by-user', { admin: true, pendingRecipes, rejectedRecipes, publishedRecipes, recipes })
-})
-
-router.get('/delete-user/:id', verifyLogin, async (req, res) => {
-    await userHelpers.deleteUser(req.params.id)
-    res.redirect('/admin/view-users')
-})
-
-router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
-    const userData = await userHelpers.getUserData(req.params.id)
-    res.render('admin/edit-user-profile', { admin: true, userData })
-})
-
-router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
-    try {
-        await userHelpers.editUser(req.params.id, req.body)
-        res.redirect('/admin/view-users')
-    }
-    catch {
-        res.status(500).send('Error editing user');
-    }
-})
-
-router.get('/view-all-cuisines', verifyLogin, async (req, res) => {
-    const cuisines = await recipeHelpers.getCuisines()
-    res.render('admin/view-all-cuisines', { admin: true, cuisines })
-})
-
-router.get('/add-cuisine', verifyLogin, (req, res) => {
-    res.render('admin/add-cuisine', { admin: true })
-})
-
-router.post('/add-cuisine', verifyLogin, async (req, res) => {
-
-    await adminHelpers.addCuisine(req.body, (id) => {
-        const image = req.files.image
-        image.mv('./public/images/' + id + '.jpg', (err, done) => {
-            if (!err) {
-                res.redirect('/admin/add-cuisine-success')
-            }
-        })
-    })
-
-    // res.redirect('/admin/add-cuisine-success')
-})
-
-router.get('/add-cuisine-success', verifyLogin, (req, res) => {
-    res.render('admin/cuisine-submit-success', { admin: true })
-})
-
-router.get('/edit-cuisine/:id', verifyLogin, async (req, res) => {
-    const cuisine = await recipeHelpers.getCuisine(req.params.id)
-    res.render('admin/edit-cuisine', { admin: true, cuisine })
-})
-
-router.post('/edit-cuisine/:id', verifyLogin, async (req, res) => {
-    const id = req.params.id
-    await recipeHelpers.updateCuisine(id, req.body)
-    if (req.files && req.files.image) {
-        let image = req.files.image
-        if (fs.existsSync('./public/images/' + id + '.jpg')) {
-            fs.unlinkSync('./public/images/' + id + '.jpg');
-        }
-        image.mv('./public/images/' + id + '.jpg')
-    }
-    res.redirect('/admin/view-all-cuisines')
-})
-
-router.get('/delete-cuisine/:id', verifyLogin, async (req, res) => {
-    const id = req.params.id
-    await recipeHelpers.deleteCuisine(id)
-    const imagePath = path.join(__dirname, '../public/images/', id + '.jpg');
-    fs.unlink(imagePath, (err) => {
-        if (err) {
-            console.error("Error while deleting image:", err);
-            return res.status(500).send('Failed to delete the image');
-        }
-    })
-    res.redirect('/admin/view-all-cuisines')
-})
-
 
 router.get('/submit-recipe', verifyLogin, async (req, res) => {
     try {
@@ -244,6 +157,7 @@ router.get('/submit-recipe', verifyLogin, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 router.post('/submit-recipe', verifyLogin, (req, res) => {
     const user = req.session.user
@@ -262,6 +176,7 @@ router.post('/submit-recipe', verifyLogin, (req, res) => {
     })
 
 })
+
 
 router.get('/recipe-submit-success', verifyLogin, (req, res) => {
     res.render('admin/recipe-submit-success', { admin: true });
@@ -286,11 +201,131 @@ router.get('/search-results', verifyLogin, async (req, res) => {
     res.render('admin/view-search-results', { title: 'search results', admin: true, searchResults, keyword })
 })
 
+
+
+/** Users */
+
+router.get('/view-users', verifyLogin, async (req, res) => {
+    const users = await userHelpers.getUsers()
+    res.render('admin/view-users', { admin: true, users })
+})
+
+
+router.get('/view-user-profile/:id', verifyLogin, async (req, res) => {
+    const userData = await userHelpers.getUserData(req.params.id)
+    const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
+    res.render('admin/user-profile', { admin: true, userData, recipesCount })
+})
+
+
+router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
+    const recipes = await recipeHelpers.getRecipesByUserId(req.params.id)
+    // Filter based on status
+    const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
+    const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
+    const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
+
+    res.render('admin/recipes-by-user', { admin: true, pendingRecipes, rejectedRecipes, publishedRecipes, recipes })
+})
+
+
+router.get('/delete-user/:id', verifyLogin, async (req, res) => {
+    await userHelpers.deleteUser(req.params.id)
+    res.redirect('/admin/view-users')
+})
+
+
+router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
+    const userData = await userHelpers.getUserData(req.params.id)
+    res.render('admin/edit-user-profile', { admin: true, userData })
+})
+
+
+router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
+    try {
+        await userHelpers.editUser(req.params.id, req.body)
+        res.redirect('/admin/view-users')
+    }
+    catch {
+        res.status(500).send('Error editing user');
+    }
+})
+
+
 router.get('/search-user', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword
     const users = await userHelpers.searchUser(keyword)
     res.render('admin/view-users', { title: 'View users', admin: true, users, keyword })
 })
+
+
+
+/** cuisines */
+
+router.get('/view-all-cuisines', verifyLogin, async (req, res) => {
+    const cuisines = await recipeHelpers.getCuisines()
+    res.render('admin/view-all-cuisines', { admin: true, cuisines })
+})
+
+
+router.get('/add-cuisine', verifyLogin, (req, res) => {
+    res.render('admin/add-cuisine', { admin: true })
+})
+
+
+router.post('/add-cuisine', verifyLogin, async (req, res) => {
+
+    await adminHelpers.addCuisine(req.body, (id) => {
+        const image = req.files.image
+        image.mv('./public/images/' + id + '.jpg', (err, done) => {
+            if (!err) {
+                res.redirect('/admin/add-cuisine-success')
+            }
+        })
+    })
+
+    // res.redirect('/admin/add-cuisine-success')
+})
+
+
+router.get('/add-cuisine-success', verifyLogin, (req, res) => {
+    res.render('admin/cuisine-submit-success', { admin: true })
+})
+
+
+router.get('/edit-cuisine/:id', verifyLogin, async (req, res) => {
+    const cuisine = await recipeHelpers.getCuisine(req.params.id)
+    res.render('admin/edit-cuisine', { admin: true, cuisine })
+})
+
+
+router.post('/edit-cuisine/:id', verifyLogin, async (req, res) => {
+    const id = req.params.id
+    await recipeHelpers.updateCuisine(id, req.body)
+    if (req.files && req.files.image) {
+        let image = req.files.image
+        if (fs.existsSync('./public/images/' + id + '.jpg')) {
+            fs.unlinkSync('./public/images/' + id + '.jpg');
+        }
+        image.mv('./public/images/' + id + '.jpg')
+    }
+    res.redirect('/admin/view-all-cuisines')
+})
+
+
+router.get('/delete-cuisine/:id', verifyLogin, async (req, res) => {
+    const id = req.params.id
+    await recipeHelpers.deleteCuisine(id)
+    const imagePath = path.join(__dirname, '../public/images/', id + '.jpg');
+    fs.unlink(imagePath, (err) => {
+        if (err) {
+            console.error("Error while deleting image:", err);
+            return res.status(500).send('Failed to delete the image');
+        }
+    })
+    res.redirect('/admin/view-all-cuisines')
+})
+
 
 router.get('/search-cuisine', verifyLogin, async (req, res) => {
     const keyword = req.query.keyword

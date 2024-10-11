@@ -20,13 +20,14 @@ module.exports = {
         })
     },
 
+
     doGoogleSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
             const data = await db.get().collection(collection.USERS_COLLECTION).insertOne(userData);
             resolve()
         })
     },
-    
+
 
     sendOtp: async (email) => {
         return new Promise(async (resolve, reject) => {
@@ -78,6 +79,7 @@ module.exports = {
         });
     },
 
+
     verifyOTP: (otpRecord) => {
         return new Promise(async (resolve, reject) => {
             if (Date.now() > otpRecord.expirationTime) {
@@ -86,9 +88,10 @@ module.exports = {
             }
             await db.get().collection(collection.USERS_COLLECTION).updateOne({ email: otpRecord.email }, { $set: { isVerified: true } })
             await db.get().collection(collection.OTP_COLLECTION).deleteMany({ email: otpRecord.email });
-            resolve({status:true})
+            resolve({ status: true })
         })
     },
+
 
     doLogin: (email, password) => {
         return new Promise(async (resolve, reject) => {
@@ -127,6 +130,7 @@ module.exports = {
                 .catch(err => reject(err)); // Error in finding user by email
         })
     },
+
 
     findUserByEmail: (email) => {
         return new Promise(async (resolve, reject) => {

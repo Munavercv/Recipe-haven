@@ -12,10 +12,12 @@
 
             <div class="col-md-5 ms-0 ms-sm-5">
                 <div class="user">
-                    <a href="/view-other-user-profile/{{recipe.userId}}"><i class="fa-solid fa-user"></i> {{recipe.userDetails.name}}</a>
+                    <a href="/view-other-user-profile/{{recipe.userId}}"><i class="fa-solid fa-user"></i>
+                        {{recipe.userDetails.name}}</a>
                 </div>
                 <div class="cuisine mt-3">
-                    <a href="/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i> {{recipe.cuisine.name}}</a>
+                    <a href="/view-recipes-by-cuisine/{{recipe.cuisine._id}}"><i class="fa-solid fa-tag"></i>
+                        {{recipe.cuisine.name}}</a>
                 </div>
 
 
@@ -39,7 +41,9 @@
             {{#if recipeOwner}}
             <div class="text-center">
                 <a href="/edit-recipe/{{recipe._id}}"><button class="primary-btn">Edit</button></a>
-                <a href="/delete-recipe/{{recipe._id}}" onclick="return confirm('Are you sure you want to delete This recipe?')"><button class="primary-btn">Delete</button></a>
+                <a href="/delete-recipe/{{recipe._id}}"
+                    onclick="return confirm('Are you sure you want to delete This recipe?')"><button
+                        class="primary-btn">Delete</button></a>
             </div>
             {{/if}}
 

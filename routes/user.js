@@ -46,6 +46,9 @@ router.get('/', async function (req, res, next) {
 //   res.render('user/404-page', { hideHeader: true, })
 // })
 
+
+// RECIPE
+
 router.get('/submit-recipe', verifyLogin, async (req, res) => {
   const user = req.session.user;
   const firstName = getUsername(user)
@@ -58,6 +61,7 @@ router.get('/submit-recipe', verifyLogin, async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 router.post('/submit-recipe', verifyLogin, (req, res) => {
   const user = req.session.user
@@ -77,12 +81,14 @@ router.post('/submit-recipe', verifyLogin, (req, res) => {
 
 })
 
-router.get('/recipe-submit-success', (req, res) => {
+
+router.get('/recipe-submit-success', verifyLogin, (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
 
   res.render('user/recipe-submit-success', { user, firstName });
 })
+
 
 router.get('/view-your-recipes', verifyLogin, async (req, res) => {
   const user = req.session.user
@@ -90,17 +96,15 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
 
   const recipes = await recipeHelpers.getRecipesByUser(user)
 
-  // Filter based on status
   const pendingRecipes = recipes.filter(recipe => recipe.status === 'pending');
   const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
   const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
 
-  // res.send(publishedRecipes)
-
   res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes, recipes, firstName })
 })
 
-router.get('/view-recipe/:id', async (req, res) => {
+
+router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipe(req.params.id)
@@ -115,14 +119,15 @@ router.get('/view-recipe/:id', async (req, res) => {
   res.render('user/view-recipe', { user, recipe, recipeOwner, firstName })
 })
 
-router.get('/search-results', async (req, res) => {
+
+router.get('/search-results', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const keyword = req.query.keyword
   const searchResults = await recipeHelpers.searchRecipesByName(keyword)
-  // console.log(searchResults)
   res.render('user/view-search-results', { title: 'search results', user, firstName, searchResults, keyword })
 })
+
 
 router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
@@ -138,10 +143,9 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
   res.render('user/edit-recipe', { recipe, user, cuisines, firstName })
 })
 
+
 router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
   const id = req.params.id
-  // req.body.userRole = req.session.user.role
-  // console.log(req.body.userRole)
   await userHelpers.updateRecipe(id, req.body)
   if (req.files && req.files.image) {
     let image = req.files.image
@@ -152,6 +156,7 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
   }
   res.redirect('/view-recipe/' + id);
 })
+
 
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
   const recipeId = req.params.id;
@@ -166,28 +171,16 @@ router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
   res.redirect('/view-your-recipes')
 })
 
-router.get('/view-profile/:id', verifyLogin, async (req, res) => {
-  const user = req.session.user
-  const firstName = getUsername(user)
-  const userData = await userHelpers.getUserData(req.params.id)
-  const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
-  // console.log(recipesCount)
-  res.render('user/view-profile', { userData, recipesCount, user, firstName })
-})
 
-router.get('/delete-account/:id', verifyLogin, async (req, res) => {
-  await userHelpers.deleteUser(req.params.id)
-  res.redirect('/signup')
-})
-
-router.get('/view-all-recipes', async (req, res) => {
+router.get('/view-all-recipes', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const allRecipes = await recipeHelpers.getAllRecipes()
   res.render('user/view-all-recipes', { user, allRecipes, firstName })
 })
 
-router.get('/view-recipes-by-cuisine/:id', async (req, res) => {
+
+router.get('/view-recipes-by-cuisine/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
@@ -196,12 +189,42 @@ router.get('/view-recipes-by-cuisine/:id', async (req, res) => {
   res.render('user/view-recipes-by-cuisine', { user, recipes, cuisine, firstName })
 })
 
+
+router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const firstName = getUsername(user)
+  const allRecipes = await recipeHelpers.getRecipesByUserId(req.params.id)
+  // Filter based on status
+  const recipes = allRecipes.filter(allRecipes => allRecipes.status === 'published');
+
+  res.render('user/view-recipes-by-user', { user, firstName, recipes })
+})
+
+
+// PROFILE
+
+router.get('/view-profile/:id', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const firstName = getUsername(user)
+  const userData = await userHelpers.getUserData(req.params.id)
+  const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
+  res.render('user/view-profile', { userData, recipesCount, user, firstName })
+})
+
+
+router.get('/delete-account/:id', verifyLogin, async (req, res) => {
+  await userHelpers.deleteUser(req.params.id)
+  res.redirect('/signup')
+})
+
+
 router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const userData = await userHelpers.getUserData(req.params.id)
   res.render('user/edit-profile', { user, userData, firstName })
 })
+
 
 router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
   try {
@@ -213,14 +236,8 @@ router.post('/edit-profile/:id', verifyLogin, async (req, res) => {
   }
 })
 
-router.get('/view-pricing', (req, res) => {
-  const user = req.session.user
-  const firstName = getUsername(user)
-  res.render('user/view-pricing', { title: 'pricing', user, firstName })
-})
 
-
-router.get('/view-other-user-profile/:id', async (req, res) => {
+router.get('/view-other-user-profile/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const id = req.params.id
@@ -229,15 +246,12 @@ router.get('/view-other-user-profile/:id', async (req, res) => {
   res.render('user/view-other-user-profile', { userData, recipesCount, user, firstName })
 })
 
-router.get('/view-recipes-by-user/:id', async (req, res) => {
+
+router.get('/view-pricing', verifyLogin, (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
-  const allRecipes = await recipeHelpers.getRecipesByUserId(req.params.id)
-  // Filter based on status
-  const recipes = allRecipes.filter(allRecipes => allRecipes.status === 'published');
-  console.log(recipes)
-
-  res.render('user/view-recipes-by-user', { user, firstName, recipes })
+  res.render('user/view-pricing', { title: 'pricing', user, firstName })
 })
+
 
 module.exports = router;

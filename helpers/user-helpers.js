@@ -19,6 +19,7 @@ module.exports = {
         return users;
     },
 
+
     getUserData: async (userId) => {
         const userData = await db.get().collection(collections.USERS_COLLECTION).findOne({ _id: new ObjectId(userId) },
             {
@@ -32,9 +33,11 @@ module.exports = {
         return userData;
     },
 
+
     deleteUser: async (userId) => {
         await db.get().collection(collections.USERS_COLLECTION).deleteOne({ _id: new ObjectId(userId) })
     },
+
 
     editUser: async (userId, data) => {
         await db.get().collection(collections.USERS_COLLECTION).updateOne({ _id: new ObjectId(userId) },
@@ -47,6 +50,7 @@ module.exports = {
             }
         )
     },
+
 
     updateRecipe: (recipeId, recipe) => {
         return new Promise(async (resolve, reject) => {
@@ -68,15 +72,18 @@ module.exports = {
         })
     },
 
+
     getUserCount: async () => {
         const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'user' }).count()
         return count
     },
 
+
     getMembersCount: async () => {
         const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'member' }).count()
         return count
     },
+
 
     searchUser: async (searchQuery) => {
         let query;
@@ -84,7 +91,7 @@ module.exports = {
         // If the user has entered one letter, search for names starting with that letter
         if (searchQuery.length === 1) {
             query = {
-                role:'user',
+                role: 'user',
                 email: { $regex: `^${searchQuery}`, $options: "i" }  // 'i' makes it case-insensitive
             };
         } else {
@@ -95,11 +102,12 @@ module.exports = {
             }));
 
             query = {
-                role:'user',
+                role: 'user',
                 $and: regexArray
             };
         }
 
+        
         const usersData = await db.get()
             .collection(collections.USERS_COLLECTION)
             .find(query)

@@ -12,6 +12,7 @@ module.exports = {
         return userRecipes
     },
 
+
     publishRecipe: async (recipeId) => {
         const datePublished = new Date()
         await db.get().collection(collection.RECIPES_COLLECTION).updateOne({ _id: new ObjectId(recipeId) },
@@ -22,6 +23,7 @@ module.exports = {
                 }
             })
     },
+
 
     unpublishRecipe: async (recipeId) => {
         await db.get().collection(collection.RECIPES_COLLECTION).updateOne(
@@ -38,6 +40,7 @@ module.exports = {
 
     },
 
+
     rejectRecipe: async (recipeId) => {
         await db.get().collection(collection.RECIPES_COLLECTION).updateOne({ _id: new ObjectId(recipeId) },
             {
@@ -46,6 +49,7 @@ module.exports = {
                 }
             })
     },
+
 
     updateRecipe: (recipeId, recipe) => {
         return new Promise(async (resolve, reject) => {
@@ -65,14 +69,16 @@ module.exports = {
         })
     },
 
+
     addCuisine: async (cuisine, saveImage) => {
         const result = await db.get().collection(collection.CUISINE_COLLECTION).insertOne({
-            name:cuisine.name,
-            description:cuisine.description
+            name: cuisine.name,
+            description: cuisine.description
         })
 
         const insertedId = result.insertedId
         saveImage(insertedId)
     }
+
 
 }

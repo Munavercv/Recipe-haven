@@ -8,7 +8,7 @@ module.exports = {
     getCuisines: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const cuisines = await db.get().collection(collection.CUISINE_COLLECTION).find({}).sort({name:1}).toArray();
+                const cuisines = await db.get().collection(collection.CUISINE_COLLECTION).find({}).sort({ name: 1 }).toArray();
                 resolve(cuisines);
             } catch (error) {
                 console.error('Error fetching cuisines:', error);
@@ -292,19 +292,19 @@ module.exports = {
     },
 
 
-    getPublishedRecipesCount:async()=>{
-        const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'published'}).count()
+    getPublishedRecipesCount: async () => {
+        const count = db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'published' }).count()
         return count
     },
 
 
-    getPendingRecipesCount:async()=>{
-        const count = db.get().collection(collection.RECIPES_COLLECTION).find({status:'pending'}).count()
+    getPendingRecipesCount: async () => {
+        const count = db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'pending' }).count()
         return count
     },
 
 
-    getCuisineCount:async()=>{
+    getCuisineCount: async () => {
         const count = db.get().collection(collection.CUISINE_COLLECTION).find().count()
         return count
     }

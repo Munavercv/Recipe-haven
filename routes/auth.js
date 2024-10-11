@@ -1,6 +1,5 @@
 var express = require('express');
 const authHelpers = require('../helpers/auth-helpers');
-const userHelpers = require('../helpers/user-helpers');
 const db = require('../config/connection')
 const collection = require('../config/collections');
 var router = express.Router();
@@ -22,7 +21,6 @@ router.post('/login', async (req, res) => {
       if (response.status) {
         req.session.loggedIn = true
         req.session.user = response.user
-        // console.log(req.session.user);
         res.redirect(response.redirectUrl)
       } else {
         res.render('auth/login', { title: 'Login', hideHeader: true, error: response.message });
@@ -33,6 +31,9 @@ router.post('/login', async (req, res) => {
     });
 })
 
+
+
+/** SIGNUP */
 router.get('/signup', function (req, res) {
   res.render('auth/signup', { title: 'Sign Up', hideHeader: true });
 });
@@ -75,20 +76,15 @@ router.get('/verify-otp', (req, res) => {
 router.post('/verify-otp', async (req, res) => {
   const { otp, email } = req.body;
   const numOtp = parseInt(otp)
-  // console.log(otp)
   const otpRecord = await db.get().collection(collection.OTP_COLLECTION).findOne({ email: email, otp: numOtp });
   if (!otpRecord) {
-    // return res.send('invalid OTP');
     return res.json({ success: false, message: 'Invalid OTP' });
   }
-  // return res.send(otpRecord);
   await authHelpers.verifyOTP(otpRecord)
     .then(response => {
       if (response.status) {
-        // res.redirect('/login')
         return res.json({ success: true, message: 'Verification successful' });
       } else {
-        // res.render('auth/otp-verification', { title: 'Verify Otp', hideHeader: true, error: response.message, email });
         return res.json({ success: false, message: response.message });
       }
     })

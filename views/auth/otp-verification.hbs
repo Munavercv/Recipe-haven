@@ -1,86 +1,86 @@
 <section class="d-flex justify-content-center align-items-center signup-sec">
-    <div class="w-100">
-        <div class="signup-container">
-            <h2 class="text-center mb-2">Verify OTP</h2>
-            <form id="verifyOtpForm">
+  <div class="w-100">
+    <div class="signup-container">
+      <h2 class="text-center mb-2">Verify OTP</h2>
+      <form id="verifyOtpForm">
 
-                <p class="text-center">OTP is sent to <span class="fw-medium">{{email}}</span>.</p>
-                <div id="errorMessage" style="color: red; display: none;"></div>
+        <p class="text-center">OTP is sent to <span class="fw-medium">{{email}}</span>.</p>
+        <div id="errorMessage" style="color: red; display: none;"></div>
 
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP">
-                    <label for="floatingInput">Enter OTP</label>
-                </div>
-
-                <input type="email" id="emailInput" name="email" value="{{email}}" hidden>
-
-
-                <button type="submit" class="form-btn w-100 py-2">Sign up</button>
-                <div class="mt-2 text-center">
-                    <a id="resendOtpLink" class="normal-link" href="/resend-otp">Resend OTP</a>
-                </div>
-            </form>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP">
+          <label for="floatingInput">Enter OTP</label>
         </div>
+
+        <input type="email" id="emailInput" name="email" value="{{email}}" hidden>
+
+
+        <button type="submit" class="form-btn w-100 py-2">Sign up</button>
+        <div class="mt-2 text-center">
+          <a id="resendOtpLink" class="normal-link" href="/resend-otp">Resend OTP</a>
+        </div>
+      </form>
     </div>
+  </div>
 </section>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-const link = document.getElementById('resendOtpLink');
-const countdownDuration = 120; // Countdown duration in seconds (2 minutes)
+  const link = document.getElementById('resendOtpLink');
+  const countdownDuration = 120; // Countdown duration in seconds (2 minutes)
 
-// Function to format time as MM:SS
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
+  // Function to format time as MM:SS
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
 
-// Disable the link and start countdown
-function disableLinkWithCountdown() {
-  link.classList.add('disabled-link');
-  link.style.pointerEvents = 'none';
-  link.style.color = 'gray';
+  // Disable the link and start countdown
+  function disableLinkWithCountdown() {
+    link.classList.add('disabled-link');
+    link.style.pointerEvents = 'none';
+    link.style.color = 'gray';
 
-  let remainingTime = countdownDuration;
-  const countdownInterval = setInterval(() => {
-    remainingTime--;
-    link.textContent = `Resend OTP after ${formatTime(remainingTime)}`;
+    let remainingTime = countdownDuration;
+    const countdownInterval = setInterval(() => {
+      remainingTime--;
+      link.textContent = `Resend OTP after ${formatTime(remainingTime)}`;
 
-    if (remainingTime <= 0) {
-      clearInterval(countdownInterval);
-      link.classList.remove('disabled-link');
-      link.style.pointerEvents = 'auto';
-      link.style.color = '';
-      link.textContent = 'Resend OTP';
-    }
-  }, 1000); // Update every second
-}
-
-disableLinkWithCountdown();
-
-// Handle OTP verification form submission
-$('#verifyOtpForm').submit(function(e) {
-  e.preventDefault();
-
-  const otp = $('#otpInput').val();
-  const email = $('#emailInput').val();
-
-  $.ajax({
-    url: '/verify-otp',
-    method: 'POST',
-    data: { otp, email },
-    success: function(response) {
-      if (response.success) {
-        window.location.href = '/login';
-      } else {
-        $('#errorMessage').text(response.message).show();
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+        link.classList.remove('disabled-link');
+        link.style.pointerEvents = 'auto';
+        link.style.color = '';
+        link.textContent = 'Resend OTP';
       }
-    },
-    error: function() {
-      $('#errorMessage').text('An unexpected error occurred. Please try again.').show();
-    }
+    }, 1000); // Update every second
+  }
+
+  disableLinkWithCountdown();
+
+  // Handle OTP verification form submission
+  $('#verifyOtpForm').submit(function (e) {
+    e.preventDefault();
+
+    const otp = $('#otpInput').val();
+    const email = $('#emailInput').val();
+
+    $.ajax({
+      url: '/verify-otp',
+      method: 'POST',
+      data: { otp, email },
+      success: function (response) {
+        if (response.success) {
+          window.location.href = '/login';
+        } else {
+          $('#errorMessage').text(response.message).show();
+        }
+      },
+      error: function () {
+        $('#errorMessage').text('An unexpected error occurred. Please try again.').show();
+      }
+    });
   });
-});
 </script>

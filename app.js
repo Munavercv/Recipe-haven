@@ -3,14 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const exphbs =require('express-handlebars')
+const exphbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
 const db = require('./config/connection')
 const session = require('express-session')
 var userRouter = require('./routes/user')
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
-const dotenv=require('dotenv')
+const dotenv = require('dotenv')
 require('dotenv').config()
 const fs = require('fs');
 // const helpers = require('handlebars-helpers')();
@@ -43,8 +43,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-      maxAge: 1000 * 60 * 60 * 5,
-      secure: false          
+    maxAge: 1000 * 60 * 60 * 5,
+    secure: false
   }
 }));
 
@@ -59,10 +59,10 @@ app.use(session({
 // Call the connect function to initiate a MongoDB connection
 db.connect((err) => {
   if (err) {
-      console.error('Failed to connect to MongoDB:', err);
-      process.exit(1);
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1);
   } else {
-      console.log('MongoDB connection successful');
+    console.log('MongoDB connection successful');
   }
 });
 
@@ -92,7 +92,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error',{ hideHeader: true });
+  res.render('error', { hideHeader: true });
 });
 
 module.exports = app;
