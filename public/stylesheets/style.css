@@ -128,7 +128,7 @@ button:hover {
   color: #5a5a5a;
 }
 
-.head-sec{
+.head-sec {
   background: var(--section-bg-grey);
   padding: 1rem 0rem;
   text-align: center;
@@ -157,6 +157,7 @@ button:hover {
     text-align: center;
     margin-left: 0;
   }
+
 }
 
 /* recipe card styling */
@@ -210,7 +211,7 @@ button:hover {
 
 @media (max-width:576px) {
   .section-description {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -232,7 +233,7 @@ header {
 }
 
 header .rh-logo {
-  font-size: 25px;
+  font-size: 28px;
 }
 
 .dropdown-toggle::after {
@@ -591,8 +592,111 @@ header .dropdown ul li:first-child {
   .cuisine-selector {
     margin-top: 1rem;
   }
+
+  .cuisine-img {
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+  }
 }
 
+@media (max-width:576px) {
+  .cuisine-img {
+    width: 60px;
+  }
+
+  .cuisine-selector a {
+    font-size: 10px;
+  }
+}
+
+
+/* Centering the cards in the swiper-slide */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #000;
+  /* Color of the arrows */
+  background: rgba(255, 255, 255, 1);
+  /* Add a semi-transparent background */
+  border-radius: 50%;
+  /* Make it circular */
+  padding: 18px;
+  /* Add padding around the arrow */
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.4);
+  /* Optional: add shadow */
+}
+
+.swiper-button-prev {
+  left: 0px !important;
+  /* Adjust position from the left */
+}
+
+.swiper-button-next {
+  right: 0px !important;
+  /* Adjust position from the right */
+}
+
+.swiper-container {
+  position: relative;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 50%;
+  /* Vertically center the arrows */
+  transform: translateY(-50%);
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 1.2rem !important;
+  font-weight: bolder;
+  color: #000;
+  /* Increase the size of the arrow icons */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  /* Horizontally center the card */
+  align-items: center;
+  /* Vertically center the card */
+  flex-direction: column;
+  /* Make sure the content inside is aligned column-wise */
+  text-align: center;
+  /* Center the text and images within the card */
+}
+
+
+
+.swiper-container {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.mt-2 {
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+@media(max-width:576px) {
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    padding: 10px;
+    width: 25px !important;
+    height: 25px !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 0.8rem !important;
+  }
+}
 
 
 /* submit home banner */
@@ -1042,13 +1146,15 @@ td {
   }
 }
 
-@media (max-width:567px){
+@media (max-width:567px) {
+
   .cuisine-table td,
   .cuisine-table th {
     font-size: 13px;
     padding: 0.5rem 0.2rem;
   }
-  .cuisine-table td i{
+
+  .cuisine-table td i {
     font-size: 11px;
   }
 

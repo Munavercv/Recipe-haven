@@ -22,25 +22,33 @@
 </section>
 
 
-
 <section class="cuisine-sec">
+    <h2 class="section-title text-center">Cuisines</h2>
+    <p class="text-center mb-md-4 section-description">Click a cuisine to see recipes</p>
     <div class="container-fluid">
-        <div class="row cuisine-selector">
-
-            {{#each cuisines}}
-            <div class="col-xl-2 col-md-4 col-sm-6 text-center">
-                <a href="/view-recipes-by-cuisine/{{this._id}}">
-                    <div class="cuisine-img">
-                        <img class="img-fluid" src="/images/{{this._id}}.jpg" alt="{{this.name}}">
+        <div class="swiper-container cuisine-selector">
+            <div class="swiper-wrapper">
+                {{#each cuisines}}
+                <div class="swiper-slide">
+                    <div class="col-xl-2 col-md-4 col-sm-6 mx-auto">
+                        <a class="" href="/view-recipes-by-cuisine/{{this._id}}">
+                            <div class="cuisine-img">
+                                <img class="img-fluid" src="/images/{{this._id}}.jpg" alt="{{this.name}}">
+                            </div>
+                            <p class="mt-2">{{this.name}}</p>
+                        </a>
                     </div>
-                    <p class="mt-2">{{this.name}}</p>
-                </a>
+                </div>
+                {{/each}}
             </div>
-            {{/each}}
 
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
     </div>
+
 </section>
+
 
 
 <section class="latest-recipes-sec">

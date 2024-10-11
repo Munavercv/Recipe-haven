@@ -19,5 +19,19 @@
             {{/each}}
 
         </div>
+
+
+        {{#unless recipes}}
+        <div class="px-4 py-5 my-5 text-center">
+            <i style="font-size: 3rem;" class="fa-solid fa-face-frown mb-4"></i>
+            <h1 class="display-5 fw-bold">No recipes found</h1>
+            <div class="col-lg-6 mx-auto">
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/"><button type="button" class="primary-btn">Back to Home</button></a>
+                </div>
+            </div>
+        </div>
+        {{/unless}}
+
     </div>
 </section>

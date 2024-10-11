@@ -22,7 +22,7 @@ window.addEventListener('click', function (e) {
 
 // function addFixedNav() {
 //     const nav = document.getElementById("fixedNav");
-    
+
 //     if (window.scrollY > 40) {
 //         nav.classList.add("fixed-top", "nav-fixed");
 //     } else {
@@ -38,3 +38,35 @@ function goBack() {
     window.history.back();
 }
 // ============================================ page back
+
+
+
+// ========================================================== cuisine slider
+const swiper = new Swiper('.swiper-container', {
+    slidesPerView: 5,
+    spaceBetween: 0,
+    loop: true,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+        576: {
+            slidesPerView: 5,
+            spaceBetween: 20,
+        },
+        768: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+        },
+        992: {
+            slidesPerView: 5,
+            spaceBetween: 0,
+        },
+        1200: {
+            slidesPerView: 6,
+            spaceBetween: 0,
+        }
+    }
+});
+// ========================================================== cuisine slider
