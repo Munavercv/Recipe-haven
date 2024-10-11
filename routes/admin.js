@@ -18,7 +18,7 @@ const verifyLogin = (req, res, next) => {
 /* GET users listing. */
 router.get('/admin-home', verifyLogin, async function (req, res, next) {
     const cuisines = await recipeHelpers.getCuisines()
-    const limit = 12
+    const limit = 20
     const latestRecipes = await recipeHelpers.getLatestRecipes(limit)
     res.render('admin/admin-home', { title: 'admin panel', admin: true, cuisines, latestRecipes })
 });
@@ -86,7 +86,7 @@ router.get('/publish-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/unpublish-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.unpublishRecipe(recipeId)
-    res.redirect('/admin/view-recipe/' + recipeId)
+    res.redirect('/admin/user-recipes/')
 })
 
 router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
@@ -98,7 +98,7 @@ router.get('/reject-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await recipeHelpers.deleteRecipe(recipeId)
-    const imagePath = path.join(__dirname, '../public/recipe_images/', id + '.jpg');
+    const imagePath = path.join(__dirname, '../public/recipe_images/', req.params.id + '.jpg');
     fs.unlink(imagePath, (err) => {
         if (err) {
             console.error("Error while deleting image:", err);

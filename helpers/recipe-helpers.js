@@ -180,6 +180,8 @@ module.exports = {
             .collection(collection.RECIPES_COLLECTION)
             .aggregate([
                 { $match: { status: 'published' } },
+                { $addFields: { randomValue: { $rand: {} } } },
+                { $sort: { randomValue: 1 } },
                 {
                     $project: {
                         cooking_instructions: 0,

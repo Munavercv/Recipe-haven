@@ -500,7 +500,6 @@ header .dropdown ul li:first-child {
   height: 90vh;
   overflow: hidden;
   margin: 0 auto;
-  cursor: pointer;
 }
 
 .landing-right img {

@@ -3,6 +3,7 @@ var router = express.Router();
 const userHelpers = require('../helpers/user-helpers');
 const recipeHelpers = require('../helpers/recipe-helpers');
 const { KeyObject } = require('crypto');
+const fs = require('fs');
 
 let getUsername = (user) => {
   let firstName = '';
