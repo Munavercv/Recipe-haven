@@ -1043,17 +1043,13 @@ td {
 .signup-container {
   max-width: 380px;
   margin: auto;
-  padding: 30px;
+  padding: 10px 25px;
   border-radius: 10px;
 }
 
 .signup-container h2 {
   font-weight: 500;
   font-size: 30px;
-}
-
-.signup-sec {
-  height: 100vh;
 }
 
 .signup-sec input.form-control {
