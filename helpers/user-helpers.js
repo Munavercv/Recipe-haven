@@ -74,13 +74,13 @@ module.exports = {
 
 
     getUserCount: async () => {
-        const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'user' }).count()
+        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: 'user' })
         return count
     },
 
 
     getMembersCount: async () => {
-        const count = db.get().collection(collections.USERS_COLLECTION).find({ role: 'member' }).count()
+        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: 'member' })
         return count
     },
 

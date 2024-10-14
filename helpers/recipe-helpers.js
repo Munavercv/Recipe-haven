@@ -137,7 +137,7 @@ module.exports = {
 
 
     getRecipeCount: async (userId) => {
-        const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).find({ userId: new ObjectId(userId) }).count()
+        const recipesCount = await db.get().collection(collection.RECIPES_COLLECTION).countDocuments({ userId: new ObjectId(userId) })
         return recipesCount
     },
 
@@ -293,19 +293,19 @@ module.exports = {
 
 
     getPublishedRecipesCount: async () => {
-        const count = db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'published' }).count()
+        const count = await db.get().collection(collection.RECIPES_COLLECTION).countDocuments({ status: 'published' });
         return count
     },
 
 
     getPendingRecipesCount: async () => {
-        const count = db.get().collection(collection.RECIPES_COLLECTION).find({ status: 'pending' }).count()
+        const count = db.get().collection(collection.RECIPES_COLLECTION).countDocuments({ status: 'pending' })
         return count
     },
 
 
     getCuisineCount: async () => {
-        const count = db.get().collection(collection.CUISINE_COLLECTION).find().count()
+        const count = db.get().collection(collection.CUISINE_COLLECTION).countDocuments()
         return count
     }
 
