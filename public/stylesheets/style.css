@@ -7,7 +7,6 @@ html,
 body {
   overflow-x: hidden;
   padding-top: 4rem;
-
 }
 
 
@@ -236,6 +235,12 @@ header .rh-logo {
   font-size: 28px;
 }
 
+@media (max-width: 1200px) {
+  header .rh-logo {
+    font-size: 25px;
+  }
+}
+
 .dropdown-toggle::after {
   display: none !important;
 }
@@ -354,6 +359,7 @@ header .rh-logo {
 
   left: 5px;
 }
+
 /* header */
 
 
