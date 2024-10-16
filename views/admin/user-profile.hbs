@@ -1,5 +1,5 @@
 <section class="user-profile-sec">
-    <div class="px-4 py-5 my-5 text-center">
+    <div class="px-4 py-3 my-5 text-center">
         <div>
             <i class="fa-regular my-md-3 fa-circle-user"></i>
             <h1 class="display-5 fw-bold">{{userData.name}}</h1>
@@ -11,13 +11,12 @@
             <a href="/admin/view-recipes-by-user/{{userData._id}}"><button type="button" class="primary-btn mt-2">View
                     Recipes</button></a>
         </div>
-        <div class="col-lg-6 mx-auto mt-5">
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a href="/admin/edit-profile/{{userData._id}}"><button type="button" class="primary-btn">Edit
-                        profile</button></a>
+        <hr class="my-5">
+        <div class="col-lg-6 mx-auto mt-3">
+            <div class="d-grid gap-5 d-sm-flex justify-content-sm-center">
+                <a href="/admin/edit-profile/{{userData._id}}" class="normal-link"><i class="fa-solid fa-pen"></i> Edit profile</a>
                 <a href="/admin/delete-user/{{userData._id}}"
-                    onclick="return confirm('Are you sure you want to permenantly delete this User?')"><button
-                        type="button" class="primary-btn">Delete User</button></a>
+                    onclick="return confirm('Are you sure you want to permenantly delete this User?')" class="normal-link"><i class="fa-solid fa-trash"></i> Remove user</a>
             </div>
         </div>
     </div>
