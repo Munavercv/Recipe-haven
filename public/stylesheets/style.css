@@ -883,6 +883,28 @@ footer .credit a:hover {
 
 
 /* ================================= recipe page */
+
+.recipe-page #bookmarkRecipe {
+  border: none;
+  background: none;
+  font-size: 1.25rem;
+  margin-top: 10;
+}
+
+#bookmarkRecipe i {
+  transition: color 0.5s ease, transform 0.5s ease;
+}
+
+#bookmarkRecipe i.fa-solid {
+  color: #333;
+  transform: scale(1.2);
+}
+
+#bookmarkRecipe i.fa-regular {
+  color: #333;
+  transform: scale(1);
+}
+
 .recipe-page .dish-img {
   max-width: 454px;
   height: auto;

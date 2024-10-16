@@ -109,14 +109,16 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipe(req.params.id)
   const recipe = recipes[0];
-
   let recipeOwner = false
+  let isBookmarked = false;
 
   if (user && user._id == recipe.userId) {
     recipeOwner = true
   }
 
-  res.render('user/view-recipe', { user, recipe, recipeOwner, firstName })
+  isBookmarked = await recipeHelpers.isRecipeBookmarked(user._id, recipe._id);
+
+  res.render('user/view-recipe', { user, recipe, recipeOwner, firstName, isBookmarked })
 })
 
 
@@ -169,6 +171,41 @@ router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
     }
   })
   res.redirect('/view-your-recipes')
+})
+
+
+router.post('/bookmark-recipe/:recipeId', verifyLogin, async (req, res) => {
+  const userId = req.session.user._id;
+  const recipeId = req.params.recipeId;
+
+  try {
+    await recipeHelpers.bookmarkRecipe(userId, recipeId);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false });
+  }
+
+})
+
+
+router.delete('/unbookmark-recipe/:recipeId', verifyLogin, async (req, res) => {
+  const userId = req.session.user._id;
+  const recipeId = req.params.recipeId;
+
+  try {
+      await recipeHelpers.unbookmarkRecipe(userId, recipeId);
+      res.json({ success: true });
+  } catch (error) {
+      res.status(500).json({ success: false });
+  }
+});
+
+
+router.get('/bookmarks', verifyLogin, async (req, res) =>{
+  const user = req.session.user
+  const firstName = getUsername(user)
+  const bookmarks = await recipeHelpers.getBookmarks(user._id)
+  res.render('user/view-bookmarks', {user, bookmarks, firstName})
 })
 
 

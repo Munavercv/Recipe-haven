@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt');
 const { response, resource } = require('../app');
 const ObjectId = require('mongoose').Types.ObjectId;
 
+const getUserBookmarks = async (userId) => {
+    const user = await db.get().collection(collection.USERS_COLLECTION).findOne({ _id: new ObjectId(userId) });
+    return user ? user.bookmarkedRecipes : [];
+}
+
 module.exports = {
     getCuisines: () => {
         return new Promise(async (resolve, reject) => {
@@ -307,6 +312,70 @@ module.exports = {
     getCuisineCount: async () => {
         const count = db.get().collection(collection.CUISINE_COLLECTION).countDocuments()
         return count
+    },
+
+
+    bookmarkRecipe: async (userId, recipeId) => {
+        // console.log(userId, recipeId)
+        await db.get().collection(collection.USERS_COLLECTION).updateOne(
+            { _id: new ObjectId(userId) },
+            { $addToSet: { bookmarkedRecipes: new ObjectId(recipeId) } }
+        );
+    },
+
+
+    unbookmarkRecipe: async (userId, recipeId) => {
+        await db.get().collection(collection.USERS_COLLECTION).updateOne(
+            { _id: new ObjectId(userId) },
+            { $pull: { bookmarkedRecipes: new ObjectId(recipeId) } }
+        );
+    },
+
+
+    isRecipeBookmarked: async (userId, recipeId) => {
+        const bookmarks = await getUserBookmarks(userId);
+    
+        // Check if bookmarks is defined and not empty
+        if (!bookmarks || bookmarks.length === 0) {
+            return false; // User has no bookmarks, so the recipe is not bookmarked
+        }
+    
+        // Check if the recipe is bookmarked
+        const isBookmarked = bookmarks.some(bookmark => bookmark.toString() === recipeId.toString());
+        
+        return isBookmarked;
+    },
+    
+
+
+    getBookmarks: async (userId) => {
+        // Fetch the user with bookmarkedRecipes field
+        const user = await db.get().collection(collection.USERS_COLLECTION).findOne(
+            { _id: new ObjectId(userId) },
+            { projection: { _id: 1, bookmarkedRecipes: 1 } }
+        );
+
+        // Check if user has bookmarked recipes
+        if (!user || !user.bookmarkedRecipes || user.bookmarkedRecipes.length === 0) {
+            return []; // Return empty array if no bookmarks
+        }
+
+        // Fetch all bookmarked recipes in one go using $in
+        const recipes = await db.get().collection(collection.RECIPES_COLLECTION).find({
+            _id: { $in: user.bookmarkedRecipes.map(id => new ObjectId(id)) }
+        }, {
+            projection: {
+                cooking_instructions: 0,
+                ingredients: 0,
+                cuisine: 0,
+                userId: 0,
+                dateCreated: 0,
+                status: 0,
+                datePublished: 0
+            }
+        }).toArray();
+
+        return recipes;
     }
 
 

@@ -1,8 +1,21 @@
 <section class="recipe-page">
     <div class="container-fluid py-4">
-        <h2 class="text-center section-title mb-5">{{recipe.name}}</h2>
 
         <div class="row justify-center">
+
+            <div class="options col-12">
+                <button id="bookmarkRecipe" class="float-end" data-recipe-id="{{recipe._id}}">
+                    {{#if isBookmarked}}
+                    <i class="fa-solid fa-bookmark"></i> <!-- Bookmarked -->
+                    {{else}}
+                    <i class="fa-regular fa-bookmark"></i> <!-- Not Bookmarked -->
+                    {{/if}}
+                </button>
+            </div>
+
+            <div class="title col-12">
+                <h2 class="text-center section-title mb-5">{{recipe.name}}</h2>
+            </div>
 
             <div class="col-md-6 mb-3">
                 <div class="dish-img">

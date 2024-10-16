@@ -13,23 +13,7 @@ window.addEventListener('click', function (e) {
         }
     });
 });
-// ================================================= dropdown
-
-
-
-// ============================================ fixed nav
-// window.onscroll = function() { addFixedNav() };
-
-// function addFixedNav() {
-//     const nav = document.getElementById("fixedNav");
-
-//     if (window.scrollY > 40) {
-//         nav.classList.add("fixed-top", "nav-fixed");
-//     } else {
-//         nav.classList.remove("fixed-top", "nav-fixed");
-//     }
-// }
-// ============================================ fixed nav
+// =================================================
 
 
 
@@ -37,7 +21,7 @@ window.addEventListener('click', function (e) {
 function goBack() {
     window.history.back();
 }
-// ============================================ page back
+// ============================================
 
 
 
@@ -69,4 +53,39 @@ const swiper = new Swiper('.swiper-container', {
         }
     }
 });
-// ========================================================== cuisine slider
+// ==========================================================
+
+
+
+// ========================================================= bookmark recipe
+$(document).ready(function () {
+    $('#bookmarkRecipe').click(function (e) {
+        e.preventDefault();
+        
+        const recipeId = $(this).data('recipe-id');
+        const isBookmarked = $(this).find('i').hasClass('fa-solid');
+
+        if (isBookmarked) {
+            $.ajax({
+                url: `/unbookmark-recipe/${recipeId}`,
+                type: 'DELETE',
+                success: function (response) {
+                    if (response.success) {
+                        $('#bookmarkRecipe i').removeClass('fa-solid fa-bookmark').addClass('fa-regular fa-bookmark');
+                    } else {
+                        alert('Failed to unbookmark the recipe');
+                    }
+                }
+            });
+        } else {
+            $.post(`/bookmark-recipe/${recipeId}`, function (response) {
+                if (response.success) {
+                    $('#bookmarkRecipe i').removeClass('fa-regular fa-bookmark').addClass('fa-solid fa-bookmark');
+                } else {
+                    alert('Failed to bookmark the recipe');
+                }
+            });
+        }
+    });
+});
+// =========================================================
