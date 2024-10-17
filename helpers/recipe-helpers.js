@@ -127,12 +127,27 @@ module.exports = {
                         userId: 1,
                         "userDetails.name": 1,
                         "userDetails.email": 1,
+                        ratings: {
+                            $ifNull: ["$ratings", []] // Ensure ratings is an array
+                        },
+                        averageRating: {
+                            $cond: {
+                                if: { $gt: [{ $size: { $ifNull: ["$ratings", []] } }, 0] },
+                                then: { $divide: [{ $sum: "$ratings.rating" }, { $size: { $ifNull: ["$ratings", []] } }] },
+                                else: 0
+                            }
+                        }
                     }
                 }
-            ]).toArray()
-            resolve(recipe)
-        })
-    },
+            ]).toArray();
+    
+            if (recipe.length > 0) {
+                resolve(recipe); // Resolve with the first recipe object
+            } else {
+                reject(new Error("Recipe not found"));
+            }
+        });
+    },    
 
 
     getRecipesByUserId: async (userId) => {
@@ -334,18 +349,18 @@ module.exports = {
 
     isRecipeBookmarked: async (userId, recipeId) => {
         const bookmarks = await getUserBookmarks(userId);
-    
+
         // Check if bookmarks is defined and not empty
         if (!bookmarks || bookmarks.length === 0) {
             return false; // User has no bookmarks, so the recipe is not bookmarked
         }
-    
+
         // Check if the recipe is bookmarked
         const isBookmarked = bookmarks.some(bookmark => bookmark.toString() === recipeId.toString());
-        
+
         return isBookmarked;
     },
-    
+
 
 
     getBookmarks: async (userId) => {
@@ -376,7 +391,50 @@ module.exports = {
         }).toArray();
 
         return recipes;
-    }
+    },
 
+
+    doRating: async (recipeId, userId, rating) => {
+        const recipe = await db.get().collection(collection.RECIPES_COLLECTION).findOne({ _id: new ObjectId(recipeId)});
+    
+        // Initialize ratings field if it does not exist
+        if (!recipe.ratings) {
+            recipe.ratings = []; // Create an empty array for ratings
+        }
+    
+        // Initialize ratings field if it does not exist
+        if (!recipe.ratings) {
+            recipe.ratings = []; // Create an empty array for ratings
+        }
+    
+        // Check if user has already rated
+        const userHasRated = recipe.ratings.find(r => r.userId.toString() === userId.toString());
+    
+        if (userHasRated) {
+            return { success: false, message: 'You have already rated this recipe' };
+        }
+    
+        // Add new rating to the recipe
+        await db.get().collection(collection.RECIPES_COLLECTION).updateOne(
+            { _id: new ObjectId(recipeId) },
+            { $push: { ratings: { userId: new ObjectId(userId), rating: parseInt(rating) } } }
+        );
+    
+        return { success: true };
+    },
+
+
+    // calculateAverageRating: async (recipeId) => {
+    //     const recipe = await db.get().collection(collection.RECIPES_COLLECTION).findOne({ _id: new ObjectId(recipeId) });
+
+    //     if (!recipe || !recipe.ratings || recipe.ratings.length === 0) {
+    //         return 0;
+    //     }
+
+    //     const totalRating = recipe.ratings.reduce((sum, r) => sum + r.rating, 0);
+    //     const averageRating = (totalRating / recipe.ratings.length).toFixed(2);
+
+    //     return averageRating;
+    // }
 
 }

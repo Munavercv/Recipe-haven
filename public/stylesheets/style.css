@@ -44,6 +44,12 @@ body {
   /* Important for the spinner positioning */
 }
 
+.primary-btn:disabled {
+  color: #7a7a7a;
+  background-color: #a2a2a2;
+  cursor: default;
+}
+
 .primary-btn.button-loading {
   color: transparent;
   /* Hide the text during loading */
@@ -938,8 +944,59 @@ footer .credit a:hover {
   font-size: 14px;
 }
 
+.recipe-page .avgrating {
+  font-size: 14px;
+}
+
+.recipe-page .avgrating i{
+  color: #e58e09;
+}
+
 .recipe-page .ingredients li {
   margin-bottom: 8px;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  border-radius: 25px;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.247);
+}
+
+.rating:not(:checked)>input {
+  position: absolute;
+  appearance: none;
+}
+
+.rating:not(:checked)>label {
+  float: right;
+  cursor: pointer;
+  font-size: 30px;
+  color: #666;
+}
+
+.rating:not(:checked)>label:before {
+  content: "★";
+}
+
+.rating>input:checked+label:hover,
+.rating>input:checked+label:hover~label,
+.rating>input:checked~label:hover,
+.rating>input:checked~label:hover~label,
+.rating>label:hover~input:checked~label {
+  color: #e58e09;
+}
+
+.rating:not(:checked)>label:hover,
+.rating:not(:checked)>label:hover~label {
+  color: #ff9e0b;
+}
+
+.rating>input:checked~label {
+  color: #ffa723;
 }
 
 /* respossive */

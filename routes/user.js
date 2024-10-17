@@ -112,7 +112,7 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
   let recipeOwner = false
   let isBookmarked = false;
 
-  if (user && user._id == recipe.userId) {
+ if (user && user._id == recipe.userId) {
     recipeOwner = true
   }
 
@@ -236,6 +236,22 @@ router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
 
   res.render('user/view-recipes-by-user', { user, firstName, recipes })
 })
+
+
+router.post('/rate-recipe/:id', verifyLogin, async (req, res) => {
+  const recipeId = req.params.id;
+  // const user = req.session.user;
+  const userId = req.session.user._id;
+  const rating = req.body.rating;
+
+  try {
+      const result = await recipeHelpers.doRating(recipeId, userId, rating);
+      res.json(result);
+  } catch (error) {
+      console.error(error);
+      res.json({ success: false });
+  }
+});
 
 
 // PROFILE
