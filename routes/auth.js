@@ -25,9 +25,11 @@ router.post('/login', async (req, res) => {
         req.session.loggedIn = true
         req.session.user = response.user
 
-        const redirectTo = req.session.returnTo || response.redirectUrl;
-        delete req.session.returnTo;
-        res.redirect(redirectTo);
+        // const redirectTo = req.session.returnTo || response.redirectUrl;
+        // delete req.session.returnTo;
+        // res.redirect(redirectTo);
+
+        res.redirect(response.redirectUrl)
       } else {
         req.session.error = response.message; // Store the error in session
         res.redirect('/login'); // Redirect to login page

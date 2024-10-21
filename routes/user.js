@@ -24,7 +24,7 @@ const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
     next()
   } else {
-    req.session.returnTo = req.originalUrl;
+    // req.session.returnTo = req.originalUrl;
     res.redirect('/login');
   }
 }
