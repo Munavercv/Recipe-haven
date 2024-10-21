@@ -18,7 +18,9 @@
                         {{#if user}}
                         <li><a class="custom-dropdown-item" href="/logout">Logout</a></li>
                         <li><a class="custom-dropdown-item" href="/view-profile/{{user._id}}">Profile</a></li>
+                        {{#unless userIsPro}}
                         <li><a class="custom-dropdown-item bg-dark-subtle" href="/view-pricing">Become a member</a></li>
+                        {{/unless}}
                         {{else}}
                         <li><a class="custom-dropdown-item" href="/login">Login</a></li>
                         {{/if}}
@@ -47,9 +49,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/view-all-recipes">All Recipes</a>
                     </li>
+                    {{#if userIsPro}}
                     <li class="nav-item">
                         <a class="nav-link" href="/view-your-recipes">Your Recipes</a>
                     </li>
+                    {{/if}}
                 </ul>
 
                 <!-- Search box for small screens -->

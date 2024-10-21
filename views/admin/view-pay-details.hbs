@@ -1,0 +1,30 @@
+<section class="mt-5">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="card mb-3 border-0 shadow rounded-4" style="width: 20rem;">
+                <div class="card-header bg-white text-center">{{payDetails.orderId}}</div>
+                <div class="card-body">
+                    <h3 class="card-title">Amount : Rs.{{payDetails.amount}}</h3>
+                    <h6>Payee : {{payDetails.userDetails.name}}</h6>
+                    <p class="card-text">Email: {{payDetails.userDetails.email}} <br> Mob:
+                        {{payDetails.userDetails.mobile}}</p>
+                    <hr>
+                    <p class="card-text">{{payDetails.createdAt}}</p>
+                    {{#if payDetails.success}}
+                    <p class="status-success text-center">successful <i class="fa-regular fa-circle-check"></i></p>
+                    {{else}}
+                    <p class="status-failed text-center">failed <i class="bi bi-exclamation-circle"></i></p>
+                    {{/if}}
+                    <hr>
+                    <div class="text-center">
+                    <a href="/admin/edit-pay-details/{{payDetails._id}}"><button class="primary-btn">Edit</button></a>
+                    <a href="/admin/delete-payment-record/{{payDetails._id}}"
+                        onclick="return confirm('Are you sure you want to permanently delete this Record?')">
+                        <button class="primary-btn-outline">Delete</button>
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -23,6 +23,12 @@
                         value="{{userData.mobile}}" required>
                 </div>
 
+                <div class="mb-2">
+                    <label for="mobile" class=" fw-medium">Role ("user" or "pro")</label>
+                    <input type="text" name="mobile" class="form-control" id="mobile" aria-describedby=""
+                        value="{{userData.role}}" required>
+                </div>
+
                 <div class="mb-2 text-end">
                     <button type="submit" class="primary-btn mt-3">Update</button>
                     <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>

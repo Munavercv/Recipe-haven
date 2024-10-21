@@ -5,6 +5,7 @@ const adminHelpers = require('../helpers/admin-helpers');
 const userHelpers = require('../helpers/user-helpers');
 var path = require('path');
 const fs = require('fs');
+const { title } = require('process');
 
 
 const verifyLogin = (req, res, next) => {
@@ -201,7 +202,7 @@ router.get('/publish-admin-recipe/:id', verifyLogin, async (req, res) => {
 })
 
 
-router.get('/unpublish-admin-recipes/:id', verifyLogin, async(req, res) =>{
+router.get('/unpublish-admin-recipes/:id', verifyLogin, async (req, res) => {
     const recipeId = req.params.id;
     await adminHelpers.unpublishRecipe(recipeId)
     res.redirect('/admin/view-your-recipes/')
@@ -235,6 +236,12 @@ router.get('/search-results', verifyLogin, async (req, res) => {
 router.get('/view-users', verifyLogin, async (req, res) => {
     const users = await userHelpers.getUsers()
     res.render('admin/view-users', { admin: true, users })
+})
+
+
+router.get('/view-members', verifyLogin, async (req, res) => {
+    const users = await userHelpers.getMembers()
+    res.render('admin/view-members', { admin: true, users })
 })
 
 
@@ -359,5 +366,36 @@ router.get('/search-cuisine', verifyLogin, async (req, res) => {
     const cuisines = await recipeHelpers.searchCuisines(keyword)
     res.render('admin/view-all-cuisines', { title: 'cuisines', admin: true, cuisines, keyword })
 })
+
+
+router.get('/view-payments', verifyLogin, async (req, res) => {
+    const payments = await adminHelpers.getAllPayments()
+    // console.log(payments)
+    res.render('admin/view-payments', { title: 'payments', admin: true, payments })
+})
+
+
+router.get('/view-pay-details/:id', verifyLogin, async (req, res) => {
+    const payDetails = await adminHelpers.getPayDetails(req.params.id)
+    res.render('admin/view-pay-details', { title: 'Payment details', admin: true, payDetails })
+})
+
+router.get('/delete-payment-record/:id', verifyLogin, async (req, res) => {
+    await adminHelpers.deletePayRecord(req.params.id)
+    res.redirect('/admin/view-payments')
+})
+
+router.get('/edit-pay-details/:id', verifyLogin, async (req, res) => {
+    const payDetails = await adminHelpers.getPayDetails(req.params.id)
+    res.render('admin/edit-pay-details', { title: 'Edit Payment details', admin: true, payDetails })
+})
+
+
+router.post('/edit-pay-details/:id', verifyLogin, async (req, res) => {
+    const id = req.params.id
+    await adminHelpers.editPayDetails(id, req.body)
+    res.redirect('/admin/view-pay-details/' + id)
+})
+
 
 module.exports = router;

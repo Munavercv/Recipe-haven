@@ -1,0 +1,50 @@
+<section class="submit-recipe-sec">
+    <div class="w-100">
+        <div class="submit-recipe-container container">
+
+            <h4 class="text-center long-title mb-4">{{payDetails.orderId}}</h4>
+
+            <form action="/admin/edit-pay-details/{{payDetails._id}}" method="post" id="myForm">
+                <div class="mb-2">
+                    <label for="amount" class=" fw-medium">Amount</label>
+                    <input type="text" name="amount" class="form-control" id="amount" aria-describedby=""
+                        value="{{payDetails.amount}}" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="currency" class=" fw-medium">Currency</label>
+                    <input type="text" name="currency" class="form-control" id="currency" aria-describedby=""
+                        value="{{payDetails.currency}}" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="success" class=" fw-medium">Status</label>
+                    <input type="text" name="success" class="form-control" id="success" aria-describedby=""
+                        value="{{#if payDetails.success}} successful {{else}} failed {{/if}}" required>
+                </div>
+
+                <div class="mb-2 text-end">
+                    <button type="submit" class="primary-btn mt-3">Update</button>
+                    <button type="button" class="primary-btn-outline mt-3" onclick="goBack()">Cancel</button>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+    const form = document.querySelector('#myForm');
+    const submitButton = document.querySelector('.primary-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitButton.classList.add('button-loading');
+        submitButton.disabled = true;
+
+        form.submit();
+    });
+</script>

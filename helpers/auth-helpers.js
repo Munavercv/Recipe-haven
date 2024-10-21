@@ -115,11 +115,13 @@ module.exports = {
                                 return resolve({ status: false, message: 'Invalid username or password' });
                             }
 
-                            // Step 4: Check user role
+                            // Check user role
                             if (user.role === 'admin') {
                                 resolve({ status: true, userRole: 'admin', redirectUrl: '/admin/admin-home', user });
                             } else if (user.role === 'user') {
                                 resolve({ status: true, userRole: 'user', redirectUrl: '/', user });
+                            } else if (user.role === 'pro') {
+                                resolve({ status: true, userRole: 'pro', redirectUrl: '/', user });
                             } else {
                                 resolve({ status: false, message: 'Permission denied' });
                             }

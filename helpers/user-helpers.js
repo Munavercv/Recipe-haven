@@ -3,15 +3,40 @@ const collections = require('../config/collections')
 const bcrypt = require('bcrypt');
 const { response, resource } = require('../app');
 const ObjectId = require('mongoose').Types.ObjectId;
+const Razorpay = require('razorpay')
+
+const razorpay = new Razorpay({
+    key_id: "rzp_test_9lrlVTSNPRhsQA",
+    key_secret: "c65BwBug9SjpzuN7VqiLgYrq"
+});
+
 
 module.exports = {
 
     getUsers: async () => {
-        const users = await db.get().collection(collections.USERS_COLLECTION).find({ role: 'user' },
+        const users = await db.get().collection(collections.USERS_COLLECTION).find({ role: { $in: ['user', 'pro'] } },
             {
                 projection: {
                     password: 0,
-                    role: 0,
+                    isVerified: 0,
+                }
+            }
+        ).toArray()
+
+        let modifiedUsers = users.map(user => ({
+            ...user,
+            isPro: user.role === 'pro'
+        }));
+
+        return modifiedUsers;
+    },
+
+
+    getMembers: async () => {
+        const users = await db.get().collection(collections.USERS_COLLECTION).find({ role: 'pro' },
+            {
+                projection: {
+                    password: 0,
                     isVerified: 0,
                 }
             }
@@ -25,11 +50,13 @@ module.exports = {
             {
                 projection: {
                     password: 0,
-                    role: 0,
-                    isVerified: 0,
+                    isVerified: 0
                 }
             }
         )
+        if (userData.role === 'pro')
+            userData.isPro = true
+
         return userData;
     },
 
@@ -74,13 +101,13 @@ module.exports = {
 
 
     getUserCount: async () => {
-        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: 'user' })
+        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: { $in: ['user', 'pro'] } })
         return count
     },
 
 
     getMembersCount: async () => {
-        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: 'member' })
+        const count = db.get().collection(collections.USERS_COLLECTION).countDocuments({ role: 'pro' })
         return count
     },
 
@@ -107,7 +134,7 @@ module.exports = {
             };
         }
 
-        
+
         const usersData = await db.get()
             .collection(collections.USERS_COLLECTION)
             .find(query)
@@ -121,5 +148,103 @@ module.exports = {
         return usersData;
     },
 
+
+    generateRazorpay: async (userId) => {
+        try {
+            const options = {
+                amount: 10000,  // Amount in smallest currency unit (e.g., 50000 paise = ₹500)
+                currency: "INR",
+                receipt: userId.toString()
+            };
+            const order = await razorpay.orders.create(options);
+            // res.json(order);
+            return order
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    },
+
+
+    updateUserToPro: async (userId, orderId) => {
+        try {
+            const currentDate = new Date();
+            
+            // Find user to check membership expiration status
+            const user = await db.get().collection(collections.USERS_COLLECTION).findOne(
+                { _id: new ObjectId(userId) },
+                { projection: { membershipExpiresAt: 1 } }
+            );
+    
+            let expirationDate = new Date();
+            if (user && user.membershipExpiresAt) {
+                const membershipExpiresAt = new Date(user.membershipExpiresAt);
+    
+                // If the membership is not expired, add the remaining days to the new date
+                if (membershipExpiresAt > currentDate) {
+                    const remainingDays = Math.ceil((membershipExpiresAt - currentDate) / (1000 * 60 * 60 * 24));
+                    expirationDate.setDate(expirationDate.getDate() + remainingDays);
+                }
+            }
+    
+            // Add 1 month from the current date (or extended date if membership not expired)
+            expirationDate.setMonth(expirationDate.getMonth() + 1);
+    
+            // Update the user to pro with the new expiration date
+            const result = await db.get().collection(collections.USERS_COLLECTION).updateOne(
+                { _id: new ObjectId(userId) },
+                {
+                    $set: {
+                        role: "pro",
+                        membershipExpiresAt: expirationDate
+                    }
+                }
+            );
+    
+            // Check if any document was modified
+            if (result.modifiedCount === 0) {
+                throw new Error('User not found or already upgraded');
+            }
+    
+            // Update payment status
+            await db.get().collection(collections.PAYMENTS_COLLECTION).updateOne(
+                { _id: new ObjectId(orderId) },
+                { $set: { success: true } }
+            );
+    
+            return { success: true, membershipExpiresAt: expirationDate }; // Return success status
+        } catch (error) {
+            throw new Error('Failed to upgrade user'); // Throw error to handle it in the route
+        }
+    },
+    
+
+    storePaymentDetails: async (userId, orderId) => {
+        const date = new Date()
+        const success = false
+        const result = await db.get().collection(collections.PAYMENTS_COLLECTION).insertOne({
+            userId: new ObjectId(userId),
+            orderId: orderId,
+            amount: 100,
+            currency: 'INR',
+            createdAt: date,
+            success: success
+        })
+        return result.insertedId;
+    },
+
+
+    checkMembershipExpiry: (user) => {
+        const currentDate = new Date();
+        const expiryDate = new Date(user.membershipExpiresAt);
+        const daysLeft = Math.ceil((expiryDate - currentDate) / (1000 * 60 * 60 * 24));
+
+        if (expiryDate < currentDate) {
+            return { notifyExpiry: true, expired: true, daysLeft: 0 };
+        } else if (daysLeft <= 2) {
+            return { notifyExpiry: true, expired: false, daysLeft };
+        } else {
+            return { notifyExpiry: false, expired: false, daysLeft };
+        }
+    }
 
 }

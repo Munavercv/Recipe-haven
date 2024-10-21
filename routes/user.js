@@ -4,8 +4,14 @@ const userHelpers = require('../helpers/user-helpers');
 const recipeHelpers = require('../helpers/recipe-helpers');
 const { KeyObject } = require('crypto');
 const fs = require('fs');
+const dotenv = require('dotenv')
+require('dotenv').config()
+const crypto = require('crypto');
+var path = require('path');
 
-let getUsername = (user) => {
+
+
+const getUsername = (user) => {
   let firstName = '';
 
   if (user && user.name) {
@@ -22,11 +28,29 @@ const verifyLogin = (req, res, next) => {
   }
 }
 
+const checkUserIsPro = async (user) => {
+  let userIsPro = false
+  let expiryDetails
+  if (user && user.role === "pro") {
+    expiryDetails = userHelpers.checkMembershipExpiry(user)
+    if (expiryDetails.expired === false) {
+      userIsPro = true
+    }
+  }
+  return { userIsPro, expiryDetails }
+}
+
+
+
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
   const user = req.session.user;
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
+  const expiryDetails = (await membershipDetails).expiryDetails
 
   const cuisines = await recipeHelpers.getCuisines();
   const limit = 12;
@@ -37,7 +61,9 @@ router.get('/', async function (req, res, next) {
     user,
     latestRecipes,
     cuisines,
-    firstName
+    firstName,
+    userIsPro,
+    expiryDetails
   });
 });
 
@@ -52,10 +78,17 @@ router.get('/', async function (req, res, next) {
 router.get('/submit-recipe', verifyLogin, async (req, res) => {
   const user = req.session.user;
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const expired = (await membershipDetails).expiryDetails.expired
+  const userIsPro = (await membershipDetails).userIsPro
+
+  if (user.role === 'user' || expired)
+    res.redirect('/view-pricing')
   try {
     const cuisines = await recipeHelpers.getCuisines();
     const user = req.session.user
-    res.render('user/submit-recipe', { cuisines, firstName, user });
+    res.render('user/submit-recipe', { cuisines, firstName, user, userIsPro });
   } catch (error) {
     console.error('Error fetching cuisines:', error);
     res.status(500).send('Internal Server Error');
@@ -82,17 +115,23 @@ router.post('/submit-recipe', verifyLogin, (req, res) => {
 })
 
 
-router.get('/recipe-submit-success', verifyLogin, (req, res) => {
+router.get('/recipe-submit-success', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
 
-  res.render('user/recipe-submit-success', { user, firstName });
+  const userIsPro = (await membershipDetails).userIsPro
+
+  res.render('user/recipe-submit-success', { user, firstName, userIsPro });
 })
 
 
 router.get('/view-your-recipes', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
 
   const recipes = await recipeHelpers.getRecipesByUser(user)
 
@@ -100,7 +139,7 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
   const rejectedRecipes = recipes.filter(recipe => recipe.status === 'rejected');
   const publishedRecipes = recipes.filter(recipe => recipe.status === 'published');
 
-  res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes, recipes, firstName })
+  res.render('user/user-view-user-recipes', { user, pendingRecipes, rejectedRecipes, publishedRecipes, recipes, firstName, userIsPro })
 })
 
 
@@ -111,14 +150,17 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
   const recipe = recipes[0];
   let recipeOwner = false
   let isBookmarked = false;
+  const membershipDetails = checkUserIsPro(user)
 
- if (user && user._id == recipe.userId) {
+  const userIsPro = (await membershipDetails).userIsPro
+
+  if (user && user._id == recipe.userId) {
     recipeOwner = true
   }
 
   isBookmarked = await recipeHelpers.isRecipeBookmarked(user._id, recipe._id);
 
-  res.render('user/view-recipe', { user, recipe, recipeOwner, firstName, isBookmarked })
+  res.render('user/view-recipe', { user, recipe, recipeOwner, firstName, isBookmarked, userIsPro })
 })
 
 
@@ -127,7 +169,10 @@ router.get('/search-results', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const keyword = req.query.keyword
   const searchResults = await recipeHelpers.searchRecipesByName(keyword)
-  res.render('user/view-search-results', { title: 'search results', user, firstName, searchResults, keyword })
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
+  res.render('user/view-search-results', { title: 'search results', user, firstName, searchResults, keyword, userIsPro })
 })
 
 
@@ -137,12 +182,15 @@ router.get('/edit-recipe/:id', verifyLogin, async (req, res) => {
   const recipes = await recipeHelpers.getRecipe(req.params.id)
   const recipe = recipes[0];
   const cuisines = await recipeHelpers.getCuisines();
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
 
   cuisines.forEach(cuisine => {
     cuisine.isSelected = cuisine.name === recipe.cuisine.name;
   });
 
-  res.render('user/edit-recipe', { recipe, user, cuisines, firstName })
+  res.render('user/edit-recipe', { recipe, user, cuisines, firstName, userIsPro })
 })
 
 
@@ -163,7 +211,7 @@ router.post('/edit-recipe/:id', verifyLogin, async (req, res) => {
 router.get('/delete-recipe/:id', verifyLogin, async (req, res) => {
   const recipeId = req.params.id;
   await recipeHelpers.deleteRecipe(recipeId)
-  const imagePath = path.join(__dirname, '../public/recipe_images/', id + '.jpg');
+  const imagePath = path.join(__dirname, '../public/recipe_images/', recipeId + '.jpg');
   fs.unlink(imagePath, (err) => {
     if (err) {
       console.error("Error while deleting image:", err);
@@ -193,27 +241,33 @@ router.delete('/unbookmark-recipe/:recipeId', verifyLogin, async (req, res) => {
   const recipeId = req.params.recipeId;
 
   try {
-      await recipeHelpers.unbookmarkRecipe(userId, recipeId);
-      res.json({ success: true });
+    await recipeHelpers.unbookmarkRecipe(userId, recipeId);
+    res.json({ success: true });
   } catch (error) {
-      res.status(500).json({ success: false });
+    res.status(500).json({ success: false });
   }
 });
 
 
-router.get('/bookmarks', verifyLogin, async (req, res) =>{
+router.get('/bookmarks', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
   const bookmarks = await recipeHelpers.getBookmarks(user._id)
-  res.render('user/view-bookmarks', {user, bookmarks, firstName})
+  res.render('user/view-bookmarks', { user, bookmarks, firstName, userIsPro })
 })
 
 
 router.get('/view-all-recipes', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
   const allRecipes = await recipeHelpers.getAllRecipes()
-  res.render('user/view-all-recipes', { user, allRecipes, firstName })
+  res.render('user/view-all-recipes', { user, allRecipes, firstName, userIsPro })
 })
 
 
@@ -222,8 +276,11 @@ router.get('/view-recipes-by-cuisine/:id', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipesByCuisine(req.params.id)
   const cuisine = await recipeHelpers.getCuisine(req.params.id)
+  const membershipDetails = checkUserIsPro(user)
 
-  res.render('user/view-recipes-by-cuisine', { user, recipes, cuisine, firstName })
+  const userIsPro = (await membershipDetails).userIsPro
+
+  res.render('user/view-recipes-by-cuisine', { user, recipes, cuisine, firstName, userIsPro })
 })
 
 
@@ -233,8 +290,11 @@ router.get('/view-recipes-by-user/:id', verifyLogin, async (req, res) => {
   const allRecipes = await recipeHelpers.getRecipesByUserId(req.params.id)
   // Filter based on status
   const recipes = allRecipes.filter(allRecipes => allRecipes.status === 'published');
+  const membershipDetails = checkUserIsPro(user)
 
-  res.render('user/view-recipes-by-user', { user, firstName, recipes })
+  const userIsPro = (await membershipDetails).userIsPro
+
+  res.render('user/view-recipes-by-user', { user, firstName, recipes, userIsPro })
 })
 
 
@@ -245,11 +305,11 @@ router.post('/rate-recipe/:id', verifyLogin, async (req, res) => {
   const rating = req.body.rating;
 
   try {
-      const result = await recipeHelpers.doRating(recipeId, userId, rating);
-      res.json(result);
+    const result = await recipeHelpers.doRating(recipeId, userId, rating);
+    res.json(result);
   } catch (error) {
-      console.error(error);
-      res.json({ success: false });
+    console.error(error);
+    res.json({ success: false });
   }
 });
 
@@ -260,8 +320,14 @@ router.get('/view-profile/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const userData = await userHelpers.getUserData(req.params.id)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
   const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)
-  res.render('user/view-profile', { userData, recipesCount, user, firstName })
+  if (userIsPro) {
+    expiryDetails = userHelpers.checkMembershipExpiry(user)
+  }
+  res.render('user/view-profile', { userData, recipesCount, user, firstName, userIsPro, expiryDetails })
 })
 
 
@@ -274,8 +340,11 @@ router.get('/delete-account/:id', verifyLogin, async (req, res) => {
 router.get('/edit-profile/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
   const userData = await userHelpers.getUserData(req.params.id)
-  res.render('user/edit-profile', { user, userData, firstName })
+  res.render('user/edit-profile', { user, userData, firstName, userIsPro })
 })
 
 
@@ -295,16 +364,77 @@ router.get('/view-other-user-profile/:id', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const id = req.params.id
   const userData = await userHelpers.getUserData(id)
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
   const recipesCount = await recipeHelpers.getRecipeCount(id)
-  res.render('user/view-other-user-profile', { userData, recipesCount, user, firstName })
+  res.render('user/view-other-user-profile', { userData, recipesCount, user, firstName, userIsPro })
 })
 
 
-router.get('/view-pricing', verifyLogin, (req, res) => {
+router.get('/view-pricing', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
+  const firstName = getUsername(user)
+  res.render('user/view-pricing', { title: 'pricing', user, firstName, userIsPro })
+})
+
+
+router.post('/create-order', verifyLogin, async (req, res) => {
+  const userId = req.session.user._id
+  const order = await userHelpers.generateRazorpay(userId)
+  res.json(order)
+})
+
+
+router.post('/verify-payment', verifyLogin, async (req, res) => {
+  const { payment_id, order_id, signature } = req.body;
+  const userId = req.session.user._id
+
+  // Generate the expected signature using Razorpay secret
+  const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
+  hmac.update(order_id + "|" + payment_id);
+  const generatedSignature = hmac.digest('hex');
+
+  if (generatedSignature === signature) {
+    // Signature matches, the payment is successful
+    console.log('Payment verified successfully');
+    // Here, you would typically update the user's status in the database to "pro"
+    try {
+      const insertedId = await userHelpers.storePaymentDetails(userId, order_id)
+      const proUpgradeResult = await userHelpers.updateUserToPro(userId, insertedId);
+      req.session.user.role = 'pro'
+      req.session.user.membershipExpiresAt = proUpgradeResult.membershipExpiresAt;  
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    };
+  } else {
+    // Signature verification failed
+    console.log('Payment verification failed');
+    res.json({ success: false, message: "Payment verification failed" });
+  }
+});
+
+
+router.get('/payment-success', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
-  res.render('user/view-pricing', { title: 'pricing', user, firstName })
+  const membershipDetails = checkUserIsPro(user)
+
+  const userIsPro = (await membershipDetails).userIsPro
+
+  res.render('user/payment-success', { user, firstName, userIsPro })
 })
 
+
+router.get('/payment-fail', verifyLogin, async (req, res) => {
+  const user = req.session.user
+  const firstName = getUsername(user)
+
+  res.render('user/payment-failed', { title: 'Payment', user, firstName })
+})
 
 module.exports = router;

@@ -1,61 +1,133 @@
 <section>
-    <div class="container-fluid">
+  <div class="container-fluid">
 
-        <div class="row">
-            <div class="head-sec my-3">
-                <h2 class="section-title text-center mb-3">Pricing</h2>
-                <p class="text-center mx-lg-5 section-description">Join our community of passionate cooks and food
-                    lovers by
-                    subscribing to our Pro
-                    plan. This exclusive membership allows you to submit your own unique recipes and share your culinary
-                    creations with the world.</p>
-            </div>
-
-        </div>
-
-        <div class="row text-center justify-content-center">
-
-            <div class="col-xl-3 col-lg-5 col-md-6">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Free</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>Access to all recipes</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-5 col-md-6">
-                <div class="card mb-4 rounded-3 shadow-sm border-dark">
-                    <div class="card-header py-3 text-white bg-dark border-dark">
-                        <h4 class="my-0 fw-normal">Pro</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$1.19<small class="text-muted fw-light">/mo</small>
-                        </h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>Create your own recipes</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg primary-btn">Upgrade to pro</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="row">
+      <div class="head-sec my-3">
+        <h2 class="section-title text-center mb-3">Pricing</h2>
+        <p class="text-center mx-lg-5 section-description">Join our community of passionate cooks and food
+          lovers by
+          subscribing to our Pro
+          plan. This exclusive membership allows you to submit your own unique recipes and share your culinary
+          creations with the world.</p>
+      </div>
 
     </div>
+
+    <div class="row text-center justify-content-center">
+
+      <div class="col-xl-3 col-lg-5 col-md-6">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Free</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Access to all recipes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-5 col-md-6">
+        <div class="card mb-4 rounded-3 shadow-sm border-dark">
+          <div class="card-header py-3 text-white bg-dark border-dark">
+            <h4 class="my-0 fw-normal">Pro</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$1.19<small class="text-muted fw-light">/mo</small>
+            </h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Create your own recipes</li>
+            </ul>
+            <button id="upgrade-btn" type="button" class="w-100 btn btn-lg primary-btn load-btn">
+              {{#if userIsPro}}
+              Renew plan
+              {{else}}
+              Upgrade to pro
+              {{/if}}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </section>
 
 <footer>
-    <div class="container py-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="text-center credit"><a href="/"><i class="fa-solid fa-copyright"></i> Recipe Haven</a></h5>
-            </div>
-        </div>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="text-center credit"><a href="/"><i class="fa-solid fa-copyright"></i> Recipe Haven</a></h5>
+      </div>
     </div>
+  </div>
 </footer>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  document.getElementById('upgrade-btn').addEventListener('click', async function () {
+
+
+   const upgradeButton = this;
+
+    // Simulate loading state by disabling the button and showing a spinner or loading indicator
+    upgradeButton.disabled = true;
+    upgradeButton.classList.add('button-loading'); 
+
+
+    // Make a POST request to create the order
+    const response = await fetch('/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const order = await response.json();  // Get the order details from the backend
+
+    // Razorpay payment modal configuration
+    var options = {
+      "key": "rzp_test_9lrlVTSNPRhsQA", // Replace with your Razorpay key_id
+      "amount": order.amount,  // Amount from the generated order
+      "currency": "INR",
+      "name": "Recipe Haven Pro",
+      "description": "Upgrade to pro",
+      "order_id": order.id,  // Order ID from Razorpay
+      "handler": (response) => {
+
+        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+
+        // Send the payment details to the backend for verification and further processing
+        fetch('/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            payment_id: response.razorpay_payment_id,
+            order_id: response.razorpay_order_id,
+            signature: response.razorpay_signature
+          })
+        }).then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              window.location.href = '/payment-success';
+            } else {
+              window.location.href = '/payment-fail'
+            }
+          });
+      },
+      "prefill": {
+        "name": "{{user.name}}",
+        "email": "{{user.email}}",
+        "contact": "{{user.mobile}}"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    upgradeButton.disabled = false;
+    upgradeButton.classList.remove('button-loading');
+  });
+</script>

@@ -7,19 +7,35 @@
             <p class="fw-medium mb-4">{{userData.mobile}}</p>
         </div>
         <div>
+            {{#if userIsPro}}
             <h3><i class="fa-solid fa-utensils"></i> <span class="fw-bolder">{{recipesCount}}</span> Recipes</h3>
             <a href="/view-your-recipes"><button type="button" class="primary-btn mt-2">View Recipes</button></a>
+            {{/if}}
             {{#if userData.bookmarkedRecipes}}
             <a href="/bookmarks"><button type="button" class="primary-btn mt-2"><i class="fa-solid fa-bookmark"></i>
                     Bookmarks</button></a>
             {{/if}}
+
+            {{#if userIsPro}}
+            {{#if expiryDetails.expired}}
+            <p class="fw-normal mt-3 text-danger">Your pro membership has expired. <a href="/view-pricing">Renew Now</a>
+            </p>
+            {{else}}
+            <p class="fw-normal mt-3">Your pro membership will expire in <span
+                    class="fw-semibold">{{expiryDetails.daysLeft}}</span> days. <a href="/view-pricing">Renew
+                    Now</a></p>
+            {{/if}}
+            {{/if}}
+
         </div>
         <hr class="my-5">
         <div class="col-lg-6 mx-auto mt-3">
             <div class="d-grid gap-5 d-sm-flex justify-content-sm-center">
-                <a href="/edit-profile/{{userData._id}}" class="normal-link"><i class="fa-solid fa-pen"></i> Edit profile</a>
+                <a href="/edit-profile/{{userData._id}}" class="normal-link"><i class="fa-solid fa-pen"></i> Edit
+                    profile</a>
                 <a href="/delete-account/{{userData._id}}"
-                    onclick="return confirm('Are you sure you want to permenantly delete Your account?')" class="normal-link"><i class="fa-solid fa-trash"></i> Delete Account</a>
+                    onclick="return confirm('Are you sure you want to permenantly delete Your account?')"
+                    class="normal-link"><i class="fa-solid fa-trash"></i> Delete Account</a>
             </div>
         </div>
     </div>

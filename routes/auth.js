@@ -3,14 +3,17 @@ const authHelpers = require('../helpers/auth-helpers');
 const db = require('../config/connection')
 const collection = require('../config/collections');
 var router = express.Router();
-const passport = require('passport')
+const passport = require('passport');
+const { response } = require('../app');
 require('../passport')
 router.use(passport.initialize());
 router.use(passport.session());
 
 // GET login page (common for both admin and user)
 router.get('/login', function (req, res) {
-  res.render('auth/login', { title: 'Login', hideHeader: true });
+  const error = req.session.error || null; // Get error message from session
+  req.session.error = null; // Clear the error message for the next request
+  res.render('auth/login', { title: 'Login', hideHeader: true, error });
 });
 
 router.post('/login', async (req, res) => {
@@ -23,11 +26,13 @@ router.post('/login', async (req, res) => {
         req.session.user = response.user
         res.redirect(response.redirectUrl)
       } else {
-        res.render('auth/login', { title: 'Login', hideHeader: true, error: response.message });
+        req.session.error = response.message; // Store the error in session
+        res.redirect('/login'); // Redirect to login page
       }
     })
     .catch(error => {
-      res.render('login', { error: 'Something went wrong, please try again' });
+      req.session.error = 'Invalid username or password'; // Store the error in session
+      res.redirect('/login'); // Redirect to login page
     });
 })
 

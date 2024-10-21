@@ -3,6 +3,9 @@
         <div>
             <i class="fa-regular my-md-3 fa-circle-user"></i>
             <h1 class="display-5 fw-bold">{{userData.name}}</h1>
+            {{#if userData.isPro}}
+            <p class="badge rounded-pill text-bg-warning">pro</p>
+            {{/if}}
             <p class="fw-medium">{{userData.email}}</p>
             <p class="fw-medium mb-4">{{userData.mobile}}</p>
         </div>

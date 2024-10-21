@@ -948,7 +948,7 @@ footer .credit a:hover {
   font-size: 14px;
 }
 
-.recipe-page .avgrating i{
+.recipe-page .avgrating i {
   color: #e58e09;
 }
 
@@ -1065,7 +1065,7 @@ td {
 }
 
 .users-table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #cecece;
 }
 
 .users-table tr:last-child td {
@@ -1188,4 +1188,95 @@ td {
     padding: 0.5rem 0.2rem;
   }
 
+}
+
+
+/* payment table */
+.payment-table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.payment-table th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #454545;
+}
+
+.payment-table th {
+  background-color: #373737;
+  color: white;
+}
+
+.payment-table tr:hover {
+  background-color: #cecece;
+}
+
+.payment-table tr:last-child td {
+  border-bottom: none;
+}
+
+
+tr[data-href] {
+  cursor: pointer;
+}
+
+.status-success {
+  color: green;
+  background: rgba(0, 128, 0, 0.137);
+  box-shadow: 0px 0px 0px 0.5px green;
+}
+
+.status-failed {
+  color: rgb(208, 0, 0);
+  background: rgba(255, 0, 0, 0.137);
+  box-shadow: 0px 0px 0px 0.5px red;
+}
+
+.status-success,
+.status-failed {
+  padding: 5px 10px;
+  border-radius: 25px;
+}
+
+@media (max-width: 768px) {
+
+  .payment-table{
+    border-radius: 10px;
+  }
+
+  .payment-table td .d-flex {
+    gap: 0.08rem;
+  }
+  .payment-table th:nth-child(5),
+  .payment-table td:nth-child(5) {
+    display: none;
+  }
+
+  .payment-table .row-success td{
+    background: rgba(0, 128, 0, 0.090);
+  }
+
+  .payment-table .row-failed td{
+    background: rgba(255, 0, 0, 0.090);
+  }
+
+  .payment-table td,
+  .payment-table th {
+    font-size: 12px;
+  }
+}
+
+@media (max-width:567px) {
+
+  .payment-table td,
+  .payment-table th {
+    font-size: 9px;
+    padding: 0.5rem 0.2rem;
+  }
 }
