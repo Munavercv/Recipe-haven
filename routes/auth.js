@@ -24,7 +24,10 @@ router.post('/login', async (req, res) => {
       if (response.status) {
         req.session.loggedIn = true
         req.session.user = response.user
-        res.redirect(response.redirectUrl)
+
+        const redirectTo = req.session.returnTo || response.redirectUrl;
+        delete req.session.returnTo;
+        res.redirect(redirectTo);
       } else {
         req.session.error = response.message; // Store the error in session
         res.redirect('/login'); // Redirect to login page
@@ -166,8 +169,14 @@ router.get('/failure', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  const userRole = req.session.user.role
   req.session.destroy()
-  res.redirect('/login')
+
+  if(userRole === 'admin'){
+    res.redirect('/login')
+  } else {
+    res.redirect('/')
+  }
 })
 
 module.exports = router;
