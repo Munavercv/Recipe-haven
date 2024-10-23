@@ -144,7 +144,7 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
 })
 
 
-router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
+router.get('/view-recipe/:id', async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipe(req.params.id)
@@ -159,7 +159,8 @@ router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
     recipeOwner = true
   }
 
-  isBookmarked = await recipeHelpers.isRecipeBookmarked(user._id, recipe._id);
+  if(user)
+    isBookmarked = await recipeHelpers.isRecipeBookmarked(user._id, recipe._id);
 
   res.render('user/view-recipe', { user, recipe, recipeOwner, firstName, isBookmarked, userIsPro })
 })
@@ -309,7 +310,6 @@ router.post('/rate-recipe/:id', verifyLogin, async (req, res) => {
     const result = await recipeHelpers.doRating(recipeId, userId, rating);
     res.json(result);
   } catch (error) {
-    console.error(error);
     res.json({ success: false });
   }
 });

@@ -112,13 +112,14 @@ module.exports = {
     },
 
 
+    
     searchUser: async (searchQuery) => {
         let query;
 
         // If the user has entered one letter, search for names starting with that letter
         if (searchQuery.length === 1) {
             query = {
-                role: 'user',
+                role: { $in: ['user', 'pro'] },
                 email: { $regex: `^${searchQuery}`, $options: "i" }  // 'i' makes it case-insensitive
             };
         } else {
@@ -129,7 +130,7 @@ module.exports = {
             }));
 
             query = {
-                role: 'user',
+                role: { $in: ['user', 'pro'] },
                 $and: regexArray
             };
         }
