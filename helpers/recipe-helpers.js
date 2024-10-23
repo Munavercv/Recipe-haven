@@ -173,7 +173,7 @@ module.exports = {
             .collection(collection.RECIPES_COLLECTION)
             .aggregate([
                 { $match: { status: 'published' } },
-                { $sort: { datePublished: 1 } },
+                { $sort: { datePublished: -1 } },
                 {
                     $limit: limit
                 },
@@ -201,7 +201,7 @@ module.exports = {
             .aggregate([
                 { $match: { status: 'published' } },
                 { $addFields: { randomValue: { $rand: {} } } },
-                { $sort: { randomValue: 1 } },
+                { $sort: { randomValue: -1 } },
                 {
                     $project: {
                         cooking_instructions: 0,

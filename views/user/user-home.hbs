@@ -35,6 +35,11 @@
                     <h1>Discover Global Flavors,<br>One Recipe at a Time</h1>
                     <p>Embark on a culinary adventure and explore recipes that bring the world to your kitchen. Taste,
                         create, and share unforgettable flavors from every corner of the globe.</p>
+                        {{#unless user}}
+                        <h3 class="mb-3">
+                        Login to Explore more
+                        </h3>
+                        {{/unless}}
                     <a href="/submit-recipe"><button class="primary-btn">Submit Recipe</button></a>
                     <a href="/view-all-recipes"><button class="ms-2 primary-btn-outline">See all Recipes</button></a>
                 </div>
