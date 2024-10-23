@@ -144,7 +144,7 @@ router.get('/view-your-recipes', verifyLogin, async (req, res) => {
 })
 
 
-router.get('/view-recipe/:id', async (req, res) => {
+router.get('/view-recipe/:id', verifyLogin, async (req, res) => {
   const user = req.session.user
   const firstName = getUsername(user)
   const recipes = await recipeHelpers.getRecipe(req.params.id)
@@ -159,7 +159,7 @@ router.get('/view-recipe/:id', async (req, res) => {
     recipeOwner = true
   }
 
-  if(user)
+  if (user)
     isBookmarked = await recipeHelpers.isRecipeBookmarked(user._id, recipe._id);
 
   res.render('user/view-recipe', { user, recipe, recipeOwner, firstName, isBookmarked, userIsPro })
@@ -407,7 +407,7 @@ router.post('/verify-payment', verifyLogin, async (req, res) => {
       const insertedId = await userHelpers.storePaymentDetails(userId, order_id)
       const proUpgradeResult = await userHelpers.updateUserToPro(userId, insertedId);
       req.session.user.role = 'pro'
-      req.session.user.membershipExpiresAt = proUpgradeResult.membershipExpiresAt;  
+      req.session.user.membershipExpiresAt = proUpgradeResult.membershipExpiresAt;
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
