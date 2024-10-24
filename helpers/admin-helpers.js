@@ -183,12 +183,6 @@ module.exports = {
 
 
     editPayDetails: async (id, data) => {
-        if (data.success === 'success') {
-            data.success = true
-        } else {
-            data.success = false
-        }
-
         await db.get().collection(collection.PAYMENTS_COLLECTION).updateOne(
             { _id: new ObjectId(id) },
             {
@@ -198,7 +192,7 @@ module.exports = {
                     success: data.success
                 }
             }
-        )
+        );
     }
-        
+    
 }

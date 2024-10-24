@@ -393,10 +393,15 @@ router.get('/edit-pay-details/:id', verifyLogin, async (req, res) => {
 
 
 router.post('/edit-pay-details/:id', verifyLogin, async (req, res) => {
-    const id = req.params.id
-    await adminHelpers.editPayDetails(id, req.body)
-    res.redirect('/admin/view-pay-details/' + id)
-})
+    const id = req.params.id;
+
+    // Since the form sends 'true' or 'false' as strings, convert them to boolean
+    req.body.success = req.body.success === 'true'; 
+
+    await adminHelpers.editPayDetails(id, req.body);
+    res.redirect('/admin/view-pay-details/' + id);
+});
+
 
 
 module.exports = router;

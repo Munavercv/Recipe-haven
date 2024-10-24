@@ -376,24 +376,26 @@ router.get('/view-other-user-profile/:id', verifyLogin, async (req, res) => {
 router.get('/view-pricing', verifyLogin, async (req, res) => {
   const user = req.session.user
   const membershipDetails = checkUserIsPro(user)
-
+  const expiryDetails = (await membershipDetails).expiryDetails
   const userIsPro = (await membershipDetails).userIsPro
   const firstName = getUsername(user)
-  res.render('user/view-pricing', { title: 'pricing', user, firstName, userIsPro })
+  res.render('user/view-pricing', { title: 'pricing', user, firstName, userIsPro, expiryDetails })
 })
 
 
 router.post('/create-order', verifyLogin, async (req, res) => {
   const userId = req.session.user._id
-  const order = await userHelpers.generateRazorpay(userId)
+  const amount = req.body.value * 10000
+  const order = await userHelpers.generateRazorpay(userId, amount)
+  console.log(order.amount)
   res.json(order)
 })
 
 
 router.post('/verify-payment', verifyLogin, async (req, res) => {
-  const { payment_id, order_id, signature } = req.body;
+  const { payment_id, order_id, signature, amount } = req.body;
   const userId = req.session.user._id
-
+console.log(amount)
   // Generate the expected signature using Razorpay secret
   const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
   hmac.update(order_id + "|" + payment_id);
@@ -404,8 +406,8 @@ router.post('/verify-payment', verifyLogin, async (req, res) => {
     console.log('Payment verified successfully');
     // Here, you would typically update the user's status in the database to "pro"
     try {
-      const insertedId = await userHelpers.storePaymentDetails(userId, order_id)
-      const proUpgradeResult = await userHelpers.updateUserToPro(userId, insertedId);
+      const insertedId = await userHelpers.storePaymentDetails(userId, order_id, amount)
+      const proUpgradeResult = await userHelpers.updateUserToPro(userId, insertedId, amount);
       req.session.user.role = 'pro'
       req.session.user.membershipExpiresAt = proUpgradeResult.membershipExpiresAt;
       res.json({ success: true });

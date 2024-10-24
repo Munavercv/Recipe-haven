@@ -18,9 +18,11 @@
                 </div>
 
                 <div class="mb-2">
-                    <label for="success" class=" fw-medium">Status</label>
-                    <input type="text" name="success" class="form-control" id="success" aria-describedby=""
-                        value="{{#if payDetails.success}} successful {{else}} failed {{/if}}" required>
+                    <label for="success" class="fw-medium">Status</label>
+                    <select name="success" class="form-control" id="success" required>
+                        <option value="true" {{#if payDetails.success}} selected {{/if}}>Successful</option>
+                        <option value="false" {{#unless payDetails.success}} selected {{/unless}}>Failed</option>
+                    </select>
                 </div>
 
                 <div class="mb-2 text-end">

@@ -21,9 +21,14 @@
             <p class="fw-normal mt-3 text-danger">Your pro membership has expired. <a href="/view-pricing">Renew Now</a>
             </p>
             {{else}}
-            <p class="fw-normal mt-3">Your pro membership will expire in <span
-                    class="fw-semibold">{{expiryDetails.daysLeft}}</span> days. <a href="/view-pricing">Renew
-                    Now</a></p>
+            <p class="fw-normal mt-3  {{#if expiryDetails.notifyExpiry}} text-danger {{/if}}">Your pro membership will
+                expire in <span class="fw-semibold">{{expiryDetails.daysLeft}}</span> days.
+                {{#if expiryDetails.notifyExpiry}}
+                <a href="/view-pricing">Renew Now</a>
+                {{else}}
+                <a href="/view-pricing">Extend plan</a>
+                {{/if}}
+            </p>
             {{/if}}
             {{/if}}
 

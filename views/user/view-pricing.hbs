@@ -3,7 +3,7 @@
 
     <div class="row">
       <div class="head-sec my-3">
-        <h2 class="section-title text-center mb-3">Pricing</h2>
+        <h2 class="section-title text-center mb-3">Plans</h2>
         <p class="text-center mx-lg-5 section-description">Join our community of passionate cooks and food
           lovers by
           subscribing to our Pro
@@ -16,15 +16,28 @@
     <div class="row text-center justify-content-center">
 
       <div class="col-xl-3 col-lg-5 col-md-6">
-        <div class="card mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">Free</h4>
+        <div class="card mb-4 rounded-3 shadow-sm border-dark">
+          <div class="card-header py-3 text-white bg-dark border-dark">
+            <h4 class="my-0 fw-normal">1 Month</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+            <h1 class="card-title pricing-card-title">$1.19<small class="text-muted fw-light">/mo</small>
+            </h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>Access to all recipes</li>
+              <li><i class="fa-solid fa-check text-success"></i> Access to all Recipes</li>
+              <li><i class="fa-solid fa-check text-success"></i> Create your own recipes</li>
             </ul>
+            <button id="" data-value="1" type="button" class="upgrade-btn w-100 btn btn-lg primary-btn load-btn">
+              {{#if userIsPro}}
+                {{#if expiryDetails.notifyExpiry}}
+                Renew plan
+                {{else}}
+                Extend plan
+                {{/if}}
+              {{else}}
+              Upgrade to pro
+              {{/if}}
+            </button>
           </div>
         </div>
       </div>
@@ -32,17 +45,49 @@
       <div class="col-xl-3 col-lg-5 col-md-6">
         <div class="card mb-4 rounded-3 shadow-sm border-dark">
           <div class="card-header py-3 text-white bg-dark border-dark">
-            <h4 class="my-0 fw-normal">Pro</h4>
+            <h4 class="my-0 fw-normal">6 Months</h4>
           </div>
           <div class="card-body">
             <h1 class="card-title pricing-card-title">$1.19<small class="text-muted fw-light">/mo</small>
             </h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Create your own recipes</li>
+             <ul class="list-unstyled mt-3 mb-4">
+              <li><i class="fa-solid fa-check text-success"></i> Access to all Recipes</li>
+              <li><i class="fa-solid fa-check text-success"></i> Create your own recipes</li>
             </ul>
-            <button id="upgrade-btn" type="button" class="w-100 btn btn-lg primary-btn load-btn">
+            <button id="" data-value="6" type="button" class="upgrade-btn w-100 btn btn-lg primary-btn load-btn">
               {{#if userIsPro}}
-              Renew plan
+                {{#if expiryDetails.notifyExpiry}}
+                Renew plan
+                {{else}}
+                Extend plan
+                {{/if}}
+              {{else}}
+              Upgrade to pro
+              {{/if}}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-5 col-md-6">
+        <div class="card mb-4 rounded-3 shadow-sm border-dark">
+          <div class="card-header py-3 text-white bg-dark border-dark">
+            <h4 class="my-0 fw-normal">1 Year</h4>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-muted pricing-card-title text-decoration-line-through">$1.19/mo</h4>
+            <h1 class="card-title pricing-card-title">$1.13<small class="text-muted fw-light">/mo</small></h1>
+             <ul class="list-unstyled mt-3 mb-4">
+              <li><i class="fa-solid fa-check text-success"></i> Access to all Recipes</li>
+              <li><i class="fa-solid fa-check text-success"></i> Create your own recipes</li>
+            </ul>
+            <button id="" data-value="11.4" type="button" class="upgrade-btn w-100 btn btn-lg primary-btn load-btn">
+              {{#if userIsPro}}
+                {{#if expiryDetails.notifyExpiry}}
+                Renew plan
+                {{else}}
+                Extend plan
+                {{/if}}
               {{else}}
               Upgrade to pro
               {{/if}}
@@ -69,20 +114,20 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-  document.getElementById('upgrade-btn').addEventListener('click', async function () {
-
-
-   const upgradeButton = this;
+document.querySelectorAll('.upgrade-btn').forEach(button => {
+  button.addEventListener('click', async function () {
+    const value = this.getAttribute('data-value');
+    const upgradeButton = this;
 
     // Simulate loading state by disabling the button and showing a spinner or loading indicator
     upgradeButton.disabled = true;
-    upgradeButton.classList.add('button-loading'); 
-
+    upgradeButton.classList.add('button-loading');
 
     // Make a POST request to create the order
     const response = await fetch('/create-order', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: value })
     });
 
     const order = await response.json();  // Get the order details from the backend
@@ -106,14 +151,15 @@
           body: JSON.stringify({
             payment_id: response.razorpay_payment_id,
             order_id: response.razorpay_order_id,
-            signature: response.razorpay_signature
+            signature: response.razorpay_signature,
+            amount:order.amount
           })
         }).then((res) => res.json())
           .then((data) => {
             if (data.success) {
               window.location.href = '/payment-success';
             } else {
-              window.location.href = '/payment-fail'
+              window.location.href = '/payment-fail';
             }
           });
       },
@@ -130,4 +176,6 @@
     upgradeButton.disabled = false;
     upgradeButton.classList.remove('button-loading');
   });
+});
+
 </script>
