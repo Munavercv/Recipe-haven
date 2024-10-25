@@ -6,6 +6,21 @@
 
     <div class="container-fluid px-1 px-md-2">
 
+        <div>
+            <label for="orderIdSuffix" class="ms-2">Enter last 6 digits of Order Id</label>
+            <form class="d-flex" role="search" action="/admin/search-payments" method="post">
+                <input class="form-control rounded-5 searchbox-small" type="search" placeholder="" aria-label="Search"
+                    name="orderIdSuffix" id="orderIdSuffix">
+                <button class="ms-1 header-btn" type="submit">Search</button>
+                <a href="/admin/view-payments"><button type="button" class="header-btn ms-1">Clear</button></a>
+
+            </form>
+            {{#if payments.error}}
+            <label for="orderIdSuffix" class=" ms-md-2 error">{{payments.message}}</label>
+            {{/if}}
+        </div>
+
+
         <!-- Table wrapper for responsiveness -->
         <div class="table-responsive">
             <table class="table table-hover payment-table">
@@ -18,23 +33,26 @@
                         <th>Status</th>
                     </tr>
                 </thead>
+                {{#if payments.length}}
                 <tbody>
                     {{#each payments}}
-                        <tr class="{{#if this.success}} row-success {{else}} row-failed {{/if}}" data-href="/admin/view-pay-details/{{this._id}}">
-                            <td>{{this.orderId}}</td>
-                            <td>{{this.userDetails.email}}</td>
-                            <td>₹ {{this.amount}}</td>
-                            <td>{{this.createdAt}}</td>
-                            <td>
-                                {{#if this.success}}
-                                <span class="status-success">success</span>
-                                {{else}}
-                                <span class="status-failed">failed</span>
-                                {{/if}}
-                            </td>
-                        </tr>
+                    <tr class="{{#if this.success}} row-success {{else}} row-failed {{/if}}"
+                        data-href="/admin/view-pay-details/{{this._id}}">
+                        <td>{{this.orderId}}</td>
+                        <td>{{this.userDetails.email}}</td>
+                        <td>₹ {{this.amount}}</td>
+                        <td>{{this.createdAt}}</td>
+                        <td>
+                            {{#if this.success}}
+                            <span class="status-success">success</span>
+                            {{else}}
+                            <span class="status-failed">failed</span>
+                            {{/if}}
+                        </td>
+                    </tr>
                     {{/each}}
                 </tbody>
+                {{/if}}
             </table>
         </div>
     </div>

@@ -387,7 +387,6 @@ router.post('/create-order', verifyLogin, async (req, res) => {
   const userId = req.session.user._id
   const amount = req.body.value * 10000
   const order = await userHelpers.generateRazorpay(userId, amount)
-  console.log(order.amount)
   res.json(order)
 })
 
@@ -395,7 +394,6 @@ router.post('/create-order', verifyLogin, async (req, res) => {
 router.post('/verify-payment', verifyLogin, async (req, res) => {
   const { payment_id, order_id, signature, amount } = req.body;
   const userId = req.session.user._id
-console.log(amount)
   // Generate the expected signature using Razorpay secret
   const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
   hmac.update(order_id + "|" + payment_id);

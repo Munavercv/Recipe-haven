@@ -403,5 +403,11 @@ router.post('/edit-pay-details/:id', verifyLogin, async (req, res) => {
 });
 
 
+router.post('/search-payments', verifyLogin, async (req, res) => {
+    const { orderIdSuffix } = req.body;
+    const payments = await adminHelpers.searchPayments(orderIdSuffix)
+    res.render('admin/view-payments', { title: 'payments', admin: true, payments })
+})
+
 
 module.exports = router;

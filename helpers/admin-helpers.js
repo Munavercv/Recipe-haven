@@ -193,6 +193,63 @@ module.exports = {
                 }
             }
         );
-    }
+    },
+
+
+    searchPayments: async (orderIdSuffix) => {
+        if (orderIdSuffix.length !== 6) {
+            return { error: true, message: 'Please provide exactly 6 characters' };
+        }
+
+        try {
+            const paymentDetails = await db.get().collection(collection.PAYMENTS_COLLECTION).aggregate([
+                {
+                    $match: {
+                        orderId: { $regex: `${orderIdSuffix}$` }
+                    }
+                }, {
+                    $lookup: {
+                        from: collection.USERS_COLLECTION,
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'userDetails'
+                    }
+                },
+                {
+                    $unwind: '$userDetails'
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        orderId: 1,
+                        amount: 1,
+                        currency: 1,
+                        createdAt: 1,
+                        success: 1,
+                        'userDetails.email': 1,
+                        'userDetails.name': 1,
+                        'userDetails.mobile': 1,
+                    }
+                }
+            ]).toArray();
+
+            // Render the payments page with the search results or handle the response
+            if (paymentDetails.length > 0) {
+                const date = new Date(paymentDetails[0].createdAt);
+                const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+                const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
     
+                const formattedDate = date.toLocaleDateString('en-US', dateOptions); // Format: Fri, Oct 18, 2024
+                const formattedTime = date.toLocaleTimeString('en-US', timeOptions); // Format: 04:16:03 PM
+    
+                paymentDetails[0].createdAt = `${formattedDate}, ${formattedTime}`; // Combine date and time
+                return paymentDetails; // Return the first matching payment details
+            } else {
+                return { error: true, message: 'No payments found with the provided Order ID suffix.' };
+            }
+        } catch (error) {
+            return {error: true, message: 'No payments found with the provided Order ID suffix.'}
+        }
+    }
+
 }

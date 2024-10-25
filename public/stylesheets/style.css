@@ -434,6 +434,16 @@ header .dropdown ul li:first-child {
     width: 14rem !important;
     height: 1.68rem;
   }
+  .searchbox-small{
+    height: 2rem;
+  }
+}
+
+.searchbox-small{
+  width: 10rem !important;
+  height: 1.68rem;
+  background: #f5f5f5;
+  border: 1px solid #333;
 }
 
 
