@@ -54,7 +54,7 @@ router.post('/signup', async (req, res) => {
   req.body.role = "user";
   req.body.isVerified = false;
 
-  const { email, password, confirmPassword } = req.body;
+  const { email } = req.body;
 
   try {
     const existingUser = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: email });

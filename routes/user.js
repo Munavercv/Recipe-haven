@@ -322,6 +322,7 @@ router.get('/view-profile/:id', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const userData = await userHelpers.getUserData(req.params.id)
   const membershipDetails = checkUserIsPro(user)
+  let expiryDetails;
 
   const userIsPro = (await membershipDetails).userIsPro
   const recipesCount = await recipeHelpers.getRecipeCount(req.params.id)

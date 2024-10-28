@@ -8,7 +8,7 @@
         <div id="errorMessage" style="color: red; display: none;"></div>
 
         <div class="form-floating mb-2">
-          <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP">
+          <input type="text" class="form-control rounded-3" id="otpInput" name="otp" placeholder="OTP" required>
           <label for="floatingInput">Enter OTP</label>
         </div>
 
@@ -73,7 +73,7 @@
       data: { otp, email },
       success: function (response) {
         if (response.success) {
-          window.location.href = '/login';
+          window.location.href = '/signup-successfull';
         } else {
           $('#errorMessage').text(response.message).show();
         }

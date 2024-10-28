@@ -64,8 +64,9 @@
   </div>
 </section>
 
+{{!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+{{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> --}}
 
 <script>
   $(document).ready(function () {
@@ -136,6 +137,11 @@
               // Redirect or take action on successful signup
               window.location.href = `/verify-otp?email=${encodeURIComponent(email)}`;
             }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            // Handle any AJAX errors
+            console.error('AJAX error:', textStatus, errorThrown);
+            $('#signupError').text('Something went wrong. Please try again.').show();
           }
         });
       }
