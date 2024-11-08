@@ -81,7 +81,8 @@ router.get('/submit-recipe', verifyLogin, async (req, res) => {
   const firstName = getUsername(user)
   const membershipDetails = checkUserIsPro(user)
 
-  const expired = (await membershipDetails).expiryDetails.expired
+
+  const expired = (await membershipDetails).expired
   const userIsPro = (await membershipDetails).userIsPro
 
   if (user.role === 'user' || expired)
