@@ -1198,6 +1198,16 @@ td {
     padding: 0.5rem 0.2rem;
   }
 
+  /* .users-table .mobile-hide{
+    display: none;
+  } */
+
+  .users-table .primary-btn-outline,
+  .users-table .primary-bt{
+    font-size: 8px;
+    padding: 0.1rem;
+  }
+
 }
 
 

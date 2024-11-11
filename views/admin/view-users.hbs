@@ -4,7 +4,7 @@
         <h2 class="section-title">Users</h2>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid px-1 px-sm-4">
 
 
         <div>
@@ -41,12 +41,13 @@
                                 <a href="/admin/view-user-profile/{{this._id}}" class="me-0 me-md-3 mb-2 mb-md-0">
                                     <button class="primary-btn-outline btn-sm w-100">View profile</button>
                                 </a>
-                                <a href="/admin/edit-profile/{{this._id}}" class="me-0 me-md-3 mb-2 mb-md-0">
+                                <a href="/admin/edit-profile/{{this._id}}" class="me-0 me-md-3 mb-2 mb-md-0 mobile-hide">
                                     <button class="btn btn-primary rounded-3 btn-sm w-100">
                                         <i class="fa-solid fa-pen"></i>
                                     </button>
                                 </a>
                                 <a href="/admin/delete-user/{{this._id}}"
+                                class=" mobile-hide"
                                     onclick="return confirm('Are you sure you want to permanently delete this User?')">
                                     <button class="btn btn-danger rounded-3 btn-sm w-100">
                                         <i class="fa-solid fa-trash"></i>
