@@ -1,21 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const exphbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
 const db = require('./config/connection')
 const session = require('express-session')
-var userRouter = require('./routes/user')
-var adminRouter = require('./routes/admin');
-var authRouter = require('./routes/auth');
+const userRouter = require('./routes/user')
+const adminRouter = require('./routes/admin');
+const authRouter = require('./routes/auth');
 const dotenv = require('dotenv')
 require('dotenv').config()
 const fs = require('fs');
 // const helpers = require('handlebars-helpers')();
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

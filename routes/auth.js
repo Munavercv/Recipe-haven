@@ -1,8 +1,8 @@
-var express = require('express');
+const express = require('express');
 const authHelpers = require('../helpers/auth-helpers');
 const db = require('../config/connection')
 const collection = require('../config/collections');
-var router = express.Router();
+const router = express.Router();
 const passport = require('passport');
 const { response } = require('../app');
 require('../passport')

@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const userHelpers = require('../helpers/user-helpers');
 const recipeHelpers = require('../helpers/recipe-helpers');
 const { KeyObject } = require('crypto');
@@ -7,7 +7,7 @@ const fs = require('fs');
 const dotenv = require('dotenv')
 require('dotenv').config()
 const crypto = require('crypto');
-var path = require('path');
+const path = require('path');
 
 
 
